@@ -1,0 +1,14 @@
+node_modules
+.next
+.vercel
+dist
+build
+coverage
+playwright-report
+test-results
+*.tsbuildinfo
+pnpm-lock.yaml
+
+# Content, not code — markdown stays in author-formatted state
+discovery/
+docs/
