@@ -14,18 +14,21 @@
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,mjs,cjs,json,md,css}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,mjs,cjs,json,md,css}\"",
     "typecheck": "pnpm -r typecheck",
-    "test": "pnpm -r test"
+    "test": "pnpm -r test",
+    "prepare": "husky"
   },
   "devDependencies": {
+    "@eslint/js": "^9.15.0",
     "@types/node": "^22.9.0",
     "eslint": "^9.15.0",
-    "@eslint/js": "^9.15.0",
-    "typescript-eslint": "^8.15.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react": "^7.37.2",
     "eslint-plugin-react-hooks": "^5.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.3",
     "prettier": "^3.3.3",
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.15.0"
   },
   "pnpm": {
     "overrides": {
@@ -34,5 +37,14 @@
       "postcss": ">=8.5.10",
       "esbuild": ">=0.25.0"
     }
+  },
+  "lint-staged": {
+    "**/*.{ts,tsx,js,jsx,mjs,cjs}": [
+      "eslint --fix --max-warnings 0",
+      "prettier --write"
+    ],
+    "**/*.{json,md,css,scss,yml,yaml}": [
+      "prettier --write"
+    ]
   }
 }
