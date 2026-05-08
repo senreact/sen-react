@@ -284,6 +284,12 @@ Skeletons follow the same shape: each chunk has a defined set of API queries, ps
 
 Eventually we'll want the audit skills runnable from a GitHub Action so the report regenerates on every push and we get drift-detection PRs (e.g., "F4 — Payload one minor behind: now resolved"). That's a v2 concern. v1 is CLI-invoked only — humans run the skill, humans read the report. Listed here so it's tracked, not implemented.
 
+### 10.1 Future: `/initialize-payload-nextjs-supabase` orchestrator skill
+
+The endgame Tom is aiming for: a single skill that takes a project name + client context + content brief and spins the whole stack — pnpm workspace, Next.js 16 web app, Payload CMS, Supabase project provisioning, Vercel project link, GitHub repo, env vars across all targets, Husky + lint-staged, Vitest + Playwright, GH Actions CI, branch protection, compliance audits run + remediated, first preview deploy, visual check screenshot — sequentially, one small step at a time, with checkpoints between steps.
+
+That skill is composed of every skill listed in this spec plus the project-specific verify-phase / visual-check skills. It's the **orchestrator**, not a new skill type. Filed as a v3 concern; building it requires the individual skills to be battle-tested first across at least 2-3 real projects.
+
 ## 11. The default-ACL landmine (current sen-react state)
 
 This is a project-specific concern uncovered while writing this spec, kept here for the chunk-01 audit skill's spec but not to lose track of:
