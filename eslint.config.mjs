@@ -16,6 +16,10 @@ export default tseslint.config(
       "**/playwright-report/**",
       "**/test-results/**",
       "**/*.tsbuildinfo",
+      // Payload auto-generated artefacts
+      "**/payload-types.ts",
+      "**/payload-generated-schema.ts",
+      "**/app/(payload)/admin/importMap.js",
     ],
   },
   js.configs.recommended,
