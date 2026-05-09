@@ -87,8 +87,14 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'site-header': SiteHeader;
+    'site-footer': SiteFooter;
+  };
+  globalsSelect: {
+    'site-header': SiteHeaderSelect<false> | SiteHeaderSelect<true>;
+    'site-footer': SiteFooterSelect<false> | SiteFooterSelect<true>;
+  };
   locale: null;
   widgets: {
     collections: CollectionsWidget;
@@ -314,6 +320,117 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-header".
+ */
+export interface SiteHeader {
+  id: number;
+  siteTitle: string;
+  /**
+   * Short FR phrase shown alongside the site title in the header.
+   */
+  tagline?: string | null;
+  navItems?:
+    | {
+        label: string;
+        labelEn?: string | null;
+        /**
+         * Path relative to root (e.g. /secteurs) or full URL for external links.
+         */
+        href: string;
+        /**
+         * Open in a new tab and add rel=noopener.
+         */
+        external?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-footer".
+ */
+export interface SiteFooter {
+  id: number;
+  copyrightText: string;
+  /**
+   * Short FR blurb shown alongside the copyright in the footer.
+   */
+  description?: string | null;
+  legalNavItems?:
+    | {
+        label: string;
+        labelEn?: string | null;
+        href: string;
+        id?: string | null;
+      }[]
+    | null;
+  contactEmail?: string | null;
+  /**
+   * Free-form address (e.g. Sacrée Coeur 3 Lot N° 128/B, Dakar).
+   */
+  contactAddress?: string | null;
+  socialLinks?:
+    | {
+        platform: 'instagram' | 'linkedin' | 'youtube' | 'whatsapp' | 'facebook' | 'x' | 'tiktok';
+        href: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-header_select".
+ */
+export interface SiteHeaderSelect<T extends boolean = true> {
+  siteTitle?: T;
+  tagline?: T;
+  navItems?:
+    | T
+    | {
+        label?: T;
+        labelEn?: T;
+        href?: T;
+        external?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-footer_select".
+ */
+export interface SiteFooterSelect<T extends boolean = true> {
+  copyrightText?: T;
+  description?: T;
+  legalNavItems?:
+    | T
+    | {
+        label?: T;
+        labelEn?: T;
+        href?: T;
+        id?: T;
+      };
+  contactEmail?: T;
+  contactAddress?: T;
+  socialLinks?:
+    | T
+    | {
+        platform?: T;
+        href?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
