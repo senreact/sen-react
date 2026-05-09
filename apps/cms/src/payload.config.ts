@@ -7,6 +7,8 @@ import sharp from "sharp";
 
 import { Users } from "./collections/Users";
 import { Media } from "./collections/Media";
+import { SiteHeader } from "./globals/SiteHeader";
+import { SiteFooter } from "./globals/SiteFooter";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -33,6 +35,7 @@ export default buildConfig({
   cors: allowedOrigins,
   csrf: allowedOrigins,
   collections: [Users, Media],
+  globals: [SiteHeader, SiteFooter],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: {
