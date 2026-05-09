@@ -69,6 +69,9 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    news: News;
+    publications: Publication;
+    videos: Video;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -78,6 +81,9 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    news: NewsSelect<false> | NewsSelect<true>;
+    publications: PublicationsSelect<false> | PublicationsSelect<true>;
+    videos: VideosSelect<false> | VideosSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -168,6 +174,174 @@ export interface Media {
   focalY?: number | null;
 }
 /**
+ * Articles d'actualité publiés par REACT ou agrégés depuis les sources externes.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "news".
+ */
+export interface News {
+  id: number;
+  title: string;
+  /**
+   * URL-safe identifier — lowercase letters, digits, hyphens only.
+   */
+  slug: string;
+  /**
+   * 1-2 sentences. Shown in the news index card and as the meta description.
+   */
+  summary: string;
+  body: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Catégorisation par secteur D012 (un seul par article).
+   */
+  sector:
+    | 'digitalisation-technologie'
+    | 'developpement-economique'
+    | 'entrepreneuriat-local'
+    | 'agroecologie'
+    | 'energies-renouvelables'
+    | 'multimedia'
+    | 'transformation'
+    | 'artisanat'
+    | 'elevage'
+    | 'saponification';
+  writePath: 'react-original' | 'aggregated';
+  /**
+   * Lien d'origine pour les articles agrégés. Obligatoire quand writePath = aggregated.
+   */
+  sourceUrl?: string | null;
+  publishedAt: string;
+  /**
+   * Optionnelle. Affichée en haut de l'article et dans la carte d'index.
+   */
+  coverImage?: (number | null) | Media;
+  /**
+   * Modération obligatoire (Phase 8). Décocher pour fermer les commentaires sur cet article.
+   */
+  commentsEnabled?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Publications téléchargeables — études, notes de réflexion, rapports REACT. Accès libre.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "publications".
+ */
+export interface Publication {
+  id: number;
+  title: string;
+  slug: string;
+  /**
+   * Description courte affichée dans la liste et en méta-description.
+   */
+  summary: string;
+  /**
+   * PDF téléchargeable. Préférer < 5 MB pour les connexions mobiles ouest-africaines.
+   */
+  file: number | Media;
+  coverImage?: (number | null) | Media;
+  /**
+   * Optionnel — laisser vide pour les publications transversales.
+   */
+  sector?:
+    | (
+        | 'digitalisation-technologie'
+        | 'developpement-economique'
+        | 'entrepreneuriat-local'
+        | 'agroecologie'
+        | 'energies-renouvelables'
+        | 'multimedia'
+        | 'transformation'
+        | 'artisanat'
+        | 'elevage'
+        | 'saponification'
+      )
+    | null;
+  /**
+   * Premier auteur en haut de la liste.
+   */
+  authors?:
+    | {
+        name: string;
+        role?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  publishedAt: string;
+  language?: ('fr' | 'en' | 'wo') | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Vidéos REACT et partenaires — capsules, témoignages, entretiens, vlogs. Sous-titres FR + Wolof.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "videos".
+ */
+export interface Video {
+  id: number;
+  title: string;
+  slug: string;
+  summary: string;
+  /**
+   * Identifiant à 11 caractères extrait de l'URL YouTube. Exemple : pour https://youtube.com/watch?v=dQw4w9WgXcQ, l'ID est dQw4w9WgXcQ.
+   */
+  youtubeId: string;
+  videoType: 'capsule' | 'explanation' | 'interview' | 'vlog' | 'testimonial';
+  origin: 'react-original' | 'curated';
+  sector?:
+    | (
+        | 'digitalisation-technologie'
+        | 'developpement-economique'
+        | 'entrepreneuriat-local'
+        | 'agroecologie'
+        | 'energies-renouvelables'
+        | 'multimedia'
+        | 'transformation'
+        | 'artisanat'
+        | 'elevage'
+        | 'saponification'
+      )
+    | null;
+  /**
+   * Fichier .vtt facultatif. Si fourni, sera proposé par défaut sur le lecteur.
+   */
+  subtitlesFr?: (number | null) | Media;
+  /**
+   * Toutes les vidéos REACT-originales devraient avoir des sous-titres Wolof.
+   */
+  subtitlesWo?: (number | null) | Media;
+  /**
+   * Lien direct vers une copie téléchargeable de la vidéo (Drive, Dropbox, etc.) — pour les utilisateurs avec une connexion intermittente. Optionnel.
+   */
+  downloadUrl?: string | null;
+  /**
+   * Optionnel — affiché en mm:ss dans la liste.
+   */
+  duration?: number | null;
+  publishedAt: string;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -198,6 +372,18 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'news';
+        value: number | News;
+      } | null)
+    | ({
+        relationTo: 'publications';
+        value: number | Publication;
+      } | null)
+    | ({
+        relationTo: 'videos';
+        value: number | Video;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -280,6 +466,70 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "news_select".
+ */
+export interface NewsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  summary?: T;
+  body?: T;
+  sector?: T;
+  writePath?: T;
+  sourceUrl?: T;
+  publishedAt?: T;
+  coverImage?: T;
+  commentsEnabled?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "publications_select".
+ */
+export interface PublicationsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  summary?: T;
+  file?: T;
+  coverImage?: T;
+  sector?: T;
+  authors?:
+    | T
+    | {
+        name?: T;
+        role?: T;
+        id?: T;
+      };
+  publishedAt?: T;
+  language?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "videos_select".
+ */
+export interface VideosSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  summary?: T;
+  youtubeId?: T;
+  videoType?: T;
+  origin?: T;
+  sector?: T;
+  subtitlesFr?: T;
+  subtitlesWo?: T;
+  downloadUrl?: T;
+  duration?: T;
+  publishedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

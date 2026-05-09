@@ -7,6 +7,9 @@ import sharp from "sharp";
 
 import { Users } from "./collections/Users";
 import { Media } from "./collections/Media";
+import { News } from "./collections/News";
+import { Publications } from "./collections/Publications";
+import { Videos } from "./collections/Videos";
 import { SiteHeader } from "./globals/SiteHeader";
 import { SiteFooter } from "./globals/SiteFooter";
 
@@ -34,7 +37,7 @@ export default buildConfig({
   },
   cors: allowedOrigins,
   csrf: allowedOrigins,
-  collections: [Users, Media],
+  collections: [Users, Media, News, Publications, Videos],
   globals: [SiteHeader, SiteFooter],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",
