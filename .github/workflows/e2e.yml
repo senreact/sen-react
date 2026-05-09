@@ -1,0 +1,62 @@
+name: E2E (Playwright vs Vercel preview)
+
+# Runs after Vercel finishes a deployment. The 'deployment_status' event
+# fires once per deploy state transition; we filter on state == 'success'
+# and pull the deployment URL out of the event payload.
+on:
+  deployment_status:
+
+concurrency:
+  group: e2e-${{ github.event.deployment.ref }}
+  cancel-in-progress: true
+
+jobs:
+  playwright:
+    name: Smoke against Vercel preview
+    if: github.event.deployment_status.state == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.deployment.sha }}
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            playwright-${{ runner.os }}-
+
+      - name: Install Playwright browser
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run Playwright against ${{ github.event.deployment_status.target_url }}
+        env:
+          BASE_URL: ${{ github.event.deployment_status.target_url }}
+          CI: "true"
+        run: pnpm e2e
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ github.event.deployment.sha }}
+          path: playwright-report
+          retention-days: 7
