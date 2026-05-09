@@ -30,8 +30,18 @@ export function NavLink({ href, external, className, children }: NavLinkProps) {
       </a>
     );
   }
+  // typedRoutes generates the Route union during `next build` / `next dev`.
+  // Before codegen, Route resolves to `string` and a direct `as Route`
+  // looks redundant to ESLint's no-unnecessary-type-assertion. After
+  // codegen, the cast is load-bearing — `href` is CMS-supplied so TS
+  // can't prove it matches a known app route. The double cast through
+  // `unknown` is invariant under both states, satisfies the rule pre-
+  // and post-codegen, and is the pattern Next's own examples use for
+  // dynamically-built hrefs.
+  const safeHref = href as unknown as Route;
+
   return (
-    <Link href={href as Route} className={className}>
+    <Link href={safeHref} className={className}>
       {children}
     </Link>
   );
