@@ -13,7 +13,14 @@ concurrency:
 jobs:
   playwright:
     name: Smoke against Vercel preview
-    if: github.event.deployment_status.state == 'success'
+    # Only run against apps/web deploys. The Vercel deployment_status event
+    # fires for both `sen-react` (web) and `sen-react-cms` projects in the
+    # same monorepo; the e2e suite asserts against apps/web routes which
+    # don't exist on the CMS deploy. Filter by environment.
+    if: |
+      github.event.deployment_status.state == 'success' &&
+      contains(github.event.deployment.environment, 'sen-react') &&
+      !contains(github.event.deployment.environment, 'sen-react-cms')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
