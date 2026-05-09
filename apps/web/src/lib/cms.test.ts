@@ -63,10 +63,11 @@ describe("cms list fetchers", () => {
   it("merges CMS site-header response with defaults so a freshly-seeded global keeps nav", async () => {
     process.env[ENV_KEY] = FAKE_CMS;
     vi.resetModules();
-    // CMS returned only siteTitle — navItems were never seeded. The fetcher
-    // must keep the default nav items so the live nav doesn't disappear.
+    // Payload returns navItems: [] for a never-touched array field — the
+    // fetcher must treat that as "not set" so the default nav items
+    // survive the wiring of NEXT_PUBLIC_CMS_URL.
     vi.spyOn(globalThis, "fetch").mockResolvedValueOnce(
-      new Response(JSON.stringify({ siteTitle: "Sen React" }), {
+      new Response(JSON.stringify({ siteTitle: "Sen React", navItems: [] }), {
         status: 200,
         headers: { "content-type": "application/json" },
       }),

@@ -49,18 +49,21 @@ async function fetchGlobal<T>(slug: string): Promise<T | null> {
  *    "freshly-seeded global with only the title set" case so nav links
  *    don't disappear the moment the CMS is wired up.
  *
- * Editors who explicitly want a field empty should publish an empty
- * array (`navItems: []`), which is preserved as-is. Only `null`/`undefined`
- * trigger the default merge.
+ * Treats `null`, `undefined`, and `[]` as "not set" for the purpose of
+ * the fallback. Payload returns empty arrays for never-touched array
+ * fields — there's no reliable way to distinguish "editor cleared" from
+ * "never set", so empty-array → default. Editors with a real intent to
+ * publish an empty nav can express that with `navItems: [{ ... blank }]`
+ * or by removing the global entirely.
  */
 function mergeWithDefault<T extends object>(live: T | null, fallback: T): T {
   if (!live) return fallback;
   const merged = { ...fallback };
   for (const key of Object.keys(live) as (keyof T)[]) {
     const value = live[key];
-    if (value !== undefined && value !== null) {
-      merged[key] = value;
-    }
+    if (value === undefined || value === null) continue;
+    if (Array.isArray(value) && value.length === 0) continue;
+    merged[key] = value;
   }
   return merged;
 }
