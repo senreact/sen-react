@@ -34,9 +34,7 @@ test("/publications renders publications index with empty-state", async ({ page 
   const response = await page.goto("/publications");
   expect(response?.status()).toBe(200);
 
-  await expect(
-    page.getByRole("heading", { name: /Études, notes et rapports/i }),
-  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: /Études, notes et rapports/i })).toBeVisible();
   await expect(
     page.getByRole("heading", { name: /Les premières publications arrivent bientôt/i }),
   ).toBeVisible();
