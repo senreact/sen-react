@@ -25,9 +25,8 @@ test("/actualites renders news index with empty-state when CMS is empty", async 
   await expect(
     page.getByRole("heading", { name: /Le quotidien de l'entrepreneuriat/i }),
   ).toBeVisible();
-  await expect(
-    page.getByRole("heading", { name: /Les premières actualités arrivent bientôt/i }),
-  ).toBeVisible();
+  // EmptyState placeholder is a <p>, not a heading.
+  await expect(page.getByText(/Les premières actualités arrivent bientôt/i)).toBeVisible();
 });
 
 test("/publications renders publications index with empty-state", async ({ page }) => {
@@ -35,9 +34,7 @@ test("/publications renders publications index with empty-state", async ({ page 
   expect(response?.status()).toBe(200);
 
   await expect(page.getByRole("heading", { name: /Études, notes et rapports/i })).toBeVisible();
-  await expect(
-    page.getByRole("heading", { name: /Les premières publications arrivent bientôt/i }),
-  ).toBeVisible();
+  await expect(page.getByText(/Les premières publications arrivent bientôt/i)).toBeVisible();
 });
 
 test("/videos renders videos index with empty-state", async ({ page }) => {
@@ -47,9 +44,7 @@ test("/videos renders videos index with empty-state", async ({ page }) => {
   await expect(
     page.getByRole("heading", { name: /Capsules, entretiens et témoignages/i }),
   ).toBeVisible();
-  await expect(
-    page.getByRole("heading", { name: /Les premières vidéos arrivent bientôt/i }),
-  ).toBeVisible();
+  await expect(page.getByText(/Les premières vidéos arrivent bientôt/i)).toBeVisible();
 });
 
 test("/actualites/<unknown-slug> returns 404", async ({ page }) => {
