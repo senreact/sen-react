@@ -7,7 +7,11 @@ on:
   deployment_status:
 
 concurrency:
-  group: e2e-${{ github.event.deployment.ref }}
+  # Both sen-react and sen-react-cms deploy from the same branch ref, so
+  # keying on ref alone makes the CMS deploy_status cancel the in-flight
+  # apps/web e2e run. Add the environment to the key so each project's
+  # runs are independent.
+  group: e2e-${{ github.event.deployment.ref }}-${{ github.event.deployment.environment }}
   cancel-in-progress: true
 
 jobs:
