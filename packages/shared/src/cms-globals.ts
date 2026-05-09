@@ -65,6 +65,9 @@ export const DEFAULT_SITE_HEADER: SiteHeaderGlobal = {
   navItems: [
     { label: "Accueil", labelEn: "Home", href: "/" },
     { label: "Secteurs", labelEn: "Sectors", href: "/secteurs" },
+    { label: "Actualités", labelEn: "News", href: "/actualites" },
+    { label: "Publications", labelEn: "Publications", href: "/publications" },
+    { label: "Vidéos", labelEn: "Videos", href: "/videos" },
     { label: "À propos", labelEn: "About", href: "/a-propos" },
     { label: "Contact", labelEn: "Contact", href: "/contact" },
   ],

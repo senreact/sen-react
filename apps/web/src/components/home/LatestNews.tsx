@@ -1,26 +1,27 @@
+import Link from "next/link";
+
+import { getSector } from "@sen-react/shared";
+
+import { listNews } from "@/lib/cms";
+import { formatDateFr } from "@/lib/format";
+
 /**
- * Latest news block. Phase 2 placeholder until the news/blog collection
- * lands in Phase 3 (Content engine). Three placeholder slots labelled
- * honestly — when Phase 3 ships, this component reads from the Payload
- * news collection instead of the hardcoded array, but the layout stays
- * the same.
+ * Latest news block — pulls the 3 most recent published articles from
+ * the Payload News collection. When the CMS isn't yet deployed (Phase 1
+ * reality, env var unset) or returns no rows, the same dashed
+ * placeholder cards as Phase 2 keep the layout intact instead of
+ * rendering an empty section.
  *
- * Date strings are intentionally generic ("Bientôt") rather than fake
- * dates — fake dates that age in production are worse than empty slots.
+ * Generic dates ("Bientôt") were retained in the placeholder slots
+ * because fake real-looking dates that age in production are worse
+ * than honestly-empty cards.
  */
-
-interface NewsCard {
-  eyebrow: string;
-  title: string;
-  excerpt: string;
-}
-
-const PLACEHOLDER_NEWS: NewsCard[] = [
+const PLACEHOLDER_NEWS = [
   {
     eyebrow: "Bientôt",
     title: "Premier article à publier dès le lancement",
     excerpt:
-      "Cette section accueillera les actualités, opportunités et publications éditées par l'équipe REACT. Le contenu réel arrive avec la phase 3.",
+      "Cette section accueillera les actualités, opportunités et publications éditées par l'équipe REACT.",
   },
   {
     eyebrow: "Bientôt",
@@ -36,31 +37,67 @@ const PLACEHOLDER_NEWS: NewsCard[] = [
   },
 ];
 
-export function LatestNews() {
+export async function LatestNews() {
+  const articles = await listNews(3);
+
   return (
     <section className="border-b border-[color:var(--color-border)]">
       <div className="mx-auto max-w-6xl px-6 py-16">
-        <header className="mb-10 max-w-2xl">
-          <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-[color:var(--color-accent)]">
-            Actualités
-          </p>
-          <h2 className="text-3xl font-bold leading-tight">Dernières publications</h2>
+        <header className="mb-10 flex flex-wrap items-end justify-between gap-4">
+          <div className="max-w-2xl">
+            <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-[color:var(--color-accent)]">
+              Actualités
+            </p>
+            <h2 className="text-3xl font-bold leading-tight">Dernières publications</h2>
+          </div>
+          <Link
+            href="/actualites"
+            className="text-sm font-semibold text-[color:var(--color-accent)] hover:underline"
+          >
+            Toutes les actualités →
+          </Link>
         </header>
 
-        <ul className="grid gap-6 md:grid-cols-3">
-          {PLACEHOLDER_NEWS.map((item) => (
-            <li
-              key={item.title}
-              className="flex flex-col rounded-lg border border-dashed border-[color:var(--color-border)] p-6"
-            >
-              <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-[color:var(--color-muted)]">
-                {item.eyebrow}
-              </p>
-              <h3 className="mb-2 text-base font-semibold">{item.title}</h3>
-              <p className="text-sm text-[color:var(--color-muted)]">{item.excerpt}</p>
-            </li>
-          ))}
-        </ul>
+        {articles.length === 0 ? (
+          <ul className="grid gap-6 md:grid-cols-3">
+            {PLACEHOLDER_NEWS.map((item) => (
+              <li
+                key={item.title}
+                className="flex flex-col rounded-lg border border-dashed border-[color:var(--color-border)] p-6"
+              >
+                <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-[color:var(--color-muted)]">
+                  {item.eyebrow}
+                </p>
+                <h3 className="mb-2 text-base font-semibold">{item.title}</h3>
+                <p className="text-sm text-[color:var(--color-muted)]">{item.excerpt}</p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <ul className="grid gap-6 md:grid-cols-3">
+            {articles.map((article) => {
+              const sector = getSector(article.sector);
+              return (
+                <li
+                  key={article.id}
+                  className="flex flex-col rounded-lg border border-[color:var(--color-border)] bg-white p-6"
+                >
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-[color:var(--color-accent)]">
+                    {sector?.fr ?? "Actualité"}
+                  </p>
+                  <h3 className="mb-2 text-base font-semibold leading-tight">{article.title}</h3>
+                  <p className="mb-3 text-sm text-[color:var(--color-muted)]">{article.summary}</p>
+                  <time
+                    dateTime={article.publishedAt}
+                    className="mt-auto text-xs text-[color:var(--color-muted)]"
+                  >
+                    {formatDateFr(article.publishedAt)}
+                  </time>
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
     </section>
   );
