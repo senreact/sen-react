@@ -1,17 +1,16 @@
+import Link from "next/link";
+
+import { partnerStripSelection } from "@/data/partners";
+
 /**
- * Partner strip. Phase 2 placeholder until the real partners list lands
- * (per pending-react-input.md — current senreact.com shows Microsoft +
- * Intel which are WordPress template stock, NOT real REACT partners).
- *
- * Renders 10 numbered placeholder slots — D011 says REACT has 10 real
- * partner names that we'll backfill. The slot count is fixed so when
- * real logos come in the layout doesn't shift.
+ * Partner strip. Renders the 10 real partners from D011 (3 institutions +
+ * 7 NGOs) as a name grid, with a CTA to /partenaires for the full
+ * descriptions. Logos pending REACT-side per docs/pending-react-input.md;
+ * the strip ships names-only until they arrive — the layout doesn't
+ * shift when logos replace the text.
  */
-
-const PARTNER_SLOT_COUNT = 10;
-
 export function PartnerStrip() {
-  const slots = Array.from({ length: PARTNER_SLOT_COUNT }, (_, i) => i + 1);
+  const partners = partnerStripSelection();
 
   return (
     <section className="bg-white">
@@ -22,21 +21,30 @@ export function PartnerStrip() {
           </p>
           <h2 className="text-3xl font-bold leading-tight">Ils nous accompagnent</h2>
           <p className="mt-3 text-sm text-[color:var(--color-muted)]">
-            Liste à finaliser avec REACT — les logos seront ajoutés à mesure que les accords
-            partenaires sont confirmés.
+            Trois institutions publiques sénégalaises et sept organisations de la société civile.
+            Les logos officiels arriveront avec la confirmation visuelle.
           </p>
         </header>
 
         <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">
-          {slots.map((slot) => (
+          {partners.map((partner) => (
             <li
-              key={slot}
-              className="flex aspect-[3/2] items-center justify-center rounded-md border border-dashed border-[color:var(--color-border)] text-xs font-medium text-[color:var(--color-muted)]"
+              key={partner.slug}
+              className="flex min-h-[5rem] items-center justify-center rounded-md border border-dashed border-[color:var(--color-border)] px-3 py-3 text-center text-xs font-semibold leading-tight text-[color:var(--color-fg)]"
             >
-              Partenaire {slot}
+              {partner.name}
             </li>
           ))}
         </ul>
+
+        <div className="mt-8">
+          <Link
+            href="/partenaires"
+            className="text-sm font-semibold text-[color:var(--color-accent)] hover:underline"
+          >
+            Voir tous les partenaires →
+          </Link>
+        </div>
       </div>
     </section>
   );
