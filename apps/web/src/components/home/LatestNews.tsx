@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { Route } from "next";
 
 import { getSector } from "@sen-react/shared";
 
@@ -77,6 +78,7 @@ export async function LatestNews() {
           <ul className="grid gap-6 md:grid-cols-3">
             {articles.map((article) => {
               const sector = getSector(article.sector);
+              const href = `/actualites/${article.slug}` as unknown as Route;
               return (
                 <li
                   key={article.id}
@@ -85,7 +87,14 @@ export async function LatestNews() {
                   <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-[color:var(--color-accent)]">
                     {sector?.fr ?? "Actualité"}
                   </p>
-                  <h3 className="mb-2 text-base font-semibold leading-tight">{article.title}</h3>
+                  <h3 className="mb-2 text-base font-semibold leading-tight">
+                    <Link
+                      href={href}
+                      className="text-[color:var(--color-foreground)] hover:text-[color:var(--color-accent)]"
+                    >
+                      {article.title}
+                    </Link>
+                  </h3>
                   <p className="mb-3 text-sm text-[color:var(--color-muted)]">{article.summary}</p>
                   <time
                     dateTime={article.publishedAt}

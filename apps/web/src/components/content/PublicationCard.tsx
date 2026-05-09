@@ -1,3 +1,6 @@
+import Link from "next/link";
+import type { Route } from "next";
+
 import { getSector } from "@sen-react/shared";
 
 import type { Publication } from "@/lib/cms";
@@ -17,6 +20,7 @@ export function PublicationCard({ publication }: PublicationCardProps) {
   const fileUrl =
     typeof publication.file === "object" && publication.file ? publication.file.url : null;
   const authors = publication.authors ?? [];
+  const detailHref = `/publications/${publication.slug}` as unknown as Route;
 
   return (
     <li className="flex flex-col rounded-lg border border-[color:var(--color-border)] bg-white p-6">
@@ -30,7 +34,14 @@ export function PublicationCard({ publication }: PublicationCardProps) {
         )}
         <time dateTime={publication.publishedAt}>{formatDateFr(publication.publishedAt)}</time>
       </div>
-      <h3 className="mb-2 text-lg font-semibold leading-tight">{publication.title}</h3>
+      <h3 className="mb-2 text-lg font-semibold leading-tight">
+        <Link
+          href={detailHref}
+          className="text-[color:var(--color-foreground)] hover:text-[color:var(--color-accent)]"
+        >
+          {publication.title}
+        </Link>
+      </h3>
       <p className="mb-4 text-sm text-[color:var(--color-muted)]">{publication.summary}</p>
       {authors.length > 0 ? (
         <p className="mb-4 text-xs text-[color:var(--color-muted)]">
