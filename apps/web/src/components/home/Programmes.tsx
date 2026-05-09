@@ -1,56 +1,19 @@
+import { PROGRAMMES } from "@/data/programmes";
+
 /**
- * Programmes section. Per the roadmap §3 yellow row + tom-followups-fr.md
- * Q1: Sen React itself is the headline programme; the other three slots
- * are placeholders awaiting Amadou's confirmation of which 3 of the 6
- * legacy senreact.com projects are still active.
+ * Programmes section. Per decisions log §D021 (Q1 confirmed by Amadou
+ * on 2026-05-07), three currently-active REACT programmes:
  *
- * The placeholder cards are intentionally honest — they say "À venir"
- * (coming soon) rather than dummy text, so a visitor in the interim
- * understands the platform is mid-build and not just shipping fake
- * content. Per Tom's "build now, polish at end" framing, this is the
- * right v1 — when Q1 lands we replace the placeholder structures with
- * real cards, no layout regression.
+ *   1. Projet Sen React — this platform itself, headline
+ *   2. Projet 3A
+ *   3. IA for Change
+ *
+ * The headline (Sen React) gets the green-bordered, full-width
+ * treatment; the two active programmes share the row below as
+ * solid-bordered cards. No more placeholders — earlier v1 shipped
+ * three "À venir" cards while we waited for Q1; that's now replaced
+ * with real content from `apps/web/src/data/programmes.ts`.
  */
-
-interface ProgrammeCard {
-  /** Visual style — "headline" gets the green-bordered prominent treatment. */
-  variant: "headline" | "placeholder";
-  eyebrow: string;
-  title: string;
-  description: string;
-}
-
-const PROGRAMMES: ProgrammeCard[] = [
-  {
-    variant: "headline",
-    eyebrow: "Programme phare",
-    title: "Sen React",
-    description:
-      "La plateforme dédiée à la transition numérique et écologique des entrepreneurs sénégalais et africains. Réseau, opportunités, formation, accompagnement — un point d'entrée unique pour les femmes, les jeunes et les communautés vulnérables.",
-  },
-  {
-    variant: "placeholder",
-    eyebrow: "Programme actif n° 1",
-    title: "À venir",
-    description:
-      "Détails à confirmer avec REACT. Les programmes actuellement en cours sont en cours de validation pour cette nouvelle plateforme.",
-  },
-  {
-    variant: "placeholder",
-    eyebrow: "Programme actif n° 2",
-    title: "À venir",
-    description:
-      "Détails à confirmer avec REACT. Les programmes actuellement en cours sont en cours de validation pour cette nouvelle plateforme.",
-  },
-  {
-    variant: "placeholder",
-    eyebrow: "Programme actif n° 3",
-    title: "À venir",
-    description:
-      "Détails à confirmer avec REACT. Les programmes actuellement en cours sont en cours de validation pour cette nouvelle plateforme.",
-  },
-];
-
 export function Programmes() {
   return (
     <section className="border-b border-[color:var(--color-border)] bg-white">
@@ -67,11 +30,11 @@ export function Programmes() {
             const isHeadline = programme.variant === "headline";
             return (
               <li
-                key={programme.eyebrow}
+                key={programme.slug}
                 className={
                   isHeadline
                     ? "rounded-lg border-2 border-[color:var(--color-accent)] bg-white p-6 lg:col-span-2"
-                    : "rounded-lg border border-dashed border-[color:var(--color-border)] p-6"
+                    : "rounded-lg border border-[color:var(--color-border)] p-6"
                 }
               >
                 <p
