@@ -27,12 +27,15 @@ export async function AuthNav() {
   if (!userEmail) {
     return (
       <div className="flex items-center gap-3 text-sm">
-        <Link href="/connexion" className="font-medium hover:text-[color:var(--color-accent)]">
+        <Link
+          href="/connexion"
+          className="whitespace-nowrap font-medium hover:text-[color:var(--color-accent)]"
+        >
           Se connecter
         </Link>
         <Link
           href="/inscription"
-          className="rounded-md bg-[color:var(--color-accent)] px-3 py-1.5 font-medium text-white hover:opacity-90"
+          className="whitespace-nowrap rounded-md bg-[color:var(--color-accent)] px-3 py-1.5 font-medium text-white hover:opacity-90"
         >
           Inscription
         </Link>
@@ -42,9 +45,12 @@ export async function AuthNav() {
 
   return (
     <div className="flex items-center gap-3 text-sm">
-      <span className="text-[color:var(--color-muted)]">{userEmail}</span>
+      <span className="hidden text-[color:var(--color-muted)] md:inline">{userEmail}</span>
       <form action="/auth/sign-out" method="POST">
-        <button type="submit" className="font-medium hover:text-[color:var(--color-accent)]">
+        <button
+          type="submit"
+          className="whitespace-nowrap font-medium hover:text-[color:var(--color-accent)]"
+        >
           Déconnexion
         </button>
       </form>

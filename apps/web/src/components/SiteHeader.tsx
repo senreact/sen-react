@@ -12,24 +12,28 @@ export function SiteHeader({ data }: SiteHeaderProps) {
   const navItems = data.navItems ?? [];
   return (
     <header className="border-b border-slate-200">
-      <div className="mx-auto flex max-w-5xl items-center justify-between gap-6 px-6 py-4">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-3 px-6 py-4">
         <Link href="/" className="flex flex-col">
-          <span className="text-base font-semibold leading-tight">{data.siteTitle}</span>
+          <span className="whitespace-nowrap text-base font-semibold leading-tight">
+            {data.siteTitle}
+          </span>
           {data.tagline ? (
-            <span className="text-xs text-[color:var(--color-muted)]">{data.tagline}</span>
+            <span className="hidden text-xs text-[color:var(--color-muted)] sm:block">
+              {data.tagline}
+            </span>
           ) : null}
         </Link>
 
-        <div className="flex items-center gap-8">
+        <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
           {navItems.length > 0 ? (
             <nav aria-label="Primary">
-              <ul className="flex items-center gap-6">
+              <ul className="flex flex-wrap items-center gap-x-6 gap-y-2">
                 {navItems.map((item) => (
                   <li key={`${item.href}-${item.label}`}>
                     <NavLink
                       href={item.href}
                       external={item.external}
-                      className="text-sm font-medium hover:text-[color:var(--color-accent)]"
+                      className="whitespace-nowrap text-sm font-medium hover:text-[color:var(--color-accent)]"
                     >
                       {item.label}
                     </NavLink>
