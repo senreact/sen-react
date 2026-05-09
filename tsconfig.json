@@ -8,6 +8,6 @@
       "@sen-react/shared/*": ["./packages/shared/src/*"]
     }
   },
-  "include": ["e2e/**/*", "playwright.config.ts", "vitest.workspace.ts"],
+  "include": ["e2e/**/*", "playwright.config.ts", "vitest.workspace.ts", "scripts/**/*"],
   "exclude": ["node_modules", "**/.next", "**/dist", "**/build"]
 }
