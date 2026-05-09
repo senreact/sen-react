@@ -40,14 +40,39 @@ async function fetchGlobal<T>(slug: string): Promise<T | null> {
   }
 }
 
+/**
+ * Globals fall back to defaults at two levels:
+ *
+ * 1. Network miss / unreachable CMS → use DEFAULT_* whole-cloth.
+ * 2. CMS reachable but field is empty/missing → merge: keep what the
+ *    CMS provided, fill the gaps from DEFAULT_*. This catches the
+ *    "freshly-seeded global with only the title set" case so nav links
+ *    don't disappear the moment the CMS is wired up.
+ *
+ * Editors who explicitly want a field empty should publish an empty
+ * array (`navItems: []`), which is preserved as-is. Only `null`/`undefined`
+ * trigger the default merge.
+ */
+function mergeWithDefault<T extends object>(live: T | null, fallback: T): T {
+  if (!live) return fallback;
+  const merged = { ...fallback };
+  for (const key of Object.keys(live) as (keyof T)[]) {
+    const value = live[key];
+    if (value !== undefined && value !== null) {
+      merged[key] = value;
+    }
+  }
+  return merged;
+}
+
 export async function getSiteHeader(): Promise<SiteHeaderGlobal> {
   const live = await fetchGlobal<SiteHeaderGlobal>("site-header");
-  return live ?? DEFAULT_SITE_HEADER;
+  return mergeWithDefault(live, DEFAULT_SITE_HEADER);
 }
 
 export async function getSiteFooter(): Promise<SiteFooterGlobal> {
   const live = await fetchGlobal<SiteFooterGlobal>("site-footer");
-  return live ?? DEFAULT_SITE_FOOTER;
+  return mergeWithDefault(live, DEFAULT_SITE_FOOTER);
 }
 
 /**

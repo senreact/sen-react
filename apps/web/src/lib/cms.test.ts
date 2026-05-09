@@ -60,6 +60,24 @@ describe("cms list fetchers", () => {
     expect(await listVideos()).toEqual([]);
   });
 
+  it("merges CMS site-header response with defaults so a freshly-seeded global keeps nav", async () => {
+    process.env[ENV_KEY] = FAKE_CMS;
+    vi.resetModules();
+    // CMS returned only siteTitle — navItems were never seeded. The fetcher
+    // must keep the default nav items so the live nav doesn't disappear.
+    vi.spyOn(globalThis, "fetch").mockResolvedValueOnce(
+      new Response(JSON.stringify({ siteTitle: "Sen React" }), {
+        status: 200,
+        headers: { "content-type": "application/json" },
+      }),
+    );
+    const { getSiteHeader } = await import("./cms");
+    const header = await getSiteHeader();
+    expect(header.siteTitle).toBe("Sen React");
+    expect(header.navItems?.length ?? 0).toBeGreaterThanOrEqual(7);
+    expect(header.navItems?.map((n) => n.href)).toContain("/actualites");
+  });
+
   it("returns docs payload when CMS responds with valid JSON", async () => {
     process.env[ENV_KEY] = FAKE_CMS;
     vi.resetModules();
