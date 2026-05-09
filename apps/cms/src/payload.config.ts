@@ -12,6 +12,7 @@ import { Publications } from "./collections/Publications";
 import { Videos } from "./collections/Videos";
 import { SiteHeader } from "./globals/SiteHeader";
 import { SiteFooter } from "./globals/SiteFooter";
+import { migrations } from "./migrations";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -51,6 +52,9 @@ export default buildConfig({
     // Payload-managed tables live under the `payload` schema so they don't
     // collide with Supabase's `auth`, `storage`, or app-owned schemas.
     schemaName: "payload",
+    // Wire the committed migrations so prod deploys can apply them via
+    // `pnpm payload migrate` instead of relying on dev-mode `push`.
+    prodMigrations: migrations,
   }),
   sharp,
   plugins: [],

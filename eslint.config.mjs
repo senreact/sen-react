@@ -21,6 +21,7 @@ export default tseslint.config(
       "**/payload-types.ts",
       "**/payload-generated-schema.ts",
       "**/app/(payload)/admin/importMap.js",
+      "**/cms/src/migrations/**",
     ],
   },
   js.configs.recommended,

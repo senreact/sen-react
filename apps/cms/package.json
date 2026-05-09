@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev -p 3001",
     "build": "cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=8000\" next build",
+    "migrate": "cross-env NODE_OPTIONS=--no-deprecation payload migrate",
+    "vercel-build": "pnpm migrate && pnpm build",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start -p 3001",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
