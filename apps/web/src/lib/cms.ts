@@ -81,6 +81,56 @@ async function fetchCollection<T>(
   }
 }
 
+/**
+ * Single-item fetcher. Hits the collection's `where[slug][equals]=...`
+ * REST query and returns the first match, or null if the CMS is unset /
+ * unreachable / the slug doesn't exist. Callers map null → notFound().
+ */
+async function fetchBySlug<T>(slug: string, itemSlug: string, depth = 2): Promise<T | null> {
+  if (!CMS_URL) return null;
+  const url = new URL(`${CMS_URL}/api/${slug}`);
+  url.searchParams.set("where[slug][equals]", itemSlug);
+  url.searchParams.set("where[_status][equals]", "published");
+  url.searchParams.set("depth", String(depth));
+  url.searchParams.set("limit", "1");
+  try {
+    const response = await fetch(url.toString(), {
+      next: { revalidate: REVALIDATE_SECONDS, tags: [`cms:${slug}`, `cms:${slug}:${itemSlug}`] },
+    });
+    if (!response.ok) {
+      console.warn(`[cms] ${slug}/${itemSlug} returned HTTP ${response.status}`);
+      return null;
+    }
+    const json = (await response.json()) as { docs?: T[] };
+    return json.docs?.[0] ?? null;
+  } catch (error) {
+    console.warn(`[cms] ${slug}/${itemSlug} fetch threw`, error);
+    return null;
+  }
+}
+
+/**
+ * Lexical rich-text shape — Payload's lexical editor stores body content
+ * as a serialised tree of nodes. We don't depend on @payloadcms/richtext-lexical
+ * at runtime (it's heavy); the per-item reader walks this shape with a
+ * minimal renderer in `LexicalRichText`.
+ */
+export interface LexicalNode {
+  type: string;
+  tag?: string;
+  version?: number;
+  format?: number | string;
+  text?: string;
+  url?: string;
+  fields?: { url?: string; newTab?: boolean; linkType?: string };
+  listType?: "number" | "bullet" | "check";
+  children?: LexicalNode[];
+}
+
+export interface LexicalRoot {
+  root: LexicalNode;
+}
+
 export interface NewsArticle {
   id: string;
   title: string;
@@ -90,11 +140,16 @@ export interface NewsArticle {
   writePath: "react-original" | "aggregated";
   sourceUrl?: string | null;
   publishedAt: string;
+  body?: LexicalRoot | null;
   coverImage?: { url?: string; alt?: string } | string | null;
 }
 
 export async function listNews(limit = 50): Promise<NewsArticle[]> {
   return fetchCollection<NewsArticle>("news", { sort: "-publishedAt", limit });
+}
+
+export async function getNewsBySlug(slug: string): Promise<NewsArticle | null> {
+  return fetchBySlug<NewsArticle>("news", slug);
 }
 
 export interface Publication {
@@ -114,6 +169,10 @@ export async function listPublications(limit = 50): Promise<Publication[]> {
   return fetchCollection<Publication>("publications", { sort: "-publishedAt", limit });
 }
 
+export async function getPublicationBySlug(slug: string): Promise<Publication | null> {
+  return fetchBySlug<Publication>("publications", slug);
+}
+
 export interface Video {
   id: string;
   title: string;
@@ -126,8 +185,14 @@ export interface Video {
   duration?: number | null;
   publishedAt: string;
   downloadUrl?: string | null;
+  subtitlesFr?: { url?: string; filename?: string } | string | null;
+  subtitlesWo?: { url?: string; filename?: string } | string | null;
 }
 
 export async function listVideos(limit = 50): Promise<Video[]> {
   return fetchCollection<Video>("videos", { sort: "-publishedAt", limit });
+}
+
+export async function getVideoBySlug(slug: string): Promise<Video | null> {
+  return fetchBySlug<Video>("videos", slug);
 }

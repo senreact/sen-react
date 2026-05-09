@@ -1,3 +1,6 @@
+import Link from "next/link";
+import type { Route } from "next";
+
 import { getSector } from "@sen-react/shared";
 
 import type { NewsArticle } from "@/lib/cms";
@@ -8,12 +11,14 @@ interface NewsCardProps {
 }
 
 /**
- * News article card. Title isn't a link yet — the per-article reader
- * (`/actualites/[slug]`) ships in PR-3c. For now the index communicates
- * what's coming and shows the sector + date so readers can scan.
+ * News article card on the /actualites index. Title links to
+ * /actualites/[slug] for the full reader. Dynamic-segment route is
+ * runtime-cast through `Route` because typedRoutes doesn't enumerate
+ * dynamic segments at build time — same pattern as SectorCard.
  */
 export function NewsCard({ article }: NewsCardProps) {
   const sector = getSector(article.sector);
+  const href = `/actualites/${article.slug}` as unknown as Route;
   return (
     <li className="flex flex-col rounded-lg border border-[color:var(--color-border)] bg-white p-6">
       <div className="mb-3 flex flex-wrap items-center gap-2 text-xs text-[color:var(--color-muted)]">
@@ -27,7 +32,14 @@ export function NewsCard({ article }: NewsCardProps) {
           <span className="text-[color:var(--color-muted)]">· Agrégé</span>
         ) : null}
       </div>
-      <h3 className="mb-2 text-lg font-semibold leading-tight">{article.title}</h3>
+      <h3 className="mb-2 text-lg font-semibold leading-tight">
+        <Link
+          href={href}
+          className="text-[color:var(--color-foreground)] hover:text-[color:var(--color-accent)]"
+        >
+          {article.title}
+        </Link>
+      </h3>
       <p className="text-sm text-[color:var(--color-muted)]">{article.summary}</p>
     </li>
   );

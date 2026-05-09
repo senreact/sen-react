@@ -52,3 +52,6 @@ supabase/.branches
 # misc
 *.pem
 *.tmp
+
+# claude code session-local state
+.claude/
