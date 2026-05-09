@@ -36,11 +36,23 @@ test("homepage renders Phase 2 brand-site shell", async ({ page }) => {
     "Domaines section heading must be visible",
   ).toBeVisible();
 
-  // Programmes — Sen React as the headline programme, plus the 3
-  // placeholder slots awaiting Amadou's Q1 answer
+  // Programmes — Sen React headline + 2 active programmes per D021
+  // (Amadou Q1 confirmed 2026-05-07). No more placeholders.
   await expect(
     page.getByRole("heading", { name: /Nos initiatives en action/i }),
     "Programmes section heading must be visible",
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Projet Sen React" }),
+    "Headline programme must be Projet Sen React",
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Projet 3A" }),
+    "Active programme: Projet 3A",
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "IA for Change" }),
+    "Active programme: IA for Change",
   ).toBeVisible();
 
   // News block — Phase 3 placeholder

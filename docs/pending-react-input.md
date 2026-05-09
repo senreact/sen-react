@@ -28,18 +28,26 @@ The brand pull from `senreact.com` produced a working but imperfect baseline:
 
 ---
 
-## Open questions still pending from `tom-followups-fr.md`
+## Follow-up questions Q1–Q6 — resolved 2026-05-07 (D021)
 
-Sent to Amadou as a PDF; reproduced here for tracking convenience. Answers should land in `discovery/decisions-log.md` as new D-numbered entries when they arrive.
+Amadou responded via WhatsApp on 2026-05-07. All six questions answered; full text recorded in `discovery/decisions-log.md` §D021.
 
-| Q | Topic | Blocks |
-|---|---|---|
-| Q1 | Names + descriptions of the 3 currently-active projects | Phase 2 §7 (Programmes section) |
-| Q2 | "Innovative digital solutions" showcase model (submission, curation, voting) | Phase 2 §3 or Phase 3 |
-| Q3 | Senegalese legal advisor for ToS/Privacy/Cookies/CDP review | Phase 11 + Phase 13 |
-| Q4 | Parental-consent UX confirmation for 15-17 age range | Phase 6 |
-| Q5 | Per-sector content (×10 sectors) — descriptions, opportunities, key actors | Phase 2 §6 (Sector pages) |
-| Q6 | B2B differentiation tier — confirm "one tier at launch" intent | Phase 7 |
+| Q | Topic | Status | Notes |
+|---|---|---|---|
+| Q1 | 3 active programmes | ✅ resolved | Projet 3A · Projet Sen React (headline) · IA for Change. Shipped to homepage in PR-2g. |
+| Q2 | Innovation-showcase model | ✅ resolved | Curated by Sen React via fellowships / calls. Not user-submitted. v1 model locked. |
+| Q3 | Legal review | ✅ resolved | Tom drafts → REACT validates with Senegalese lawyer. Drafts now in Tom's queue (Phase 11). |
+| Q4 | Parental-consent UX | ✅ resolved | Checkbox at signup, no document upload. Phase 6. |
+| Q5 | 10 sectors | ✅ resolved (with typo flag) | Amadou wrote "6 au lieu de 10" but listed all 10 and confirmed below. Tom to do a quick WhatsApp confirmation; meanwhile we ship 10. No change to D012 unless he corrects. |
+| Q6 | B2B tier at launch | ✅ resolved | One tier + hidden premium field for later. Phase 7. |
+
+### What's now in Tom's queue (rather than Amadou's)
+
+- **AI-drafted ToS / Privacy / Cookies / CDP markdown** — Amadou's closing line on 2026-05-07 was *"looking forward to the IA draft for legal conformity"*. Phase 11 deliverable; Tom to draft when he picks up that phase.
+
+### Per-sector deep-dive content
+
+Q5 confirmed the 10 sector slugs/labels but did NOT cover the §3 A–F content per sector (priorities, key actors, opportunities, obstacles, existing content, success stories). The sector pages currently ship with the same three placeholder blocks per slug. **Per-sector content is still pending from REACT-side** — voicenotes one sector at a time on WhatsApp would be the easiest path for Amadou.
 
 ---
 

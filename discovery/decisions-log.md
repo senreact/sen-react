@@ -325,6 +325,26 @@ Summary of resolved items + items that **change or reopen prior decisions**:
 
 **A24 — Amadou-stated launch wish (FYI, NOT a commitment).** Amadou wrote "We wish to officially launch the platform in early June" (§14.1). This was written 2026-05-04 — a ~5-week wish from then. **Per D014, we do not commit to dates.** Tom's response framing: "we'll push hard, build phase by phase, and lock when each phase is verified — earliest possible launch is what we'll deliver, but no published date." Logged for context only.
 
+### D021 — Amadou response to follow-ups Q1–Q6 (2026-05-07)
+**Source:** Amadou WhatsApp 2026-05-07 23:00, in response to `discovery/responses/tom-followups-fr.md`. Verbatim FR responses captured below.
+
+**Q1 — 3 currently-active programmes** (resolves Phase 2 §7 yellow row → green):
+1. **Projet 3A** — *"Renforcer la formalisation, l'autonomisation et la compétitivité des entrepreneurs locaux et leaders communautaires afin de promouvoir le leadership communautaire, le développement durable et l'adaptation au changement climatique au Sénégal."*
+2. **Projet Sen React** — *"Création d'un écosystème numérique d'information, de renforcement de capacités et de mise en relation pour les entrepreneurs et acteurs de changement au Sénégal et en Afrique."* (= this platform; headline programme)
+3. **IA for Change** — *"Promotion des outils IA pour renforcer la productivité et l'innovation des entrepreneurs et acteurs de changement."*
+
+**Q2 — Innovative-digital-solutions showcase model:** Sen React-curated only, via fellowship programmes or specific calls for solutions. Not user-submitted, not community-voted. Locks the v1 model.
+
+**Q3 — Legal/compliance ownership:** Tom delivers AI-drafted ToS / Privacy / Cookies / CDP markdown; REACT engages a Senegalese lawyer to validate before launch. Reaffirms D017. Drafts now sit in Tom's queue (Phase 11).
+
+**Q4 — Parental consent UX:** Single checkbox at signup confirming parental agreement. No document upload, no separate parent email. Lock for Phase 6.
+
+**Q5 — Sectors:** Amadou's text opens *"6 secteurs au lieu de 10"* but the bullet list contains all **10** D012 sectors and closes *"On peut confirmer les secteurs ci-dessus."* Read as confirmation of all 10 (the "6" appears to be a typo). Tom flagged a 30-sec WhatsApp ping to confirm; meanwhile we ship the 10 we have. **No change to D012 unless Amadou subsequently corrects.**
+
+**Q6 — B2B tiers:** One tier at launch; keep the option to add verified-badge / premium later without rebuilding. Aligns exactly with the D020 Yellow-row "hidden tier flag" plan. Lock for Phase 7.
+
+**Tom action carried forward:** AI-drafted ToS / Privacy / Cookies / CDP markdown promised to Amadou (per his closing line *"looking forward to the IA draft for legal conformity"*). Tracked in Phase 11; not blocking current Phase 2 work.
+
 ### D020 — Tom triage of follow-ups (round 2)
 **Source:** Tom, 2026-05-07
 **Context:** After D019 surfaced 13 new follow-ups (Q10–Q22), Tom triaged them. Items below are now locked decisions; the rest are pruned from the open-question list (see updated follow-ups below).
