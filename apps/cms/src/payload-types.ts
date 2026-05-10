@@ -75,6 +75,7 @@ export interface Config {
     partners: Partner;
     programmes: Programme;
     'team-members': TeamMember;
+    opportunities: Opportunity;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -90,6 +91,7 @@ export interface Config {
     partners: PartnersSelect<false> | PartnersSelect<true>;
     programmes: ProgrammesSelect<false> | ProgrammesSelect<true>;
     'team-members': TeamMembersSelect<false> | TeamMembersSelect<true>;
+    opportunities: OpportunitiesSelect<false> | OpportunitiesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -441,6 +443,88 @@ export interface TeamMember {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Financements, formations, appels à projets et partenariats curés par REACT. Filtrable par secteur, type, géographie, deadline, montant.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "opportunities".
+ */
+export interface Opportunity {
+  id: number;
+  title: string;
+  /**
+   * Identifiant URL-safe — minuscules, chiffres, tirets seulement.
+   */
+  slug: string;
+  /**
+   * 1-2 phrases. Affiché dans la carte d'index et en méta-description.
+   */
+  summary: string;
+  body: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Catégorisation par secteur D012 (un seul par opportunité).
+   */
+  sector:
+    | 'digitalisation-technologie'
+    | 'developpement-economique'
+    | 'entrepreneuriat-local'
+    | 'agroecologie'
+    | 'energies-renouvelables'
+    | 'multimedia'
+    | 'transformation'
+    | 'artisanat'
+    | 'elevage'
+    | 'saponification';
+  opportunityType: 'financement' | 'formation' | 'appel-a-projets' | 'partenariat' | 'concours' | 'autre';
+  area: 'senegal' | 'senegal-dakar' | 'senegal-regions' | 'afrique-ouest' | 'afrique' | 'international';
+  /**
+   * Date limite de candidature. Filtrable par tranche (30j / 90j / 1 an).
+   */
+  deadline: string;
+  /**
+   * Optionnel. Valeur en XOF pour permettre le filtrage par tranche. Laisser vide si le montant est variable, conditionnel ou non communiqué.
+   */
+  amountValue?: number | null;
+  amountCurrency?: ('XOF' | 'EUR' | 'USD') | null;
+  /**
+   * Texte affiché — ex. 'Jusqu'à 5 000 000 FCFA', 'Variable selon profil', 'Non communiqué'. Utilisé tel quel sur la carte.
+   */
+  amountDisplay?: string | null;
+  /**
+   * Qui propose l'opportunité — ex. ADEPME, USAID, FONSIS, ANCAR.
+   */
+  source: string;
+  /**
+   * URL vers le formulaire / page officielle de candidature. Au moins l'un des deux (sourceUrl ou contactEmail) doit être renseigné.
+   */
+  sourceUrl?: string | null;
+  /**
+   * Optionnel — alternative ou complément à sourceUrl.
+   */
+  contactEmail?: string | null;
+  publishedAt: string;
+  /**
+   * Coché par défaut pour les saisies manuelles. Les entrées issues de l'agrégation automatique (Phase 5) arriveront en `false` et nécessiteront une revue avant publication.
+   */
+  reactCurated?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -495,6 +579,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'team-members';
         value: number | TeamMember;
+      } | null)
+    | ({
+        relationTo: 'opportunities';
+        value: number | Opportunity;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -682,6 +770,31 @@ export interface TeamMembersSelect<T extends boolean = true> {
   role?: T;
   order?: T;
   photo?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "opportunities_select".
+ */
+export interface OpportunitiesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  summary?: T;
+  body?: T;
+  sector?: T;
+  opportunityType?: T;
+  area?: T;
+  deadline?: T;
+  amountValue?: T;
+  amountCurrency?: T;
+  amountDisplay?: T;
+  source?: T;
+  sourceUrl?: T;
+  contactEmail?: T;
+  publishedAt?: T;
+  reactCurated?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
