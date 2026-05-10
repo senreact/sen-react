@@ -8,8 +8,8 @@ import {
 } from "./aggregation-sources";
 
 describe("AGGREGATION_SOURCES", () => {
-  it("contains exactly 11 sources per D011 / Tom 2026-05-10", () => {
-    expect(AGGREGATION_SOURCES).toHaveLength(11);
+  it("contains exactly 10 sources per Amadou's confirmed list (2026-05-10)", () => {
+    expect(AGGREGATION_SOURCES).toHaveLength(10);
   });
 
   it("every source has a unique key", () => {
@@ -23,18 +23,17 @@ describe("AGGREGATION_SOURCES", () => {
     }
   });
 
-  it("every source has a non-empty label and notes (catches missing metadata)", () => {
+  it("every source has a populated label, url, and notes (no placeholder rows)", () => {
     for (const source of AGGREGATION_SOURCES) {
       expect(source.label.length).toBeGreaterThan(0);
+      expect(source.url.length).toBeGreaterThan(0);
       expect(source.notes.length).toBeGreaterThan(0);
     }
   });
 
-  it("when a url is set, it begins with https:// (no http, no schemeless)", () => {
+  it("every url is a valid http or https URL (fongip.sn is plain http; allow it)", () => {
     for (const source of AGGREGATION_SOURCES) {
-      if (source.url) {
-        expect(source.url).toMatch(/^https:\/\//);
-      }
+      expect(source.url).toMatch(/^https?:\/\/[^\s]+$/);
     }
   });
 
@@ -60,7 +59,7 @@ describe("getAggregationSource", () => {
   it("returns the source row for a known key", () => {
     const der = getAggregationSource("der");
     expect(der?.label).toContain("DER");
-    expect(der?.url).toBe("https://der.sn");
+    expect(der?.url).toBe("https://www.der.sn");
   });
 
   it("returns undefined for an unknown key", () => {
