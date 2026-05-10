@@ -29,6 +29,8 @@
 // complain.
 (process.env as Record<string, string>).NODE_ENV = "production";
 
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
 import { getPayload } from "payload";
 import { fileURLToPath } from "url";
 
@@ -586,65 +588,140 @@ const NEWS_SEED = [
   },
 ];
 
-// Publications fixtures are intentionally NOT seeded right now. The Publications
-// collection's `file` field is required (Payload upload → relationTo "media"),
-// and Payload's default media storage writes to the local filesystem of
-// whichever process runs the upload. Running this seed from a laptop against
-// prod Supabase persists the metadata row but leaves the binary on the local
-// disk — prod CMS (Vercel serverless container) then 500s on the download
-// route because the file isn't there. Fix: configure a real storage backend
-// (Supabase Storage adapter or S3-compatible). Tracked separately; once the
-// adapter is in, re-add a PUBLICATIONS_SEED block here.
+const PUBLICATIONS_SEED = [
+  {
+    slug: "exemple-rapport-annuel-react-2025",
+    title: "Exemple — Rapport annuel REACT 2025",
+    summary:
+      "Bilan 2025 du réseau REACT — programmes menés, bénéficiaires accompagnés, perspectives 2026.",
+    sector: null,
+    language: "fr",
+    publishedAt: daysFromNow(-60),
+    authors: [
+      { name: "Elhadj Amadou Samb", role: "Directeur Exécutif" },
+      { name: "Cheikh Oumar Kane", role: "Secrétaire Général" },
+    ],
+  },
+  {
+    slug: "exemple-femmes-entrepreneures-et-numerique",
+    title: "Exemple — Étude : Femmes entrepreneures et numérique au Sénégal",
+    summary:
+      "Étude qualitative sur l'adoption des outils numériques par les femmes entrepreneures sénégalaises — fractures, leviers, recommandations.",
+    sector: "digitalisation-technologie",
+    language: "fr",
+    publishedAt: daysFromNow(-120),
+    authors: [{ name: "Équipe de recherche REACT" }],
+  },
+  {
+    slug: "exemple-note-reflexion-agroecologie-senegal",
+    title: "Exemple — Note de réflexion : Agroécologie au Sénégal",
+    summary:
+      "Note courte sur les conditions de passage à l'échelle de l'agroécologie dans les régions sénégalaises productrices — contraintes, opportunités, acteurs.",
+    sector: "agroecologie",
+    language: "fr",
+    publishedAt: daysFromNow(-90),
+  },
+  {
+    slug: "exemple-white-paper-saponification-artisanale",
+    title: "Exemple — White paper : Saponification artisanale",
+    summary:
+      "Synthèse REACT sur la structuration de la filière saponification artisanale au Sénégal — modèles économiques, certifications, perspectives d'export.",
+    sector: "saponification",
+    language: "fr",
+    publishedAt: daysFromNow(-180),
+    authors: [{ name: "Équipe REACT" }],
+  },
+];
 
-// 11-char YouTube IDs. These are syntactically valid (pass the collection
-// validator) but don't point to real Sen React videos — the embeds will show
-// "Video unavailable", which is fine for visual QA of the page chrome.
+const SEED_FIXTURE_DIR = join(dirname(fileURLToPath(import.meta.url)), "seed-fixtures");
+const SAMPLE_PDF_PATH = join(SEED_FIXTURE_DIR, "sample.pdf");
+// Stable alt-text used as the lookup key when re-running the seed. Avoids
+// re-uploading on every run.
+const SAMPLE_PDF_ALT = "Sen React — fixture PDF d'exemple";
+
+async function ensureSamplePdf(
+  payload: Awaited<ReturnType<typeof getPayload>>,
+): Promise<string | number> {
+  const existing = await payload.find({
+    collection: "media",
+    where: { alt: { equals: SAMPLE_PDF_ALT } },
+    limit: 1,
+    depth: 0,
+  });
+  if (existing.docs[0]) return existing.docs[0].id;
+  const buffer = readFileSync(SAMPLE_PDF_PATH);
+  const created = await payload.create({
+    collection: "media",
+    data: { alt: SAMPLE_PDF_ALT },
+    file: {
+      data: buffer,
+      mimetype: "application/pdf",
+      name: "sen-react-exemple.pdf",
+      size: buffer.length,
+    },
+  });
+  return created.id;
+}
+
+// Fixture videos use real, verified YouTube IDs so the embed iframes actually
+// render and play. None are thematically perfect (finding real Senegal-specific
+// embeddable content is hard); each was picked for stability — they've been
+// public for years and aren't going anywhere. REACT will replace these with
+// their own productions before launch; the slugs / titles / sectors / durations
+// in the DB are what matter for testing the page chrome.
+//
+// Verified via YouTube's oEmbed endpoint 2026-05-10:
+//   - aqz-KE-bpKQ  Big Buck Bunny (Blender, CC-BY, 4K)        9m 56s
+//   - jNQXAC9IVRw  "Me at the zoo" (first YouTube video)      0m 18s
+//   - LXb3EKWsInQ  "Costa Rica in 4K 60fps HDR"               10m 02s
+//   - dQw4w9WgXcQ  Rick Astley "Never Gonna Give You Up" (4K) 3m 32s
 const VIDEOS_SEED = [
   {
-    slug: "exemple-sen-react-en-60-secondes",
-    title: "Exemple — Sen React en 60 secondes",
-    summary: "Capsule de présentation de la plateforme Sen React pour les nouveaux visiteurs.",
-    youtubeId: "aaaa-AAAA01",
+    slug: "exemple-capsule-presentation-sen-react",
+    title: "Exemple — Capsule de présentation Sen React",
+    summary:
+      "Capsule placeholder en attendant la production interne REACT. REACT remplacera cette entrée par une vraie capsule de présentation lors du lancement.",
+    youtubeId: "aqz-KE-bpKQ",
     videoType: "capsule",
-    origin: "react-original",
+    origin: "curated",
     sector: "digitalisation-technologie",
-    duration: 62,
+    duration: 596,
     publishedAt: daysFromNow(-1),
   },
   {
-    slug: "exemple-interview-amadou-samb",
-    title: "Exemple — Interview avec Amadou Samb",
+    slug: "exemple-temoignage-entrepreneure",
+    title: "Exemple — Témoignage d'entrepreneure",
     summary:
-      "Entretien long-format avec Elhadj Amadou Samb, Directeur Exécutif de REACT — genèse, vision et ambitions pour Sen React.",
-    youtubeId: "bbbb-BBBB02",
-    videoType: "interview",
+      "Témoignage placeholder. REACT publiera ici des vidéos de témoignages d'entrepreneures accompagnées par le réseau.",
+    youtubeId: "jNQXAC9IVRw",
+    videoType: "testimonial",
     origin: "react-original",
     sector: "entrepreneuriat-local",
-    duration: 1380,
+    duration: 18,
     publishedAt: daysFromNow(-10),
   },
   {
-    slug: "exemple-temoignage-cooperative-agroecologique",
-    title: "Exemple — Témoignage : coopérative agroécologique de Thiès",
+    slug: "exemple-explication-energies-vertes",
+    title: "Exemple — Explication : Énergies vertes",
     summary:
-      "Témoignage des productrices d'une coopérative agroécologique partenaire — parcours, défis, soutien REACT.",
-    youtubeId: "cccc-CCCC03",
-    videoType: "testimonial",
-    origin: "react-original",
-    sector: "agroecologie",
-    duration: 480,
-    publishedAt: daysFromNow(-21),
-  },
-  {
-    slug: "exemple-pourquoi-energies-vertes",
-    title: "Exemple — Pourquoi les énergies vertes au Sénégal ?",
-    summary:
-      "Explication courte sur les opportunités économiques de la transition énergétique pour les TPE sénégalaises.",
-    youtubeId: "dddd-DDDD04",
+      "Vidéo placeholder pour le contenu explication. REACT remplacera par une explication courte sur les énergies renouvelables au Sénégal.",
+    youtubeId: "LXb3EKWsInQ",
     videoType: "explanation",
     origin: "curated",
     sector: "energies-renouvelables",
-    duration: 240,
+    duration: 602,
+    publishedAt: daysFromNow(-21),
+  },
+  {
+    slug: "exemple-entretien-amadou",
+    title: "Exemple — Entretien long-format",
+    summary:
+      "Vidéo placeholder pour le contenu entretien. REACT remplacera par un entretien avec Elhadj Amadou Samb ou d'autres leaders du réseau.",
+    youtubeId: "dQw4w9WgXcQ",
+    videoType: "interview",
+    origin: "react-original",
+    sector: "entrepreneuriat-local",
+    duration: 212,
     publishedAt: daysFromNow(-45),
   },
 ];
@@ -902,7 +979,13 @@ async function seed(): Promise<void> {
     await upsertBySlug(payload, "news", { ...n });
   }
 
-  payload.logger.info("[seed] Skipping publications — needs storage adapter (see seed.ts note)");
+  payload.logger.info("[seed] Ensuring sample PDF media item");
+  const samplePdfId = await ensureSamplePdf(payload);
+
+  payload.logger.info("[seed] Upserting publication fixtures");
+  for (const p of PUBLICATIONS_SEED) {
+    await upsertBySlug(payload, "publications", { ...p, file: samplePdfId });
+  }
 
   payload.logger.info("[seed] Upserting video fixtures");
   for (const v of VIDEOS_SEED) {

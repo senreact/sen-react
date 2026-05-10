@@ -1,9 +1,12 @@
 import { postgresAdapter } from "@payloadcms/db-postgres";
+import { cloudStoragePlugin } from "@payloadcms/plugin-cloud-storage";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import path from "path";
 import { buildConfig } from "payload";
 import { fileURLToPath } from "url";
 import sharp from "sharp";
+
+import { supabaseStorageAdapter } from "./storage/supabase-adapter";
 
 import { Users } from "./collections/Users";
 import { Media } from "./collections/Media";
@@ -90,5 +93,27 @@ export default buildConfig({
     prodMigrations: migrations,
   }),
   sharp,
-  plugins: [],
+  plugins: [
+    // Media uploads route to Supabase Storage (bucket `sen-react-media`) when
+    // the env vars are present. Without them — local dev with no service-role
+    // key — uploads fall back to the local filesystem (Payload default).
+    // Vercel serverless containers can't persist local files across deploys,
+    // so prod relies on this plugin being configured.
+    ...(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY
+      ? [
+          cloudStoragePlugin({
+            collections: {
+              media: {
+                adapter: supabaseStorageAdapter({
+                  url: process.env.NEXT_PUBLIC_SUPABASE_URL,
+                  serviceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
+                  bucket: process.env.SUPABASE_STORAGE_BUCKET ?? "sen-react-media",
+                }),
+                disableLocalStorage: true,
+              },
+            },
+          }),
+        ]
+      : []),
+  ],
 });
