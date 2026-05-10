@@ -10,5 +10,5 @@
   },
   "include": ["e2e/**/*", "playwright.config.ts", "scripts/**/*"],
   "exclude": ["node_modules", "**/.next", "**/dist", "**/build"],
-  "references": [{ "path": "./packages/shared" }]
+  "references": [{ "path": "./packages/shared/tsconfig.build.json" }]
 }
