@@ -20,6 +20,7 @@ import { HomepageHero } from "./globals/HomepageHero";
 import { HomepageDomaines } from "./globals/HomepageDomaines";
 import { EmptyStates } from "./globals/EmptyStates";
 import { ContactPage } from "./globals/ContactPage";
+import { AboutPage } from "./globals/AboutPage";
 import { migrations } from "./migrations";
 
 const filename = fileURLToPath(import.meta.url);
@@ -55,6 +56,7 @@ export default buildConfig({
     HomepageDomaines,
     EmptyStates,
     ContactPage,
+    AboutPage,
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",

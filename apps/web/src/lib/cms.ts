@@ -426,3 +426,70 @@ export async function getContactPage(): Promise<ContactPage> {
   const live = await fetchGlobal<ContactPage>("contact-page");
   return live ?? DEFAULT_CONTACT_PAGE;
 }
+
+export interface AboutPage {
+  hero: { eyebrow: string; headline: string; leadParagraph: string };
+  mission: { eyebrow: string; sectionTitle: string; body: string };
+  vision: { eyebrow: string; sectionTitle: string; body: string };
+  values: {
+    eyebrow: string;
+    headline: string;
+    items: { title: string; description: string }[];
+  };
+  founding: { eyebrow: string; headline: string; body: LexicalRoot };
+  legal: { label: string; body: LexicalRoot };
+}
+
+const DEFAULT_ABOUT_PAGE: AboutPage = {
+  hero: {
+    eyebrow: "À propos de REACT",
+    headline: "Un réseau pour réinventer l'entrepreneuriat sénégalais et africain.",
+    leadParagraph:
+      "REACT (Réseau des Entrepreneurs Actifs) accompagne les femmes, les jeunes et les communautés vulnérables dans la transition numérique et écologique. Sen React est la plateforme qui matérialise ce projet.",
+  },
+  mission: {
+    eyebrow: "Mission",
+    sectionTitle: "Renforcer l'autonomisation et l'innovation des entrepreneurs africains.",
+    body: "Notre mission est de favoriser la transition digitale et écologique au profit du développement économique durable. Notre objectif est de renforcer les capacités d'autonomisation et d'innovation des entrepreneurs africains afin de promouvoir un entrepreneuriat durable et compétitif, tout en luttant contre les effets du changement climatique.",
+  },
+  vision: {
+    eyebrow: "Vision",
+    sectionTitle: "Devenir un leader de la révolution digitale en Afrique de l'Ouest.",
+    body: "Être un leader incontournable de la révolution digitale en Afrique de l'Ouest et accroître considérablement notre impact sur le développement économique durable des entrepreneurs.",
+  },
+  values: {
+    eyebrow: "Nos valeurs",
+    headline: "Trois principes qui nous guident",
+    items: [
+      {
+        title: "Leadership",
+        description:
+          "Former une génération d'entrepreneurs et d'entrepreneures capables de porter une transformation économique et sociale durable au Sénégal et en Afrique de l'Ouest.",
+      },
+      {
+        title: "Inclusion numérique",
+        description:
+          "Faire du numérique un levier d'autonomisation pour celles et ceux qui en sont aujourd'hui les plus éloignés — femmes, jeunes, communautés vulnérables.",
+      },
+      {
+        title: "Développement économique durable",
+        description:
+          "Soutenir une croissance qui crée des emplois verts et résilients, en cohérence avec les enjeux climatiques et écologiques du continent.",
+      },
+    ],
+  },
+  founding: {
+    eyebrow: "Notre histoire",
+    headline: "Né d'une initiative post-COVID, relancé pour la transition.",
+    body: { root: { type: "root", children: [] } },
+  },
+  legal: {
+    label: "Statut juridique",
+    body: { root: { type: "root", children: [] } },
+  },
+};
+
+export async function getAboutPage(): Promise<AboutPage> {
+  const live = await fetchGlobal<AboutPage>("about-page");
+  return live ?? DEFAULT_ABOUT_PAGE;
+}

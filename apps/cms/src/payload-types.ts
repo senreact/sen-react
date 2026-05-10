@@ -107,6 +107,7 @@ export interface Config {
     'homepage-domaines': HomepageDomaine;
     'empty-states': EmptyState;
     'contact-page': ContactPage;
+    'about-page': AboutPage;
   };
   globalsSelect: {
     'site-header': SiteHeaderSelect<false> | SiteHeaderSelect<true>;
@@ -116,6 +117,7 @@ export interface Config {
     'homepage-domaines': HomepageDomainesSelect<false> | HomepageDomainesSelect<true>;
     'empty-states': EmptyStatesSelect<false> | EmptyStatesSelect<true>;
     'contact-page': ContactPageSelect<false> | ContactPageSelect<true>;
+    'about-page': AboutPageSelect<false> | AboutPageSelect<true>;
   };
   locale: null;
   widgets: {
@@ -921,6 +923,82 @@ export interface ContactPage {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about-page".
+ */
+export interface AboutPage {
+  id: number;
+  hero: {
+    eyebrow: string;
+    headline: string;
+    leadParagraph: string;
+  };
+  mission: {
+    eyebrow: string;
+    sectionTitle: string;
+    body: string;
+  };
+  vision: {
+    eyebrow: string;
+    sectionTitle: string;
+    body: string;
+  };
+  values: {
+    eyebrow: string;
+    headline: string;
+    items: {
+      title: string;
+      description: string;
+      id?: string | null;
+    }[];
+  };
+  founding: {
+    eyebrow: string;
+    headline: string;
+    /**
+     * Utiliser gras pour les dates clés et les noms des fondateurs (rendu en strong sur le site).
+     */
+    body: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
+  };
+  legal: {
+    label: string;
+    /**
+     * Utiliser code pour le numéro d'enregistrement (rendu en police mono sur le site).
+     */
+    body: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-header_select".
  */
 export interface SiteHeaderSelect<T extends boolean = true> {
@@ -1085,6 +1163,62 @@ export interface ContactPageSelect<T extends boolean = true> {
         id?: T;
       };
   channelGuideHeading?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about-page_select".
+ */
+export interface AboutPageSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        eyebrow?: T;
+        headline?: T;
+        leadParagraph?: T;
+      };
+  mission?:
+    | T
+    | {
+        eyebrow?: T;
+        sectionTitle?: T;
+        body?: T;
+      };
+  vision?:
+    | T
+    | {
+        eyebrow?: T;
+        sectionTitle?: T;
+        body?: T;
+      };
+  values?:
+    | T
+    | {
+        eyebrow?: T;
+        headline?: T;
+        items?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              id?: T;
+            };
+      };
+  founding?:
+    | T
+    | {
+        eyebrow?: T;
+        headline?: T;
+        body?: T;
+      };
+  legal?:
+    | T
+    | {
+        label?: T;
+        body?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
