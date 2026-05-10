@@ -20,6 +20,8 @@ export interface DirectoryProfile {
   summary: string | null;
   organisation_label: string | null;
   verification_status: "verified" | "auto_verified";
+  /** Optional differentiation badge per roadmap row 92. Free-text. */
+  tier: string | null;
   created_at: string;
 }
 
@@ -44,7 +46,7 @@ export async function listDirectoryProfiles(
   let query = sb
     .from("directory_profiles")
     .select(
-      "directory_slug, profile_type, display_name, sector_slug, region, photo_url, summary, organisation_label, verification_status, created_at",
+      "directory_slug, profile_type, display_name, sector_slug, region, photo_url, summary, organisation_label, verification_status, tier, created_at",
     )
     .order("created_at", { ascending: false })
     .limit(filters.limit ?? 60);
@@ -71,7 +73,7 @@ export async function getDirectoryProfileBySlug(slug: string): Promise<Directory
   const { data, error } = await sb
     .from("directory_profiles")
     .select(
-      "directory_slug, profile_type, display_name, sector_slug, region, photo_url, summary, organisation_label, verification_status, created_at",
+      "directory_slug, profile_type, display_name, sector_slug, region, photo_url, summary, organisation_label, verification_status, tier, created_at",
     )
     .eq("directory_slug", slug)
     .maybeSingle<DirectoryProfile>();
