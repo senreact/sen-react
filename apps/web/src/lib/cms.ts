@@ -317,3 +317,64 @@ export async function getHomepageDomaines(): Promise<HomepageDomaines> {
   const live = await fetchGlobal<HomepageDomaines>("homepage-domaines");
   return live ?? DEFAULT_HOMEPAGE_DOMAINES;
 }
+
+export interface EmptyStateContent {
+  title: string;
+  description: string;
+}
+
+export interface LatestNewsPlaceholderCard {
+  eyebrow: string;
+  title: string;
+  excerpt: string;
+}
+
+export interface EmptyStates {
+  news: EmptyStateContent;
+  publications: EmptyStateContent;
+  videos: EmptyStateContent;
+  homepageLatestNewsFallback: LatestNewsPlaceholderCard[];
+}
+
+const DEFAULT_EMPTY_STATES: EmptyStates = {
+  news: {
+    title: "Les premières actualités arrivent bientôt.",
+    description:
+      "Cette section accueillera les articles, opportunités et publications éditées par REACT dès que la rédaction démarre.",
+  },
+  publications: {
+    title: "Les premières publications arrivent bientôt.",
+    description:
+      "Cette section accueillera les études, rapports et notes de réflexion REACT en téléchargement libre dès leur parution.",
+  },
+  videos: {
+    title: "Les premières vidéos arrivent bientôt.",
+    description:
+      "Cette section accueillera les capsules, entretiens et témoignages REACT dès le démarrage de la production audiovisuelle.",
+  },
+  homepageLatestNewsFallback: [
+    {
+      eyebrow: "Bientôt",
+      title: "Premier article à publier dès le lancement",
+      excerpt:
+        "Cette section accueillera les actualités, opportunités et publications éditées par l'équipe REACT.",
+    },
+    {
+      eyebrow: "Bientôt",
+      title: "Témoignages d'entrepreneurs accompagnés",
+      excerpt:
+        "Nous publierons régulièrement les parcours de femmes et de jeunes formés et accompagnés à travers nos programmes.",
+    },
+    {
+      eyebrow: "Bientôt",
+      title: "Analyses et publications de fond",
+      excerpt:
+        "Études, rapports et notes de réflexion sur l'entrepreneuriat sénégalais et africain — préparés par REACT.",
+    },
+  ],
+};
+
+export async function getEmptyStates(): Promise<EmptyStates> {
+  const live = await fetchGlobal<EmptyStates>("empty-states");
+  return live ?? DEFAULT_EMPTY_STATES;
+}

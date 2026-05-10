@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { EmptyState } from "@/components/content/EmptyState";
 import { VideoCard } from "@/components/content/VideoCard";
-import { listVideos } from "@/lib/cms";
+import { getEmptyStates, listVideos } from "@/lib/cms";
 
 export const metadata: Metadata = {
   title: "Vidéos — Sen React",
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
  * embedded reader with subtitles + offline download ships in PR-3c.
  */
 export default async function VideosPage() {
-  const videos = await listVideos();
+  const [videos, emptyStates] = await Promise.all([listVideos(), getEmptyStates()]);
 
   return (
     <main>
@@ -40,8 +40,8 @@ export default async function VideosPage() {
         <div className="mx-auto max-w-6xl px-6 py-16">
           {videos.length === 0 ? (
             <EmptyState
-              title="Les premières vidéos arrivent bientôt."
-              description="Cette section accueillera les capsules, entretiens et témoignages REACT dès le démarrage de la production audiovisuelle."
+              title={emptyStates.videos.title}
+              description={emptyStates.videos.description}
             />
           ) : (
             <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

@@ -169,6 +169,44 @@ const HOMEPAGE_HERO_SEED = {
   secondaryCta: { label: "En savoir plus", href: "/a-propos" },
 };
 
+const EMPTY_STATES_SEED = {
+  news: {
+    title: "Les premières actualités arrivent bientôt.",
+    description:
+      "Cette section accueillera les articles, opportunités et publications éditées par REACT dès que la rédaction démarre.",
+  },
+  publications: {
+    title: "Les premières publications arrivent bientôt.",
+    description:
+      "Cette section accueillera les études, rapports et notes de réflexion REACT en téléchargement libre dès leur parution.",
+  },
+  videos: {
+    title: "Les premières vidéos arrivent bientôt.",
+    description:
+      "Cette section accueillera les capsules, entretiens et témoignages REACT dès le démarrage de la production audiovisuelle.",
+  },
+  homepageLatestNewsFallback: [
+    {
+      eyebrow: "Bientôt",
+      title: "Premier article à publier dès le lancement",
+      excerpt:
+        "Cette section accueillera les actualités, opportunités et publications éditées par l'équipe REACT.",
+    },
+    {
+      eyebrow: "Bientôt",
+      title: "Témoignages d'entrepreneurs accompagnés",
+      excerpt:
+        "Nous publierons régulièrement les parcours de femmes et de jeunes formés et accompagnés à travers nos programmes.",
+    },
+    {
+      eyebrow: "Bientôt",
+      title: "Analyses et publications de fond",
+      excerpt:
+        "Études, rapports et notes de réflexion sur l'entrepreneuriat sénégalais et africain — préparés par REACT.",
+    },
+  ],
+};
+
 const HOMEPAGE_DOMAINES_SEED = {
   eyebrow: "Domaines d'intervention",
   headline: "Quatre piliers, une mission cohérente",
@@ -266,6 +304,9 @@ async function seed(): Promise<void> {
 
   payload.logger.info("[seed] Upserting homepage-domaines global");
   await payload.updateGlobal({ slug: "homepage-domaines", data: HOMEPAGE_DOMAINES_SEED });
+
+  payload.logger.info("[seed] Upserting empty-states global");
+  await payload.updateGlobal({ slug: "empty-states", data: EMPTY_STATES_SEED });
 
   payload.logger.info("[seed] Upserting partners");
   for (const p of PARTNERS_SEED) {
