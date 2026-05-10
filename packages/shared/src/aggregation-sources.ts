@@ -1,11 +1,14 @@
 /**
- * The 10 external sources REACT aggregates opportunities from.
+ * The 12 external sources REACT aggregates opportunities from.
  *
- * Authoritative list confirmed by Amadou (WhatsApp, 2026-05-10 20:22 SAST)
- * — URLs are the ones he sent. Note this is **10**, not the 11 mentioned in
- * the early D011 draft: FONSIS was a placeholder (Amadou actually wanted
- * FONGIP, a different fund); UE Sénégal and GIZ Sénégal were dropped; Civic
- * Hive and FONGIP were added. D011 will be updated to match.
+ * Authoritative list:
+ * - 10 sources sent by Amadou on WhatsApp 2026-05-10 20:22 SAST.
+ * - 2 sources added by Tom 2026-05-10 (EEAS Senegal + GIZ Senegal) after the
+ *   first batch — both were in the original D011 draft.
+ *
+ * Changes vs the early D011 draft: FONSIS was wrong (Amadou actually wanted
+ * FONGIP, a different fund), Civic Hive was added. D011 will be updated to
+ * match.
  *
  * The `key` is the stable identifier used as a foreign key in
  * `public.aggregated_candidates.source_key` and as the job id when the
@@ -78,6 +81,20 @@ export const AGGREGATION_SOURCES = [
     label: "Civic Hive",
     url: "https://civichive.org",
     notes: "Civic-tech / public-interest opportunities aggregator.",
+  },
+  {
+    key: "eeas-senegal",
+    label: "Délégation de l'Union européenne au Sénégal — EEAS",
+    url: "https://www.eeas.europa.eu/delegations/senegal_fr",
+    notes:
+      "EU delegation in Senegal — calls for proposals + cooperation programmes. EEAS canonical URL.",
+  },
+  {
+    key: "giz-senegal",
+    label: "GIZ Sénégal",
+    url: "https://www.giz.de/en/regions/africa/senegal",
+    notes:
+      "German cooperation agency Senegal programmes. EN-language site (FR equivalent 404s as of 2026-05-10).",
   },
 ] as const;
 
