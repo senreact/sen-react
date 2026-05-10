@@ -9,3 +9,4 @@ export * from "./locale";
 export * from "./sectors";
 export * from "./cms-globals";
 export * from "./aggregation-sources";
+export * from "./profiles";
