@@ -87,7 +87,7 @@ Saved to memory as a payload+next.js+supabase bootstrap gotcha for the next proj
 
 - **Pagination + per-sector filtering on Phase 3 indexes** — current limit is 50 most recent; revisit once REACT publishes >50 items per surface. Polish, not a Phase 3 deliverable per the roadmap.
 - **Aggregation pipeline (D004)** — automated News writes from external sources. **Phase 5.**
-- **Comments moderation surface** — `commentsEnabled` field is wired on the News collection per A3; the moderation queue UI is a **Phase 8** deliverable (Community).
+- **Comments moderation surface** — `commentsEnabled` boolean is wired on the News collection per A3 (Phase 3 deliverable). The Comments collection + moderation queue UI is a **Phase 8** deliverable per the roadmap row 74 / row 79 split: comments require user accounts (Phase 6) and slot naturally with the rest of the community surface (forums, groups, mentor-matching, surveys). Roadmap updated in the same commit as this clarification.
 - **Real Wolof subtitle .vtt assets** — Videos collection has the upload slots (`subtitlesFr`, `subtitlesWo`); REACT-original videos need the actual subtitle files when production starts. Field-level only, not a code-level gap.
 
 ---

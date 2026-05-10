@@ -8,6 +8,8 @@ out
 dist
 build
 *.tsbuildinfo
+*.tsbuildinfo.*
+.tsbuildinfo*
 
 # env
 .env
