@@ -13,6 +13,7 @@ import { Videos } from "./collections/Videos";
 import { Partners } from "./collections/Partners";
 import { Programmes } from "./collections/Programmes";
 import { TeamMembers } from "./collections/TeamMembers";
+import { Opportunities } from "./collections/Opportunities";
 import { SiteHeader } from "./globals/SiteHeader";
 import { SiteFooter } from "./globals/SiteFooter";
 import { ContactInfo } from "./globals/ContactInfo";
@@ -49,7 +50,17 @@ export default buildConfig({
   },
   cors: allowedOrigins,
   csrf: allowedOrigins,
-  collections: [Users, Media, News, Publications, Videos, Partners, Programmes, TeamMembers],
+  collections: [
+    Users,
+    Media,
+    News,
+    Publications,
+    Videos,
+    Partners,
+    Programmes,
+    TeamMembers,
+    Opportunities,
+  ],
   globals: [
     SiteHeader,
     SiteFooter,
