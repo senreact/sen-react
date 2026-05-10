@@ -37,10 +37,10 @@ test("/a-propos renders the full About + Team shell", async ({ page }) => {
     page.getByRole("heading", { name: /Trois principes qui nous guident/i }),
   ).toBeVisible();
 
-  // Team — confirm key members render in the team section. Co-founder
-  // names also appear in the Founding paragraph above, so scope to the
-  // <p> tags inside the team cards (which use font-semibold).
-  const team = page.locator("section").filter({ hasText: /L'équipe/i });
+  // Team — confirm key members render in the team section. Names also
+  // appear in the Founding paragraph above, so scope to the section
+  // headed by "Les personnes qui animent REACT".
+  const team = page.locator("section").filter({ hasText: /Les personnes qui animent REACT/i });
   await expect(team.getByText("Elhadj Amadou Samb")).toBeVisible();
   await expect(team.getByText("Cheikh Oumar Kane")).toBeVisible();
   await expect(team.getByText("Yaye Bineta Mamadou Dramé")).toBeVisible();

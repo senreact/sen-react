@@ -10,8 +10,12 @@ import { Media } from "./collections/Media";
 import { News } from "./collections/News";
 import { Publications } from "./collections/Publications";
 import { Videos } from "./collections/Videos";
+import { Partners } from "./collections/Partners";
+import { Programmes } from "./collections/Programmes";
+import { TeamMembers } from "./collections/TeamMembers";
 import { SiteHeader } from "./globals/SiteHeader";
 import { SiteFooter } from "./globals/SiteFooter";
+import { ContactInfo } from "./globals/ContactInfo";
 import { migrations } from "./migrations";
 
 const filename = fileURLToPath(import.meta.url);
@@ -38,8 +42,8 @@ export default buildConfig({
   },
   cors: allowedOrigins,
   csrf: allowedOrigins,
-  collections: [Users, Media, News, Publications, Videos],
-  globals: [SiteHeader, SiteFooter],
+  collections: [Users, Media, News, Publications, Videos, Partners, Programmes, TeamMembers],
+  globals: [SiteHeader, SiteFooter, ContactInfo],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: {

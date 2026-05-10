@@ -1,16 +1,17 @@
 import Link from "next/link";
 
-import { partnerStripSelection } from "@/data/partners";
+import { listPartners } from "@/lib/cms";
 
 /**
- * Partner strip. Renders the 10 real partners from D011 (3 institutions +
- * 7 NGOs) as a name grid, with a CTA to /partenaires for the full
- * descriptions. Logos pending REACT-side per docs/pending-react-input.md;
- * the strip ships names-only until they arrive — the layout doesn't
- * shift when logos replace the text.
+ * Partner strip. Pulls partners from the Payload Partners collection
+ * (D008 — no hardcoded copy) and renders names-only until logos land
+ * per docs/pending-react-input.md. The grid layout is stable across the
+ * partner-count change so adding/removing partners doesn't shift the
+ * page.
  */
-export function PartnerStrip() {
-  const partners = partnerStripSelection();
+export async function PartnerStrip() {
+  const partners = await listPartners();
+  if (partners.length === 0) return null;
 
   return (
     <section className="bg-white">
@@ -21,8 +22,8 @@ export function PartnerStrip() {
           </p>
           <h2 className="text-3xl font-bold leading-tight">Ils nous accompagnent</h2>
           <p className="mt-3 text-sm text-[color:var(--color-muted)]">
-            Trois institutions publiques sénégalaises et sept organisations de la société civile.
-            Les logos officiels arriveront avec la confirmation visuelle.
+            Institutions publiques sénégalaises et organisations de la société civile. Les logos
+            officiels arriveront avec la confirmation visuelle.
           </p>
         </header>
 

@@ -1,20 +1,15 @@
-import { PROGRAMMES } from "@/data/programmes";
+import { listProgrammes } from "@/lib/cms";
 
 /**
- * Programmes section. Per decisions log §D021 (Q1 confirmed by Amadou
- * on 2026-05-07), three currently-active REACT programmes:
- *
- *   1. Projet Sen React — this platform itself, headline
- *   2. Projet 3A
- *   3. IA for Change
- *
- * The headline (Sen React) gets the green-bordered, full-width
- * treatment; the two active programmes share the row below as
- * solid-bordered cards. No more placeholders — earlier v1 shipped
- * three "À venir" cards while we waited for Q1; that's now replaced
- * with real content from `apps/web/src/data/programmes.ts`.
+ * Programmes section. Pulls active programmes from the Payload
+ * Programmes collection (D008 — no hardcoded copy). The `headline`
+ * variant gets the green-bordered, full-width treatment; `active`
+ * programmes share the row below as solid-bordered cards.
  */
-export function Programmes() {
+export async function Programmes() {
+  const programmes = await listProgrammes();
+  if (programmes.length === 0) return null;
+
   return (
     <section className="border-b border-[color:var(--color-border)] bg-white">
       <div className="mx-auto max-w-6xl px-6 py-16">
@@ -26,7 +21,7 @@ export function Programmes() {
         </header>
 
         <ul className="grid gap-6 lg:grid-cols-2">
-          {PROGRAMMES.map((programme) => {
+          {programmes.map((programme) => {
             const isHeadline = programme.variant === "headline";
             return (
               <li

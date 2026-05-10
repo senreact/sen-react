@@ -6,9 +6,10 @@
  *   pnpm --filter @sen-react/cms seed
  *
  * The script is idempotent — every record is upserted, so re-running
- * resets globals back to canonical state. Editors can override fields
- * after seeding via the admin UI; re-running the seed will overwrite
- * those overrides, so only run after coordinating with REACT.
+ * resets globals/collections back to canonical state. Editors can
+ * override fields after seeding via the admin UI; re-running the seed
+ * will overwrite those overrides, so only run after coordinating with
+ * REACT.
  *
  * Reads `DATABASE_URL`, `PAYLOAD_SECRET` from `.env.local` (or whatever
  * env source the parent shell provides). Connects to whichever Supabase
@@ -23,6 +24,153 @@ import { fileURLToPath } from "url";
 import { DEFAULT_SITE_FOOTER, DEFAULT_SITE_HEADER } from "@sen-react/shared";
 
 import config from "./payload.config";
+
+const PARTNERS_SEED = [
+  {
+    slug: "adepme",
+    name: "ADEPME",
+    kind: "institution",
+    description: "Agence sénégalaise dédiée au développement et à l'encadrement des PME.",
+    order: 0,
+  },
+  {
+    slug: "ancar",
+    name: "ANCAR",
+    kind: "institution",
+    description: "Agence Nationale de Conseil Agricole et Rural.",
+    order: 1,
+  },
+  {
+    slug: "ministere-communication-numerique",
+    name: "Ministère de la Communication et du Numérique",
+    kind: "institution",
+    description: "Tutelle institutionnelle de la transformation numérique au Sénégal.",
+    order: 2,
+  },
+  {
+    slug: "civic-hive",
+    name: "CIVIC HIVE",
+    kind: "ngo",
+    description: "Partenaire de la société civile sur les enjeux de gouvernance et de civic-tech.",
+    order: 0,
+  },
+  {
+    slug: "african-youth-commission",
+    name: "African Youth Commission",
+    kind: "ngo",
+    description: "Coalition panafricaine pour la jeunesse, alliée du réseau REACT.",
+    order: 1,
+  },
+  {
+    slug: "ibp",
+    name: "IBP",
+    kind: "ngo",
+    description: "Partenaire de société civile sur les enjeux budgétaires et de transparence.",
+    order: 2,
+  },
+  {
+    slug: "enda-ecopop",
+    name: "Enda ECOPOP",
+    kind: "ngo",
+    description: "ONG sénégalaise du réseau Enda, partenaire de longue date sur les enjeux locaux.",
+    order: 3,
+  },
+  {
+    slug: "cjs",
+    name: "CJS",
+    kind: "ngo",
+    description: "Organisation de jeunesse partenaire sur les programmes d'autonomisation.",
+    order: 4,
+  },
+  {
+    slug: "afikanite",
+    name: "AFIKANITE",
+    kind: "ngo",
+    description: "Partenaire panafricain accompagnant l'écosystème entrepreneurial du continent.",
+    order: 5,
+  },
+  {
+    slug: "gpf",
+    name: "GPF",
+    kind: "ngo",
+    description: "Organisation partenaire de société civile, alignée sur les valeurs de REACT.",
+    order: 6,
+  },
+] as const;
+
+const PROGRAMMES_SEED = [
+  {
+    slug: "sen-react",
+    title: "Projet Sen React",
+    eyebrow: "Programme phare",
+    description:
+      "Création d'un écosystème numérique d'information, de renforcement de capacités et de mise en relation pour les entrepreneurs et acteurs de changement au Sénégal et en Afrique.",
+    variant: "headline",
+    order: 0,
+  },
+  {
+    slug: "projet-3a",
+    title: "Projet 3A",
+    eyebrow: "Programme actif",
+    description:
+      "Renforcement de la formalisation, de l'autonomisation et de la compétitivité des entrepreneurs locaux et des leaders communautaires, pour promouvoir le leadership communautaire, le développement durable et l'adaptation au changement climatique au Sénégal.",
+    variant: "active",
+    order: 1,
+  },
+  {
+    slug: "ia-for-change",
+    title: "IA for Change",
+    eyebrow: "Programme actif",
+    description:
+      "Promotion des outils d'intelligence artificielle pour renforcer la productivité et l'innovation des entrepreneurs et des acteurs de changement.",
+    variant: "active",
+    order: 2,
+  },
+] as const;
+
+const TEAM_SEED = [
+  { slug: "elhadj-amadou-samb", name: "Elhadj Amadou Samb", role: "Directeur Exécutif", order: 0 },
+  { slug: "cheikh-oumar-kane", name: "Cheikh Oumar Kane", role: "Secrétaire Général", order: 1 },
+  {
+    slug: "yaye-bineta-mamadou-drame",
+    name: "Yaye Bineta Mamadou Dramé",
+    role: "Coordinatrice programmes & communication",
+    order: 2,
+  },
+  { slug: "siny-thioune", name: "Siny Thioune", role: "Suivi & évaluation", order: 3 },
+  { slug: "mamadou-coly", name: "Mamadou Coly", role: "Infographie & web manager", order: 4 },
+] as const;
+
+const CONTACT_SEED = {
+  email: "senreactsen@gmail.com",
+  phoneE164: "+221773213955",
+  phoneDisplay: "+221 77 321 39 55",
+  addressLines: [{ line: "Sacrée Coeur 3, Lot N° 128/B" }, { line: "Dakar, Sénégal" }],
+};
+
+async function upsertBySlug(
+  payload: Awaited<ReturnType<typeof getPayload>>,
+  collection: "partners" | "programmes" | "team-members",
+  data: Record<string, unknown>,
+): Promise<void> {
+  const slug = data.slug as string;
+  const existing = await payload.find({
+    collection,
+    where: { slug: { equals: slug } },
+    limit: 1,
+    depth: 0,
+  });
+  // Payload's `update`/`create` typed signature requires either `draft: true`
+  // with DraftData shape or `draft: false` for the published variant. We
+  // always seed to published, so cast here rather than carrying that prop
+  // through the per-collection seed shapes.
+  const payloadData = { ...data, _status: "published" } as never;
+  if (existing.docs[0]) {
+    await payload.update({ collection, id: existing.docs[0].id, data: payloadData });
+  } else {
+    await payload.create({ collection, data: payloadData });
+  }
+}
 
 async function seed(): Promise<void> {
   const payload = await getPayload({ config });
@@ -61,6 +209,24 @@ async function seed(): Promise<void> {
       })),
     },
   });
+
+  payload.logger.info("[seed] Upserting contact-info global");
+  await payload.updateGlobal({ slug: "contact-info", data: CONTACT_SEED });
+
+  payload.logger.info("[seed] Upserting partners");
+  for (const p of PARTNERS_SEED) {
+    await upsertBySlug(payload, "partners", { ...p });
+  }
+
+  payload.logger.info("[seed] Upserting programmes");
+  for (const p of PROGRAMMES_SEED) {
+    await upsertBySlug(payload, "programmes", { ...p });
+  }
+
+  payload.logger.info("[seed] Upserting team members");
+  for (const m of TEAM_SEED) {
+    await upsertBySlug(payload, "team-members", { ...m });
+  }
 
   payload.logger.info("[seed] Done.");
 }

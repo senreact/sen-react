@@ -1,14 +1,7 @@
 import type { Metadata } from "next";
 
 import { ContactChannel } from "@/components/contact/ContactChannel";
-import {
-  CONTACT_ADDRESS_LINES,
-  CONTACT_EMAIL,
-  CONTACT_PHONE_DISPLAY,
-  MAILTO_LINK,
-  TEL_LINK,
-  WHATSAPP_LINK,
-} from "@/data/contact";
+import { getContactInfo } from "@/lib/cms";
 
 export const metadata: Metadata = {
   title: "Contact — Sen React",
@@ -16,12 +9,9 @@ export const metadata: Metadata = {
 };
 
 /**
- * /contact — Phase 2 step 5 per the roadmap §4.
- *
- * Three actionable channels (WhatsApp · Email · Telephone) plus the
- * physical address. WhatsApp is the canonical channel per D011 Q3
- * (Amadou's preferred medium for routine updates), so it sits first
- * in the grid and gets the canal-principal note.
+ * /contact — Phase 2 step 5. Pulls coordinates from the Payload
+ * contact-info global (D008 — no hardcoded copy). Three actionable
+ * channels (WhatsApp · Email · Telephone) plus the physical address.
  *
  * No backend form — wa.me + mailto + tel: deeplinks open the user's
  * native client, which is both the lightest path and the one Amadou
@@ -29,7 +19,14 @@ export const metadata: Metadata = {
  * we have an email provider configured (likely Phase 11 alongside
  * legal compliance).
  */
-export default function ContactPage() {
+export default async function ContactPage() {
+  const contact = await getContactInfo();
+  const phoneDigits = contact.phoneE164.replace(/^\+/, "");
+  const whatsappLink = `https://wa.me/${phoneDigits}`;
+  const mailtoLink = `mailto:${contact.email}`;
+  const telLink = `tel:${contact.phoneE164}`;
+  const addressLines = contact.addressLines.map((a) => a.line);
+
   return (
     <main>
       <section className="border-b border-[color:var(--color-border)] bg-white">
@@ -51,30 +48,30 @@ export default function ContactPage() {
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             <ContactChannel
               label="WhatsApp"
-              value={CONTACT_PHONE_DISPLAY}
+              value={contact.phoneDisplay}
               hint="Canal principal — réponse plus rapide"
-              href={WHATSAPP_LINK}
+              href={whatsappLink}
               ctaLabel="Ouvrir WhatsApp"
             />
 
             <ContactChannel
               label="E-mail"
-              value={CONTACT_EMAIL}
+              value={contact.email}
               hint="Pour les demandes détaillées"
-              href={MAILTO_LINK}
+              href={mailtoLink}
               ctaLabel="Écrire un e-mail"
             />
 
             <ContactChannel
               label="Téléphone"
-              value={CONTACT_PHONE_DISPLAY}
+              value={contact.phoneDisplay}
               hint="Pour les clarifications par voix"
-              href={TEL_LINK}
+              href={telLink}
               ctaLabel="Appeler"
             />
 
             <ContactChannel label="Adresse" value="">
-              {CONTACT_ADDRESS_LINES.map((line) => (
+              {addressLines.map((line) => (
                 <span key={line} className="block">
                   {line}
                 </span>
