@@ -21,6 +21,7 @@ import { HomepageDomaines } from "./globals/HomepageDomaines";
 import { EmptyStates } from "./globals/EmptyStates";
 import { ContactPage } from "./globals/ContactPage";
 import { AboutPage } from "./globals/AboutPage";
+import { SectorsPage } from "./globals/SectorsPage";
 import { migrations } from "./migrations";
 
 const filename = fileURLToPath(import.meta.url);
@@ -57,6 +58,7 @@ export default buildConfig({
     EmptyStates,
     ContactPage,
     AboutPage,
+    SectorsPage,
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",

@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 
 import { SECTORS, getSector } from "@sen-react/shared";
 
+import { getSectorsPage } from "@/lib/cms";
+
 interface SectorPageProps {
   params: Promise<{ slug: string }>;
 }
@@ -14,6 +16,11 @@ interface SectorPageProps {
  * row, the template ships with three placeholder content blocks now
  * (Acteurs clés / Opportunités / Ressources) — Amadou's Q5 voicenote
  * will fill them per sector.
+ *
+ * Sector taxonomy (slug, fr, scopeFr) lives in `@sen-react/shared`
+ * (D012 fixed enum). Page-level editorial copy comes from the
+ * `sectors-page` CMS global. Per-sector custom content lands as a
+ * separate `sector-content` collection later.
  */
 
 export function generateStaticParams(): { slug: string }[] {
@@ -37,23 +44,7 @@ export default async function SectorPage({ params }: SectorPageProps) {
   const sector = getSector(slug);
   if (!sector) notFound();
 
-  const placeholderBlocks = [
-    {
-      title: "Acteurs clés",
-      description:
-        "Les institutions, ONG et entreprises pivots du secteur seront listées ici à mesure que la cartographie REACT est consolidée.",
-    },
-    {
-      title: "Opportunités",
-      description:
-        "Les programmes, financements et appels à projets en cours dans le secteur. Cette section se peuplera automatiquement via la chaîne d'agrégation à partir de la phase 5.",
-    },
-    {
-      title: "Ressources",
-      description:
-        "Tutoriels REACT, fiches techniques, vidéos et publications spécifiques au secteur. Contenu produit à partir de la phase 9 (renforcement de capacités).",
-    },
-  ];
+  const { detail } = await getSectorsPage();
 
   return (
     <main>
@@ -63,10 +54,10 @@ export default async function SectorPage({ params }: SectorPageProps) {
             href="/secteurs"
             className="mb-4 inline-block text-sm font-semibold text-[color:var(--color-accent)] hover:underline"
           >
-            ← Tous les secteurs
+            {detail.backLinkLabel}
           </Link>
           <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-[color:var(--color-accent)]">
-            Secteur d&apos;intervention
+            {detail.eyebrow}
           </p>
           <h1 className="text-4xl font-bold leading-tight md:text-5xl">{sector.fr}</h1>
           <p className="mt-5 max-w-2xl text-lg text-[color:var(--color-muted)]">{sector.scopeFr}</p>
@@ -77,19 +68,18 @@ export default async function SectorPage({ params }: SectorPageProps) {
         <div className="mx-auto max-w-6xl px-6 py-16">
           <header className="mb-10 max-w-2xl">
             <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-[color:var(--color-accent)]">
-              À venir
+              {detail.placeholderHeader.eyebrow}
             </p>
             <h2 className="text-3xl font-bold leading-tight">
-              Le détail du secteur arrive avec les voicenotes d&apos;Amadou.
+              {detail.placeholderHeader.headline}
             </h2>
             <p className="mt-3 text-sm text-[color:var(--color-muted)]">
-              Les blocs ci-dessous prendront forme au fur et à mesure que REACT consolide sa
-              cartographie sectorielle.
+              {detail.placeholderHeader.description}
             </p>
           </header>
 
           <ul className="grid gap-6 md:grid-cols-3">
-            {placeholderBlocks.map((block) => (
+            {detail.placeholderBlocks.map((block) => (
               <li
                 key={block.title}
                 className="rounded-lg border border-dashed border-[color:var(--color-border)] p-6"
