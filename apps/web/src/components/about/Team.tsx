@@ -1,30 +1,13 @@
+import Image from "next/image";
+
+import { listTeamMembers, type TeamMember } from "@/lib/cms";
+
 /**
- * Team — 5 members from decisions log D011 (2026-05-04).
- *
- * Photos are not yet available — pending REACT-side per
- * docs/pending-react-input.md. Each card shows initials inside the
- * brand-green circle as a placeholder until headshots arrive. When
- * photos land, swap the <Initials> component for <Image> and the
- * card layout doesn't shift.
- *
- * Names + roles are facts (not editorial), inlined as plain data.
- * If we ever need to translate role labels for an EN locale, add a
- * second column to the Member type rather than parallel arrays.
+ * Team — pulled from the Payload TeamMembers collection (D008 — no
+ * hardcoded copy). When `photo` is empty (REACT-side pending per
+ * docs/pending-react-input.md), the card renders an initials
+ * placeholder so the layout doesn't shift when real headshots arrive.
  */
-
-interface Member {
-  name: string;
-  role: string;
-}
-
-const TEAM: Member[] = [
-  { name: "Elhadj Amadou Samb", role: "Directeur Exécutif" },
-  { name: "Cheikh Oumar Kane", role: "Secrétaire Général" },
-  { name: "Yaye Bineta Mamadou Dramé", role: "Coordinatrice programmes & communication" },
-  { name: "Siny Thioune", role: "Suivi & évaluation" },
-  { name: "Mamadou Coly", role: "Infographie & web manager" },
-];
-
 function initialsOf(name: string): string {
   return name
     .split(" ")
@@ -46,30 +29,50 @@ function Initials({ name }: { name: string }) {
   );
 }
 
-export function Team() {
+function Avatar({ member }: { member: TeamMember }) {
+  const photoUrl = typeof member.photo === "object" && member.photo ? member.photo.url : null;
+  if (!photoUrl) return <Initials name={member.name} />;
   return (
-    <section className="border-b border-[color:var(--color-border)] bg-white">
-      <div className="mx-auto max-w-6xl px-6 py-16">
-        <header className="mb-10 max-w-2xl">
+    <span className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full">
+      <Image
+        src={photoUrl}
+        alt={
+          member.photo && typeof member.photo === "object"
+            ? (member.photo.alt ?? member.name)
+            : member.name
+        }
+        fill
+        sizes="64px"
+        className="object-cover"
+      />
+    </span>
+  );
+}
+
+export async function Team() {
+  const members = await listTeamMembers();
+  if (members.length === 0) return null;
+
+  return (
+    <section className="border-b border-[color:var(--color-border)]">
+      <div className="mx-auto max-w-4xl px-6 py-16">
+        <header className="mb-10">
           <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-[color:var(--color-accent)]">
-            L&apos;équipe
+            Équipe
           </p>
-          <h2 className="text-3xl font-bold leading-tight">Cinq personnes au service du réseau</h2>
-          <p className="mt-3 text-sm text-[color:var(--color-muted)]">
-            Photographies des membres à venir.
-          </p>
+          <h2 className="text-3xl font-bold leading-tight">Les personnes qui animent REACT</h2>
         </header>
 
-        <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {TEAM.map((member) => (
+        <ul className="grid gap-6 sm:grid-cols-2">
+          {members.map((member) => (
             <li
-              key={member.name}
-              className="flex items-center gap-4 rounded-lg border border-[color:var(--color-border)] p-5"
+              key={member.slug}
+              className="flex items-center gap-4 rounded-lg border border-[color:var(--color-border)] bg-white p-5"
             >
-              <Initials name={member.name} />
+              <Avatar member={member} />
               <div>
                 <p className="text-base font-semibold leading-tight">{member.name}</p>
-                <p className="mt-1 text-sm text-[color:var(--color-muted)]">{member.role}</p>
+                <p className="text-sm text-[color:var(--color-muted)]">{member.role}</p>
               </div>
             </li>
           ))}

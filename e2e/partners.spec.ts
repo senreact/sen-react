@@ -23,13 +23,11 @@ test("/partenaires renders 10 partners grouped by type", async ({ page }) => {
     }),
   ).toBeVisible();
 
-  // Group headings
+  // Group headings — generic now that the partner list is CMS-driven
   await expect(
-    page.getByRole("heading", { name: /Trois agences et ministères du Sénégal/i }),
+    page.getByRole("heading", { name: /Agences et ministères du Sénégal/i }),
   ).toBeVisible();
-  await expect(
-    page.getByRole("heading", { name: /Sept organisations partenaires/i }),
-  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: /Organisations partenaires/i })).toBeVisible();
 
   // Spot-check key institutions
   await expect(page.getByText("ADEPME")).toBeVisible();

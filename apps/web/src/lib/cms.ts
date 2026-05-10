@@ -196,3 +196,63 @@ export async function listVideos(limit = 50): Promise<Video[]> {
 export async function getVideoBySlug(slug: string): Promise<Video | null> {
   return fetchBySlug<Video>("videos", slug);
 }
+
+export interface Partner {
+  id: string;
+  slug: string;
+  name: string;
+  kind: "institution" | "ngo";
+  description: string;
+  order: number;
+  logo?: { url?: string; alt?: string } | string | null;
+}
+
+export async function listPartners(): Promise<Partner[]> {
+  return fetchCollection<Partner>("partners", { sort: "order", limit: 50 });
+}
+
+export interface Programme {
+  id: string;
+  slug: string;
+  title: string;
+  eyebrow: string;
+  description: string;
+  variant: "headline" | "active";
+  order: number;
+}
+
+export async function listProgrammes(): Promise<Programme[]> {
+  return fetchCollection<Programme>("programmes", { sort: "order", limit: 20 });
+}
+
+export interface TeamMember {
+  id: string;
+  slug: string;
+  name: string;
+  role: string;
+  order: number;
+  photo?: { url?: string; alt?: string } | string | null;
+}
+
+export async function listTeamMembers(): Promise<TeamMember[]> {
+  return fetchCollection<TeamMember>("team-members", { sort: "order", limit: 20 });
+}
+
+export interface ContactInfo {
+  email: string;
+  phoneE164: string;
+  phoneDisplay: string;
+  addressLines: { line: string }[];
+}
+
+const DEFAULT_CONTACT_INFO: ContactInfo = {
+  email: "senreactsen@gmail.com",
+  phoneE164: "+221773213955",
+  phoneDisplay: "+221 77 321 39 55",
+  addressLines: [{ line: "Sacrée Coeur 3, Lot N° 128/B" }, { line: "Dakar, Sénégal" }],
+};
+
+export async function getContactInfo(): Promise<ContactInfo> {
+  const live = await fetchGlobal<ContactInfo>("contact-info");
+  return live ?? DEFAULT_CONTACT_INFO;
+}

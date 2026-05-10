@@ -72,6 +72,9 @@ export interface Config {
     news: News;
     publications: Publication;
     videos: Video;
+    partners: Partner;
+    programmes: Programme;
+    'team-members': TeamMember;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -84,6 +87,9 @@ export interface Config {
     news: NewsSelect<false> | NewsSelect<true>;
     publications: PublicationsSelect<false> | PublicationsSelect<true>;
     videos: VideosSelect<false> | VideosSelect<true>;
+    partners: PartnersSelect<false> | PartnersSelect<true>;
+    programmes: ProgrammesSelect<false> | ProgrammesSelect<true>;
+    'team-members': TeamMembersSelect<false> | TeamMembersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -96,10 +102,12 @@ export interface Config {
   globals: {
     'site-header': SiteHeader;
     'site-footer': SiteFooter;
+    'contact-info': ContactInfo;
   };
   globalsSelect: {
     'site-header': SiteHeaderSelect<false> | SiteHeaderSelect<true>;
     'site-footer': SiteFooterSelect<false> | SiteFooterSelect<true>;
+    'contact-info': ContactInfoSelect<false> | ContactInfoSelect<true>;
   };
   locale: null;
   widgets: {
@@ -342,6 +350,83 @@ export interface Video {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Partenaires institutionnels et société civile de REACT. Logos téléchargés via Media.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "partners".
+ */
+export interface Partner {
+  id: number;
+  /**
+   * Identifiant URL-safe — lettres minuscules, chiffres, tirets seulement.
+   */
+  slug: string;
+  /**
+   * Nom affiché tel que l'a écrit Amadou. Pas de tri alphabétique imposé.
+   */
+  name: string;
+  kind: 'institution' | 'ngo';
+  /**
+   * Une phrase, FR. Décrit la catégorie ou le rôle — éviter les spécificités non confirmées par Amadou.
+   */
+  description: string;
+  /**
+   * Ordre d'affichage dans son groupe (institution / ngo). 0 = en haut. Reflète l'ordre d'Amadou — ne pas trier par alphabet.
+   */
+  order: number;
+  /**
+   * Optionnel — affiché dans la carte. En attente côté REACT, placeholder initiales sinon.
+   */
+  logo?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Programmes actifs portés par REACT. Sen React est le programme phare (headline).
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "programmes".
+ */
+export interface Programme {
+  id: number;
+  slug: string;
+  title: string;
+  /**
+   * Ex. 'Programme phare', 'Programme actif'.
+   */
+  eyebrow: string;
+  /**
+   * Une à deux phrases, FR. Verbatim ou quasi-verbatim de la réponse d'Amadou.
+   */
+  description: string;
+  variant: 'headline' | 'active';
+  order: number;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Membres de l'équipe REACT affichés sur /a-propos.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team-members".
+ */
+export interface TeamMember {
+  id: number;
+  slug: string;
+  name: string;
+  role: string;
+  order: number;
+  /**
+   * Optionnelle. En attente — placeholder initiales en attendant.
+   */
+  photo?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -384,6 +469,18 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'videos';
         value: number | Video;
+      } | null)
+    | ({
+        relationTo: 'partners';
+        value: number | Partner;
+      } | null)
+    | ({
+        relationTo: 'programmes';
+        value: number | Programme;
+      } | null)
+    | ({
+        relationTo: 'team-members';
+        value: number | TeamMember;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -533,6 +630,50 @@ export interface VideosSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "partners_select".
+ */
+export interface PartnersSelect<T extends boolean = true> {
+  slug?: T;
+  name?: T;
+  kind?: T;
+  description?: T;
+  order?: T;
+  logo?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "programmes_select".
+ */
+export interface ProgrammesSelect<T extends boolean = true> {
+  slug?: T;
+  title?: T;
+  eyebrow?: T;
+  description?: T;
+  variant?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team-members_select".
+ */
+export interface TeamMembersSelect<T extends boolean = true> {
+  slug?: T;
+  name?: T;
+  role?: T;
+  order?: T;
+  photo?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv_select".
  */
 export interface PayloadKvSelect<T extends boolean = true> {
@@ -636,6 +777,31 @@ export interface SiteFooter {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-info".
+ */
+export interface ContactInfo {
+  id: number;
+  email: string;
+  /**
+   * Format E.164 sans séparateurs — ex. +221773213955. Utilisé pour les liens wa.me / tel:.
+   */
+  phoneE164: string;
+  /**
+   * Format avec séparateurs — ex. '+221 77 321 39 55'.
+   */
+  phoneDisplay: string;
+  /**
+   * Une ligne par champ. Affichée multi-ligne dans le pied / Contact.
+   */
+  addressLines: {
+    line: string;
+    id?: string | null;
+  }[];
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-header_select".
  */
 export interface SiteHeaderSelect<T extends boolean = true> {
@@ -676,6 +842,24 @@ export interface SiteFooterSelect<T extends boolean = true> {
     | {
         platform?: T;
         href?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-info_select".
+ */
+export interface ContactInfoSelect<T extends boolean = true> {
+  email?: T;
+  phoneE164?: T;
+  phoneDisplay?: T;
+  addressLines?:
+    | T
+    | {
+        line?: T;
         id?: T;
       };
   updatedAt?: T;

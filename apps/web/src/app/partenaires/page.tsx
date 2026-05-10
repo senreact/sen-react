@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { PartnerCard } from "@/components/partners/PartnerCard";
-import { INSTITUTIONS, NGOS } from "@/data/partners";
+import { listPartners } from "@/lib/cms";
 
 export const metadata: Metadata = {
   title: "Partenaires — Sen React",
@@ -12,16 +12,16 @@ export const metadata: Metadata = {
 /**
  * /partenaires — Phase 2 step 4 per the roadmap §4.
  *
- * Two grouped lists: institutions publiques (3) + société civile / ONG (7),
- * total 10 partners per D011. Logos pending REACT-side per
- * docs/pending-react-input.md — placeholder marks (initials in brand-green
- * circle) hold the layout until real assets arrive.
- *
- * Per pending-react-input.md, partner descriptions are intentionally
- * conservative one-liners that describe category only — they'll be
- * replaced by Amadou-confirmed copy when the brand pack lands.
+ * Two grouped lists: institutions publiques + société civile / ONG. Pulled
+ * from the Payload Partners collection (D008 — no hardcoded copy). Logos
+ * pending REACT-side per docs/pending-react-input.md — placeholder marks
+ * (initials in brand-green circle) hold the layout until real assets land.
  */
-export default function PartnersPage() {
+export default async function PartnersPage() {
+  const partners = await listPartners();
+  const institutions = partners.filter((p) => p.kind === "institution");
+  const ngos = partners.filter((p) => p.kind === "ngo");
+
   return (
     <main>
       <section className="border-b border-[color:var(--color-border)] bg-white">
@@ -33,46 +33,48 @@ export default function PartnersPage() {
             Les organisations qui font avancer le réseau.
           </h1>
           <p className="mt-5 max-w-2xl text-lg text-[color:var(--color-muted)]">
-            Sen React s&apos;appuie sur trois institutions publiques sénégalaises et sept
-            organisations de la société civile pour mener à bien sa mission. Les logos officiels
-            seront ajoutés à mesure que les accords visuels sont finalisés.
+            Sen React s&apos;appuie sur des institutions publiques sénégalaises et des organisations
+            de la société civile pour mener à bien sa mission. Les logos officiels seront ajoutés à
+            mesure que les accords visuels sont finalisés.
           </p>
         </div>
       </section>
 
-      <section className="border-b border-[color:var(--color-border)]">
-        <div className="mx-auto max-w-6xl px-6 py-16">
-          <header className="mb-10 max-w-2xl">
-            <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-[color:var(--color-accent)]">
-              Institutions publiques
-            </p>
-            <h2 className="text-3xl font-bold leading-tight">
-              Trois agences et ministères du Sénégal
-            </h2>
-          </header>
-          <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {INSTITUTIONS.map((partner) => (
-              <PartnerCard key={partner.slug} partner={partner} />
-            ))}
-          </ul>
-        </div>
-      </section>
+      {institutions.length > 0 ? (
+        <section className="border-b border-[color:var(--color-border)]">
+          <div className="mx-auto max-w-6xl px-6 py-16">
+            <header className="mb-10 max-w-2xl">
+              <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-[color:var(--color-accent)]">
+                Institutions publiques
+              </p>
+              <h2 className="text-3xl font-bold leading-tight">Agences et ministères du Sénégal</h2>
+            </header>
+            <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {institutions.map((partner) => (
+                <PartnerCard key={partner.slug} partner={partner} />
+              ))}
+            </ul>
+          </div>
+        </section>
+      ) : null}
 
-      <section className="bg-white">
-        <div className="mx-auto max-w-6xl px-6 py-16">
-          <header className="mb-10 max-w-2xl">
-            <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-[color:var(--color-accent)]">
-              Société civile
-            </p>
-            <h2 className="text-3xl font-bold leading-tight">Sept organisations partenaires</h2>
-          </header>
-          <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {NGOS.map((partner) => (
-              <PartnerCard key={partner.slug} partner={partner} />
-            ))}
-          </ul>
-        </div>
-      </section>
+      {ngos.length > 0 ? (
+        <section className="bg-white">
+          <div className="mx-auto max-w-6xl px-6 py-16">
+            <header className="mb-10 max-w-2xl">
+              <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-[color:var(--color-accent)]">
+                Société civile
+              </p>
+              <h2 className="text-3xl font-bold leading-tight">Organisations partenaires</h2>
+            </header>
+            <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {ngos.map((partner) => (
+                <PartnerCard key={partner.slug} partner={partner} />
+              ))}
+            </ul>
+          </div>
+        </section>
+      ) : null}
     </main>
   );
 }
