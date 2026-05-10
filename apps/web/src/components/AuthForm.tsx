@@ -10,18 +10,29 @@ interface AuthFormProps {
   submitLabel: string;
   /** Hint shown under the password field when relevant (e.g. min length). */
   passwordHint?: string;
+  /** Field labels — typically passed from the auth-strings CMS global. */
+  emailLabel: string;
+  passwordLabel: string;
+  pendingLabel: string;
 }
 
 const INITIAL_STATE: AuthFormState = { status: "idle" };
 
-export function AuthForm({ action, submitLabel, passwordHint }: AuthFormProps) {
+export function AuthForm({
+  action,
+  submitLabel,
+  passwordHint,
+  emailLabel,
+  passwordLabel,
+  pendingLabel,
+}: AuthFormProps) {
   const [state, formAction, pending] = useActionState(action, INITIAL_STATE);
 
   return (
     <form action={formAction} className="space-y-4" noValidate>
       <div>
         <label htmlFor="email" className="mb-1 block text-sm font-medium">
-          Adresse e-mail
+          {emailLabel}
         </label>
         <input
           id="email"
@@ -35,7 +46,7 @@ export function AuthForm({ action, submitLabel, passwordHint }: AuthFormProps) {
 
       <div>
         <label htmlFor="password" className="mb-1 block text-sm font-medium">
-          Mot de passe
+          {passwordLabel}
         </label>
         <input
           id="password"
@@ -73,7 +84,7 @@ export function AuthForm({ action, submitLabel, passwordHint }: AuthFormProps) {
         disabled={pending}
         className="w-full rounded-md bg-[color:var(--color-accent)] px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"
       >
-        {pending ? "Veuillez patienter…" : submitLabel}
+        {pending ? pendingLabel : submitLabel}
       </button>
     </form>
   );

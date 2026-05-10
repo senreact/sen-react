@@ -544,3 +544,63 @@ export async function getSectorsPage(): Promise<SectorsPage> {
   const live = await fetchGlobal<SectorsPage>("sectors-page");
   return live ?? DEFAULT_SECTORS_PAGE;
 }
+
+export interface AuthStrings {
+  signin: {
+    pageTitle: string;
+    leadParagraph: string;
+    submitLabel: string;
+    signupPrompt: string;
+    signupLink: string;
+  };
+  signup: {
+    pageTitle: string;
+    leadParagraph: string;
+    submitLabel: string;
+    passwordHint: string;
+    signinPrompt: string;
+    signinLink: string;
+  };
+  form: { emailLabel: string; passwordLabel: string; pendingLabel: string };
+  errors: {
+    signinFailed: string;
+    signupFailed: string;
+    signupSuccess: string;
+    validationFailed: string;
+  };
+}
+
+const DEFAULT_AUTH_STRINGS: AuthStrings = {
+  signin: {
+    pageTitle: "Connexion",
+    leadParagraph: "Accédez à votre espace membre Sen React.",
+    submitLabel: "Se connecter",
+    signupPrompt: "Pas encore de compte ?",
+    signupLink: "Créer un compte",
+  },
+  signup: {
+    pageTitle: "Créer un compte",
+    leadParagraph: "Rejoignez la plateforme Sen React. Un e-mail de confirmation vous sera envoyé.",
+    submitLabel: "Créer un compte",
+    passwordHint: "Au moins 8 caractères.",
+    signinPrompt: "Déjà inscrit ?",
+    signinLink: "Se connecter",
+  },
+  form: {
+    emailLabel: "Adresse e-mail",
+    passwordLabel: "Mot de passe",
+    pendingLabel: "Veuillez patienter…",
+  },
+  errors: {
+    signinFailed: "Identifiants invalides ou compte non confirmé.",
+    signupFailed: "Inscription impossible. Vérifiez vos informations et réessayez.",
+    signupSuccess:
+      "Compte créé. Un e-mail de confirmation a été envoyé. Cliquez sur le lien pour activer votre compte.",
+    validationFailed: "Validation échouée",
+  },
+};
+
+export async function getAuthStrings(): Promise<AuthStrings> {
+  const live = await fetchGlobal<AuthStrings>("auth-strings");
+  return live ?? DEFAULT_AUTH_STRINGS;
+}

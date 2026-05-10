@@ -109,6 +109,7 @@ export interface Config {
     'contact-page': ContactPage;
     'about-page': AboutPage;
     'sectors-page': SectorsPage;
+    'auth-strings': AuthString;
   };
   globalsSelect: {
     'site-header': SiteHeaderSelect<false> | SiteHeaderSelect<true>;
@@ -120,6 +121,7 @@ export interface Config {
     'contact-page': ContactPageSelect<false> | ContactPageSelect<true>;
     'about-page': AboutPageSelect<false> | AboutPageSelect<true>;
     'sectors-page': SectorsPageSelect<false> | SectorsPageSelect<true>;
+    'auth-strings': AuthStringsSelect<false> | AuthStringsSelect<true>;
   };
   locale: null;
   widgets: {
@@ -1029,6 +1031,62 @@ export interface SectorsPage {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "auth-strings".
+ */
+export interface AuthString {
+  id: number;
+  signin: {
+    pageTitle: string;
+    leadParagraph: string;
+    submitLabel: string;
+    /**
+     * Texte avant le lien vers l'inscription. Ex. 'Pas encore de compte ?'
+     */
+    signupPrompt: string;
+    /**
+     * Libellé du lien — ex. 'Créer un compte'
+     */
+    signupLink: string;
+  };
+  signup: {
+    pageTitle: string;
+    leadParagraph: string;
+    submitLabel: string;
+    passwordHint: string;
+    /**
+     * Texte avant le lien vers la connexion.
+     */
+    signinPrompt: string;
+    /**
+     * Libellé du lien — ex. 'Se connecter'
+     */
+    signinLink: string;
+  };
+  form: {
+    emailLabel: string;
+    passwordLabel: string;
+    /**
+     * Affiché pendant la soumission. Ex. 'Veuillez patienter…'
+     */
+    pendingLabel: string;
+  };
+  /**
+   * Messages génériques par défaut — ne pas exposer le détail (email existe / mot de passe faux) per OWASP user-enumeration guidance.
+   */
+  errors: {
+    signinFailed: string;
+    signupFailed: string;
+    signupSuccess: string;
+    /**
+     * Fallback si Zod ne fournit pas son propre message FR.
+     */
+    validationFailed: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-header_select".
  */
 export interface SiteHeaderSelect<T extends boolean = true> {
@@ -1284,6 +1342,49 @@ export interface SectorsPageSelect<T extends boolean = true> {
               description?: T;
               id?: T;
             };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "auth-strings_select".
+ */
+export interface AuthStringsSelect<T extends boolean = true> {
+  signin?:
+    | T
+    | {
+        pageTitle?: T;
+        leadParagraph?: T;
+        submitLabel?: T;
+        signupPrompt?: T;
+        signupLink?: T;
+      };
+  signup?:
+    | T
+    | {
+        pageTitle?: T;
+        leadParagraph?: T;
+        submitLabel?: T;
+        passwordHint?: T;
+        signinPrompt?: T;
+        signinLink?: T;
+      };
+  form?:
+    | T
+    | {
+        emailLabel?: T;
+        passwordLabel?: T;
+        pendingLabel?: T;
+      };
+  errors?:
+    | T
+    | {
+        signinFailed?: T;
+        signupFailed?: T;
+        signupSuccess?: T;
+        validationFailed?: T;
       };
   updatedAt?: T;
   createdAt?: T;

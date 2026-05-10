@@ -278,6 +278,36 @@ const LEGAL_BODY = lexicalRoot([
   ]),
 ]);
 
+const AUTH_STRINGS_SEED = {
+  signin: {
+    pageTitle: "Connexion",
+    leadParagraph: "Accédez à votre espace membre Sen React.",
+    submitLabel: "Se connecter",
+    signupPrompt: "Pas encore de compte ?",
+    signupLink: "Créer un compte",
+  },
+  signup: {
+    pageTitle: "Créer un compte",
+    leadParagraph: "Rejoignez la plateforme Sen React. Un e-mail de confirmation vous sera envoyé.",
+    submitLabel: "Créer un compte",
+    passwordHint: "Au moins 8 caractères.",
+    signinPrompt: "Déjà inscrit ?",
+    signinLink: "Se connecter",
+  },
+  form: {
+    emailLabel: "Adresse e-mail",
+    passwordLabel: "Mot de passe",
+    pendingLabel: "Veuillez patienter…",
+  },
+  errors: {
+    signinFailed: "Identifiants invalides ou compte non confirmé.",
+    signupFailed: "Inscription impossible. Vérifiez vos informations et réessayez.",
+    signupSuccess:
+      "Compte créé. Un e-mail de confirmation a été envoyé. Cliquez sur le lien pour activer votre compte.",
+    validationFailed: "Validation échouée",
+  },
+};
+
 const SECTORS_PAGE_SEED = {
   index: {
     eyebrow: "Secteurs d'intervention",
@@ -506,6 +536,9 @@ async function seed(): Promise<void> {
 
   payload.logger.info("[seed] Upserting sectors-page global");
   await payload.updateGlobal({ slug: "sectors-page", data: SECTORS_PAGE_SEED });
+
+  payload.logger.info("[seed] Upserting auth-strings global");
+  await payload.updateGlobal({ slug: "auth-strings", data: AUTH_STRINGS_SEED });
 
   payload.logger.info("[seed] Upserting partners");
   for (const p of PARTNERS_SEED) {
