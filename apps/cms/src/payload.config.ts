@@ -22,6 +22,7 @@ import { EmptyStates } from "./globals/EmptyStates";
 import { ContactPage } from "./globals/ContactPage";
 import { AboutPage } from "./globals/AboutPage";
 import { SectorsPage } from "./globals/SectorsPage";
+import { AuthStrings } from "./globals/AuthStrings";
 import { migrations } from "./migrations";
 
 const filename = fileURLToPath(import.meta.url);
@@ -59,6 +60,7 @@ export default buildConfig({
     ContactPage,
     AboutPage,
     SectorsPage,
+    AuthStrings,
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",

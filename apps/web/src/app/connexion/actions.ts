@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { type AuthFormState, SignInSchema } from "@/lib/auth";
+import { getAuthStrings } from "@/lib/cms";
 import { createServerSupabase } from "@/lib/supabase/server";
 
 /**
@@ -24,11 +25,17 @@ import { createServerSupabase } from "@/lib/supabase/server";
  *
  * The fix is to keep the supabase call inside try/catch, then place
  * `redirect()` AFTER the try/catch block — only reached on success.
+ *
+ * Error messages come from the auth-strings CMS global so REACT can
+ * refine wording without a code change. Errors stay generic per OWASP
+ * user-enumeration guidance.
  */
 export async function signInAction(
   _prevState: AuthFormState,
   formData: FormData,
 ): Promise<AuthFormState> {
+  const strings = await getAuthStrings();
+
   const parsed = SignInSchema.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),
@@ -36,7 +43,7 @@ export async function signInAction(
   if (!parsed.success) {
     return {
       status: "error",
-      message: parsed.error.issues[0]?.message ?? "Validation échouée",
+      message: parsed.error.issues[0]?.message ?? strings.errors.validationFailed,
     };
   }
 
@@ -46,24 +53,12 @@ export async function signInAction(
     const { error } = await supabase.auth.signInWithPassword(parsed.data);
     supabaseError = error;
   } catch (err) {
-    // Anything thrown — network failure, missing env, cookies flake.
-    // Log for postmortem and return the generic message so the user
-    // can retry.
     console.error("[signInAction] unexpected error:", err);
-    return {
-      status: "error",
-      message: "Identifiants invalides ou compte non confirmé.",
-    };
+    return { status: "error", message: strings.errors.signinFailed };
   }
 
   if (supabaseError) {
-    // Generic message is intentional — we don't expose whether the
-    // email or the password was wrong, per OWASP user-enumeration
-    // guidance.
-    return {
-      status: "error",
-      message: "Identifiants invalides ou compte non confirmé.",
-    };
+    return { status: "error", message: strings.errors.signinFailed };
   }
 
   // Success path: outside try/catch so redirect()'s NEXT_REDIRECT
