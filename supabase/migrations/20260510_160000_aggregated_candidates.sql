@@ -1,3 +1,11 @@
+-- ⚠️ PARKED — Phase 5 (auto-aggregation) is on hold per Amadou 2026-05-10.
+-- REACT will add opportunities manually via the Payload admin. This table
+-- is provisioned on prod Supabase but no scraper writes to it and no UI
+-- reads it. Leave the migration in place so that when we revive the
+-- pipeline the schema is already there. RLS denies all client access
+-- (zero policies) so the table is fully inert from the app's perspective.
+-- See docs/roadmap.md §"Phase 5 status".
+--
 -- Phase 5 PR-5a — Aggregation pipeline scaffold.
 --
 -- `public.aggregated_candidates` holds the raw + normalised output of every

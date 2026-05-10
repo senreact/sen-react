@@ -73,7 +73,7 @@ Phases are sequential. "Green" = start now. "Yellow" = start now with a placehol
 | **1 — Foundation** | Auth (email+password via Supabase per D015), root layout, header/footer/nav from CMS globals, FR locale only, deploy stub | D003, D015 |
 | **3 — Content engine** | News/blog collection (weekly, by sector; `commentsEnabled` wired but the **comments collection + moderation queue UI ship in Phase 8** with the rest of the community surface — depends on member accounts from Phase 6), Publications collection (downloadable PDFs, fully open per D020), Videos (YouTube embed, FR + Wolof subtitle slot, downloadable per D016) | D016, D019/A4, D020 |
 | **4 — Opportunities dashboard (read-only)** | Manual entries via Payload, filters (sector / type / area / deadline / amount), keyword search, saved-opportunities for logged-in members, REACT-curated content | D001 |
-| **5 — Aggregation pipeline** | Supabase `pg_cron` → Payload Jobs → scrape + normalise from the 11 sources (D011) → REACT approval queue → publish | D001, D004, D011 |
+| **5 — Aggregation pipeline** | Supabase `pg_cron` → Payload Jobs → scrape + normalise from the 11 sources (D011) → REACT approval queue → publish | D001, D004, D011 — **PARKED 2026-05-10 (see below)** |
 | **6 — Member accounts** | 5 profile types per D020 (Individual entrepreneur · Organisation · Government/ministry · Partner · Admin), email+password, default field set per type, **manual REACT-admin verification** for org/institution/partner per D020, **default privacy rules** per D020 | D015, D020 |
 | **7 — B2B directory** | Directory pages with public name/sector/region/photo, gated phone/email per D020, reviews/ratings, "Looking for X" board, **no in-platform inbox** per D016, hidden `tier` field for future verified/premium support | D002, D016, D020 |
 | **8 — Community** | Forums by sector, groups by region/sector/theme, events calendar (in-person + online), webinars, mentor-mentee matching, REACT announcements, **moderated comments on news articles** (Comments collection + moderation queue UI; Phase 3 only wires the `commentsEnabled` flag), **occasional REACT-led surveys** (D020 minimal civic scope, no broader civic platform) | D016, D020 |
@@ -98,6 +98,45 @@ Phases are sequential. "Green" = start now. "Yellow" = start now with a placehol
 |---|---|
 | **11 — Compliance + admin handoff** | Open Q3 (legal advisor identified). Tom delivers AI-drafted ToS/Privacy/Cookies + technical data-flow doc *as starting points only* per D017. REACT must engage Senegalese legal review before launch. |
 | **13 — Launch** | All upstream phases locked + Q3 resolved. |
+
+---
+
+## 3a. Phase 5 status — parked (2026-05-10)
+
+Amadou confirmed 2026-05-10 on WhatsApp that **manual entry by the REACT team is sufficient** for the launch and foreseeable future. He shared the 12 source URLs (10 directly + EEAS + GIZ added by Tom) but said his team is comfortable adding opportunities by hand rather than waiting for the auto-aggregation pipeline.
+
+**What stays in the repo:**
+- `packages/shared/src/aggregation-sources.ts` — typed registry of the 12 sources (kept as documentation + future scaffolding).
+- `supabase/migrations/20260510_160000_aggregated_candidates.sql` — `public.aggregated_candidates` table provisioned on prod, RLS denies all client access (zero policies). Inert until a scraper is wired.
+
+**What we will NOT build now:**
+- Per-source scrapers (PR-5b → PR-5d in the original plan).
+- The manual-trigger admin button.
+- The REACT approval queue UI.
+
+**To resume (when REACT decides the auto-aggregation is worth the engineering cost):**
+1. Pick a source from `AGGREGATION_SOURCES` with structured public listings.
+2. Write the scraper as a pure HTML → `CandidateNormalised` function.
+3. Wire a service-role write path that upserts into `aggregated_candidates` with the `(source_key, source_record_id)` dedup key.
+4. Add the manual-trigger button in the Payload admin.
+5. Add the approval queue UI that promotes approved candidates into the `opportunities` collection.
+
+The 12 sources (canonical list — same as `AGGREGATION_SOURCES`):
+
+| key | URL |
+|---|---|
+| `african-ngo-fundraising-hub` | https://ngofundraising.africa |
+| `hexa-africa` | https://hexamedia.africa |
+| `align-africa` | https://alignafrica.org |
+| `der` | https://www.der.sn (Tom flagged as a dead site 2026-05-10 — re-test before resuming) |
+| `adepme` | https://adepme.sn |
+| `consortium-jeunesse-yaakaar` | https://www.consortiumjeunessesenegal.org/yaakaar |
+| `oidp-afrique` | https://oidp-afrique.org |
+| `sen-startup` | https://www.senstartup.com |
+| `fongip` | http://www.fongip.sn (plain HTTP) |
+| `civic-hive` | https://civichive.org |
+| `eeas-senegal` | https://www.eeas.europa.eu/delegations/senegal_fr |
+| `giz-senegal` | https://www.giz.de/en/regions/africa/senegal |
 
 ---
 
