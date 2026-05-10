@@ -178,6 +178,11 @@ function DirectoryCard({
         <span className="rounded-full bg-[color:var(--color-accent)]/10 px-3 py-1 font-semibold uppercase tracking-wide text-[color:var(--color-accent)]">
           {meta?.fr ?? profile.profile_type}
         </span>
+        {profile.tier ? (
+          <span className="rounded-full bg-amber-100 px-3 py-1 font-semibold uppercase tracking-wide text-amber-800">
+            {profile.tier}
+          </span>
+        ) : null}
         {sector ? <span className="text-[color:var(--color-muted)]">{sector.fr}</span> : null}
         {profile.region ? (
           <span className="text-[color:var(--color-muted)]">· {profile.region}</span>
