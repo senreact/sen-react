@@ -1,5 +1,13 @@
 /**
- * The 12 external sources REACT aggregates opportunities from.
+ * ⚠️ PARKED — Phase 5 (auto-aggregation pipeline) is on hold per Amadou
+ * 2026-05-10. REACT will add opportunities manually via the Payload admin
+ * for the foreseeable future. This registry + the `aggregated_candidates`
+ * migration stay in the repo as scaffolding for when we revive the
+ * pipeline — do not delete without explicit decision. See
+ * docs/roadmap.md §"Phase 5 status" for context.
+ *
+ * The 12 external sources REACT aggregates opportunities from (when the
+ * pipeline is wired up).
  *
  * Authoritative list:
  * - 10 sources sent by Amadou on WhatsApp 2026-05-10 20:22 SAST.
