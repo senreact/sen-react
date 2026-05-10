@@ -6,6 +6,7 @@ interface OpportunityFiltersProps {
     type?: string;
     area?: string;
     deadline?: string;
+    amountMin?: string;
     q?: string;
   };
 }
@@ -34,6 +35,19 @@ const DEADLINE_OPTIONS: { value: string; label: string }[] = [
   { value: "365", label: "12 prochains mois" },
 ];
 
+// Curated XOF thresholds — keep the list short so users tap rather than type
+// arbitrary numbers. Values match the typical grant-size buckets entrepreneurs
+// search by (Sen Startup discovery feedback). Currency is locked to XOF (the
+// primary unit on Senegal-targeted opportunities); EUR/USD entries with a
+// stored XOF equivalent in `amountValue` will still be matched correctly.
+const AMOUNT_MIN_OPTIONS: { value: string; label: string }[] = [
+  { value: "500000", label: "≥ 500 K FCFA" },
+  { value: "1000000", label: "≥ 1 M FCFA" },
+  { value: "5000000", label: "≥ 5 M FCFA" },
+  { value: "10000000", label: "≥ 10 M FCFA" },
+  { value: "50000000", label: "≥ 50 M FCFA" },
+];
+
 /**
  * URL-driven filter form for /opportunites. Uses GET so submit reloads
  * the page with the chosen filters in the query string — server-side
@@ -44,7 +58,12 @@ const DEADLINE_OPTIONS: { value: string; label: string }[] = [
  */
 export function OpportunityFilters({ current }: OpportunityFiltersProps) {
   const hasActive = Boolean(
-    current.sector || current.type || current.area || current.deadline || current.q,
+    current.sector ||
+    current.type ||
+    current.area ||
+    current.deadline ||
+    current.amountMin ||
+    current.q,
   );
 
   return (
@@ -53,7 +72,7 @@ export function OpportunityFilters({ current }: OpportunityFiltersProps) {
       method="get"
       className="rounded-lg border border-[color:var(--color-border)] bg-white p-5"
     >
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-6">
         <label className="flex flex-col gap-1 text-xs">
           <span className="font-semibold uppercase tracking-wide text-[color:var(--color-muted)]">
             Secteur
@@ -119,6 +138,24 @@ export function OpportunityFilters({ current }: OpportunityFiltersProps) {
           >
             <option value="">Toutes</option>
             {DEADLINE_OPTIONS.map((o) => (
+              <option key={o.value} value={o.value}>
+                {o.label}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label className="flex flex-col gap-1 text-xs">
+          <span className="font-semibold uppercase tracking-wide text-[color:var(--color-muted)]">
+            Montant minimum
+          </span>
+          <select
+            name="amountMin"
+            defaultValue={current.amountMin ?? ""}
+            className="rounded-md border border-slate-300 px-3 py-2 text-sm"
+          >
+            <option value="">Tous</option>
+            {AMOUNT_MIN_OPTIONS.map((o) => (
               <option key={o.value} value={o.value}>
                 {o.label}
               </option>
