@@ -16,7 +16,18 @@
  * project the env points at, so the same script works against dev,
  * preview, and production databases — call sites are responsible for
  * loading the right env file before invoking.
+ *
+ * NODE_ENV is forced to "production" before Payload boots so the
+ * postgres adapter skips its dev-mode schema push (which inserts a
+ * `batch = -1` row in payload_migrations and then makes the next prod
+ * `payload migrate` hang on a destructive-confirmation prompt).
+ * Migrations are the source of truth — the seed only writes data.
  */
+
+// `process.env.NODE_ENV` is typed read-only by @types/node, but the
+// runtime value is freely settable. Cast through Record so TS doesn't
+// complain.
+(process.env as Record<string, string>).NODE_ENV = "production";
 
 import { getPayload } from "payload";
 import { fileURLToPath } from "url";
