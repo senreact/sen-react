@@ -999,6 +999,14 @@ export interface EmptyState {
     title: string;
     description: string;
   };
+  opportunities: {
+    title: string;
+    description: string;
+  };
+  opportunitiesNoMatch: {
+    title: string;
+    description: string;
+  };
   /**
    * Cartes affichées quand la collection News n'a pas encore d'articles publiés. Disparaissent dès qu'un vrai article est publié.
    */
@@ -1324,6 +1332,18 @@ export interface EmptyStatesSelect<T extends boolean = true> {
         description?: T;
       };
   videos?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  opportunities?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  opportunitiesNoMatch?:
     | T
     | {
         title?: T;

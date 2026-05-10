@@ -185,6 +185,15 @@ const EMPTY_STATES_SEED = {
     description:
       "Cette section accueillera les capsules, entretiens et témoignages REACT dès le démarrage de la production audiovisuelle.",
   },
+  opportunities: {
+    title: "Les premières opportunités arrivent bientôt.",
+    description:
+      "Cette section accueillera les financements, formations et appels à projets curés par REACT pour les entrepreneurs sénégalais et africains.",
+  },
+  opportunitiesNoMatch: {
+    title: "Aucune opportunité ne correspond à vos critères.",
+    description: "Essayez d'élargir vos filtres ou de réinitialiser la recherche.",
+  },
   homepageLatestNewsFallback: [
     {
       eyebrow: "Bientôt",
