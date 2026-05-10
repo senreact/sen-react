@@ -98,3 +98,53 @@ export type AuthFormState =
   | { status: "idle" }
   | { status: "error"; message: string }
   | { status: "success"; message: string };
+
+/**
+ * Profile-edit schema (PR-6c). Single shape covering every field the
+ * user may update — type-specific fields are accepted on every type
+ * because the form only renders the relevant ones and the server picks
+ * out which to persist based on the row's `profile_type` (which can't
+ * change via this action — the DB trigger blocks it).
+ *
+ * Empty strings normalise to null so the UI's blank inputs clear values
+ * cleanly. URL validation is strict on photo_url (must be http/https)
+ * but accepts empty string. Email-public is a checkbox.
+ */
+const optionalTrimmed = (max: number) =>
+  z
+    .string()
+    .max(max)
+    .or(z.literal(""))
+    .optional()
+    .transform((v) => (v && v.trim().length > 0 ? v.trim() : null));
+
+export const ProfileUpdateSchema = z.object({
+  display_name: z.string().min(1, { message: "Nom requis" }).max(120),
+  sector_slug: optionalTrimmed(64),
+  region: optionalTrimmed(120),
+  photo_url: z
+    .string()
+    .url({ message: "URL d'image invalide — doit commencer par http(s)://" })
+    .or(z.literal(""))
+    .optional()
+    .transform((v) => (v && v.trim().length > 0 ? v.trim() : null)),
+  summary: optionalTrimmed(2000),
+  phone: optionalTrimmed(40),
+  email_public: checkboxFlag,
+  organisation_name: optionalTrimmed(200),
+  organisation_legal_form: optionalTrimmed(120),
+  organisation_size: optionalTrimmed(60),
+  ministry_name: optionalTrimmed(200),
+  government_role: optionalTrimmed(120),
+  partner_org_name: optionalTrimmed(200),
+  is_minor: checkboxFlag,
+  parental_consent: checkboxFlag,
+  parent_email: z
+    .string()
+    .email({ message: "Adresse e-mail invalide pour le parent" })
+    .or(z.literal(""))
+    .optional()
+    .transform((v) => (v && v.length > 0 ? v : null)),
+});
+
+export type ProfileUpdateInput = z.infer<typeof ProfileUpdateSchema>;
