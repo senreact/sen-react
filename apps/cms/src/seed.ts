@@ -148,6 +148,16 @@ const CONTACT_SEED = {
   addressLines: [{ line: "Sacrée Coeur 3, Lot N° 128/B" }, { line: "Dakar, Sénégal" }],
 };
 
+const HOMEPAGE_HERO_SEED = {
+  eyebrow: "Réseau des Entrepreneurs Actifs",
+  headline:
+    "Favoriser la transition digitale et écologique au profit du développement économique durable.",
+  leadParagraph:
+    "Sen React renforce les capacités d'autonomisation et d'innovation des entrepreneurs africains — femmes, jeunes et communautés vulnérables — afin de promouvoir un entrepreneuriat durable et compétitif, tout en luttant contre les effets du changement climatique.",
+  primaryCta: { label: "Rejoindre la communauté", href: "/inscription" },
+  secondaryCta: { label: "En savoir plus", href: "/a-propos" },
+};
+
 async function upsertBySlug(
   payload: Awaited<ReturnType<typeof getPayload>>,
   collection: "partners" | "programmes" | "team-members",
@@ -212,6 +222,9 @@ async function seed(): Promise<void> {
 
   payload.logger.info("[seed] Upserting contact-info global");
   await payload.updateGlobal({ slug: "contact-info", data: CONTACT_SEED });
+
+  payload.logger.info("[seed] Upserting homepage-hero global");
+  await payload.updateGlobal({ slug: "homepage-hero", data: HOMEPAGE_HERO_SEED });
 
   payload.logger.info("[seed] Upserting partners");
   for (const p of PARTNERS_SEED) {

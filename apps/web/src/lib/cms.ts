@@ -256,3 +256,26 @@ export async function getContactInfo(): Promise<ContactInfo> {
   const live = await fetchGlobal<ContactInfo>("contact-info");
   return live ?? DEFAULT_CONTACT_INFO;
 }
+
+export interface HomepageHero {
+  eyebrow: string;
+  headline: string;
+  leadParagraph: string;
+  primaryCta: { label: string; href: string };
+  secondaryCta: { label: string; href: string };
+}
+
+const DEFAULT_HOMEPAGE_HERO: HomepageHero = {
+  eyebrow: "Réseau des Entrepreneurs Actifs",
+  headline:
+    "Favoriser la transition digitale et écologique au profit du développement économique durable.",
+  leadParagraph:
+    "Sen React renforce les capacités d'autonomisation et d'innovation des entrepreneurs africains — femmes, jeunes et communautés vulnérables — afin de promouvoir un entrepreneuriat durable et compétitif, tout en luttant contre les effets du changement climatique.",
+  primaryCta: { label: "Rejoindre la communauté", href: "/inscription" },
+  secondaryCta: { label: "En savoir plus", href: "/a-propos" },
+};
+
+export async function getHomepageHero(): Promise<HomepageHero> {
+  const live = await fetchGlobal<HomepageHero>("homepage-hero");
+  return live ?? DEFAULT_HOMEPAGE_HERO;
+}

@@ -103,11 +103,13 @@ export interface Config {
     'site-header': SiteHeader;
     'site-footer': SiteFooter;
     'contact-info': ContactInfo;
+    'homepage-hero': HomepageHero;
   };
   globalsSelect: {
     'site-header': SiteHeaderSelect<false> | SiteHeaderSelect<true>;
     'site-footer': SiteFooterSelect<false> | SiteFooterSelect<true>;
     'contact-info': ContactInfoSelect<false> | ContactInfoSelect<true>;
+    'homepage-hero': HomepageHeroSelect<false> | HomepageHeroSelect<true>;
   };
   locale: null;
   widgets: {
@@ -802,6 +804,38 @@ export interface ContactInfo {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "homepage-hero".
+ */
+export interface HomepageHero {
+  id: number;
+  /**
+   * Texte court en majuscules vertes au-dessus du titre — ex. 'Réseau des Entrepreneurs Actifs'.
+   */
+  eyebrow: string;
+  /**
+   * Une à deux phrases — voix de marque verbatim.
+   */
+  headline: string;
+  /**
+   * Sous le titre. 2-4 phrases qui posent la mission.
+   */
+  leadParagraph: string;
+  primaryCta: {
+    label: string;
+    /**
+     * Chemin relatif (/inscription) ou URL absolue.
+     */
+    href: string;
+  };
+  secondaryCta: {
+    label: string;
+    href: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-header_select".
  */
 export interface SiteHeaderSelect<T extends boolean = true> {
@@ -861,6 +895,30 @@ export interface ContactInfoSelect<T extends boolean = true> {
     | {
         line?: T;
         id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "homepage-hero_select".
+ */
+export interface HomepageHeroSelect<T extends boolean = true> {
+  eyebrow?: T;
+  headline?: T;
+  leadParagraph?: T;
+  primaryCta?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+      };
+  secondaryCta?:
+    | T
+    | {
+        label?: T;
+        href?: T;
       };
   updatedAt?: T;
   createdAt?: T;

@@ -16,6 +16,7 @@ import { TeamMembers } from "./collections/TeamMembers";
 import { SiteHeader } from "./globals/SiteHeader";
 import { SiteFooter } from "./globals/SiteFooter";
 import { ContactInfo } from "./globals/ContactInfo";
+import { HomepageHero } from "./globals/HomepageHero";
 import { migrations } from "./migrations";
 
 const filename = fileURLToPath(import.meta.url);
@@ -43,7 +44,7 @@ export default buildConfig({
   cors: allowedOrigins,
   csrf: allowedOrigins,
   collections: [Users, Media, News, Publications, Videos, Partners, Programmes, TeamMembers],
-  globals: [SiteHeader, SiteFooter, ContactInfo],
+  globals: [SiteHeader, SiteFooter, ContactInfo, HomepageHero],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: {
