@@ -30,7 +30,7 @@ export function SaveOpportunityButton({
     const returnTo = `/opportunites/${slug}`;
     return (
       <Link
-        href={`/connexion?returnTo=${encodeURIComponent(returnTo)}` as never}
+        href={`/connexion?returnTo=${encodeURIComponent(returnTo)}`}
         className="inline-flex items-center gap-2 rounded-md border border-[color:var(--color-border)] px-4 py-2 text-sm font-semibold hover:border-[color:var(--color-accent)]"
       >
         Connectez-vous pour enregistrer
