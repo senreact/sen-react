@@ -29,8 +29,6 @@
 // complain.
 (process.env as Record<string, string>).NODE_ENV = "production";
 
-import { readFileSync } from "node:fs";
-import { dirname, join } from "node:path";
 import { getPayload } from "payload";
 import { fileURLToPath } from "url";
 
@@ -588,50 +586,15 @@ const NEWS_SEED = [
   },
 ];
 
-const PUBLICATIONS_SEED = [
-  {
-    slug: "exemple-rapport-annuel-react-2025",
-    title: "Exemple — Rapport annuel REACT 2025",
-    summary:
-      "Bilan 2025 du réseau REACT — programmes menés, bénéficiaires accompagnés, perspectives 2026.",
-    sector: null,
-    language: "fr",
-    publishedAt: daysFromNow(-60),
-    authors: [
-      { name: "Elhadj Amadou Samb", role: "Directeur Exécutif" },
-      { name: "Cheikh Oumar Kane", role: "Secrétaire Général" },
-    ],
-  },
-  {
-    slug: "exemple-femmes-entrepreneures-et-numerique",
-    title: "Exemple — Étude : Femmes entrepreneures et numérique au Sénégal",
-    summary:
-      "Étude qualitative sur l'adoption des outils numériques par les femmes entrepreneures sénégalaises — fractures, leviers, recommandations.",
-    sector: "digitalisation-technologie",
-    language: "fr",
-    publishedAt: daysFromNow(-120),
-    authors: [{ name: "Équipe de recherche REACT" }],
-  },
-  {
-    slug: "exemple-note-reflexion-agroecologie-senegal",
-    title: "Exemple — Note de réflexion : Agroécologie au Sénégal",
-    summary:
-      "Note courte sur les conditions de passage à l'échelle de l'agroécologie dans les régions sénégalaises productrices — contraintes, opportunités, acteurs.",
-    sector: "agroecologie",
-    language: "fr",
-    publishedAt: daysFromNow(-90),
-  },
-  {
-    slug: "exemple-white-paper-saponification-artisanale",
-    title: "Exemple — White paper : Saponification artisanale",
-    summary:
-      "Synthèse REACT sur la structuration de la filière saponification artisanale au Sénégal — modèles économiques, certifications, perspectives d'export.",
-    sector: "saponification",
-    language: "fr",
-    publishedAt: daysFromNow(-180),
-    authors: [{ name: "Équipe REACT" }],
-  },
-];
+// Publications fixtures are intentionally NOT seeded right now. The Publications
+// collection's `file` field is required (Payload upload → relationTo "media"),
+// and Payload's default media storage writes to the local filesystem of
+// whichever process runs the upload. Running this seed from a laptop against
+// prod Supabase persists the metadata row but leaves the binary on the local
+// disk — prod CMS (Vercel serverless container) then 500s on the download
+// route because the file isn't there. Fix: configure a real storage backend
+// (Supabase Storage adapter or S3-compatible). Tracked separately; once the
+// adapter is in, re-add a PUBLICATIONS_SEED block here.
 
 // 11-char YouTube IDs. These are syntactically valid (pass the collection
 // validator) but don't point to real Sen React videos — the embeds will show
@@ -826,37 +789,6 @@ const OPPORTUNITIES_SEED = [
   },
 ];
 
-const SEED_FIXTURE_DIR = join(dirname(fileURLToPath(import.meta.url)), "seed-fixtures");
-const SAMPLE_PDF_PATH = join(SEED_FIXTURE_DIR, "sample.pdf");
-// Stable alt-text used as the lookup key when re-running the seed. Avoids
-// uploading the PDF on every run — first run creates the media doc, every
-// subsequent run reuses the existing one by id.
-const SAMPLE_PDF_ALT = "Sen React — fixture PDF d'exemple";
-
-async function ensureSamplePdf(
-  payload: Awaited<ReturnType<typeof getPayload>>,
-): Promise<string | number> {
-  const existing = await payload.find({
-    collection: "media",
-    where: { alt: { equals: SAMPLE_PDF_ALT } },
-    limit: 1,
-    depth: 0,
-  });
-  if (existing.docs[0]) return existing.docs[0].id;
-  const buffer = readFileSync(SAMPLE_PDF_PATH);
-  const created = await payload.create({
-    collection: "media",
-    data: { alt: SAMPLE_PDF_ALT },
-    file: {
-      data: buffer,
-      mimetype: "application/pdf",
-      name: "sen-react-exemple.pdf",
-      size: buffer.length,
-    },
-  });
-  return created.id;
-}
-
 async function upsertBySlug(
   payload: Awaited<ReturnType<typeof getPayload>>,
   collection:
@@ -970,13 +902,7 @@ async function seed(): Promise<void> {
     await upsertBySlug(payload, "news", { ...n });
   }
 
-  payload.logger.info("[seed] Ensuring sample PDF media item");
-  const samplePdfId = await ensureSamplePdf(payload);
-
-  payload.logger.info("[seed] Upserting publication fixtures");
-  for (const p of PUBLICATIONS_SEED) {
-    await upsertBySlug(payload, "publications", { ...p, file: samplePdfId });
-  }
+  payload.logger.info("[seed] Skipping publications — needs storage adapter (see seed.ts note)");
 
   payload.logger.info("[seed] Upserting video fixtures");
   for (const v of VIDEOS_SEED) {

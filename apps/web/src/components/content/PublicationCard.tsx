@@ -3,7 +3,7 @@ import type { Route } from "next";
 
 import { getSector } from "@sen-react/shared";
 
-import type { Publication } from "@/lib/cms";
+import { absoluteMediaUrl, type Publication } from "@/lib/cms";
 import { formatDateFr } from "@/lib/format";
 
 interface PublicationCardProps {
@@ -17,8 +17,9 @@ interface PublicationCardProps {
  */
 export function PublicationCard({ publication }: PublicationCardProps) {
   const sector = publication.sector ? getSector(publication.sector) : undefined;
-  const fileUrl =
-    typeof publication.file === "object" && publication.file ? publication.file.url : null;
+  const fileUrl = absoluteMediaUrl(
+    typeof publication.file === "object" && publication.file ? publication.file.url : null,
+  );
   const authors = publication.authors ?? [];
   const detailHref = `/publications/${publication.slug}` as unknown as Route;
 
