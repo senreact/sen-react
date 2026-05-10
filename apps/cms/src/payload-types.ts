@@ -108,6 +108,7 @@ export interface Config {
     'empty-states': EmptyState;
     'contact-page': ContactPage;
     'about-page': AboutPage;
+    'sectors-page': SectorsPage;
   };
   globalsSelect: {
     'site-header': SiteHeaderSelect<false> | SiteHeaderSelect<true>;
@@ -118,6 +119,7 @@ export interface Config {
     'empty-states': EmptyStatesSelect<false> | EmptyStatesSelect<true>;
     'contact-page': ContactPageSelect<false> | ContactPageSelect<true>;
     'about-page': AboutPageSelect<false> | AboutPageSelect<true>;
+    'sectors-page': SectorsPageSelect<false> | SectorsPageSelect<true>;
   };
   locale: null;
   widgets: {
@@ -999,6 +1001,34 @@ export interface AboutPage {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sectors-page".
+ */
+export interface SectorsPage {
+  id: number;
+  index: {
+    eyebrow: string;
+    headline: string;
+    leadParagraph: string;
+  };
+  detail: {
+    backLinkLabel: string;
+    eyebrow: string;
+    placeholderHeader: {
+      eyebrow: string;
+      headline: string;
+      description: string;
+    };
+    placeholderBlocks: {
+      title: string;
+      description: string;
+      id?: string | null;
+    }[];
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-header_select".
  */
 export interface SiteHeaderSelect<T extends boolean = true> {
@@ -1218,6 +1248,42 @@ export interface AboutPageSelect<T extends boolean = true> {
     | {
         label?: T;
         body?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sectors-page_select".
+ */
+export interface SectorsPageSelect<T extends boolean = true> {
+  index?:
+    | T
+    | {
+        eyebrow?: T;
+        headline?: T;
+        leadParagraph?: T;
+      };
+  detail?:
+    | T
+    | {
+        backLinkLabel?: T;
+        eyebrow?: T;
+        placeholderHeader?:
+          | T
+          | {
+              eyebrow?: T;
+              headline?: T;
+              description?: T;
+            };
+        placeholderBlocks?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              id?: T;
+            };
       };
   updatedAt?: T;
   createdAt?: T;

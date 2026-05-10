@@ -278,6 +278,42 @@ const LEGAL_BODY = lexicalRoot([
   ]),
 ]);
 
+const SECTORS_PAGE_SEED = {
+  index: {
+    eyebrow: "Secteurs d'intervention",
+    headline: "Dix secteurs, une économie en transition.",
+    leadParagraph:
+      "REACT structure ses programmes autour de dix secteurs prioritaires pour l'entrepreneuriat sénégalais et africain — du numérique à l'agroécologie en passant par la transformation et la saponification.",
+  },
+  detail: {
+    backLinkLabel: "← Tous les secteurs",
+    eyebrow: "Secteur d'intervention",
+    placeholderHeader: {
+      eyebrow: "À venir",
+      headline: "Le détail du secteur arrive avec les voicenotes d'Amadou.",
+      description:
+        "Les blocs ci-dessous prendront forme au fur et à mesure que REACT consolide sa cartographie sectorielle.",
+    },
+    placeholderBlocks: [
+      {
+        title: "Acteurs clés",
+        description:
+          "Les institutions, ONG et entreprises pivots du secteur seront listées ici à mesure que la cartographie REACT est consolidée.",
+      },
+      {
+        title: "Opportunités",
+        description:
+          "Les programmes, financements et appels à projets en cours dans le secteur. Cette section se peuplera automatiquement via la chaîne d'agrégation à partir de la phase 5.",
+      },
+      {
+        title: "Ressources",
+        description:
+          "Tutoriels REACT, fiches techniques, vidéos et publications spécifiques au secteur. Contenu produit à partir de la phase 9 (renforcement de capacités).",
+      },
+    ],
+  },
+};
+
 const ABOUT_PAGE_SEED = {
   hero: {
     eyebrow: "À propos de REACT",
@@ -467,6 +503,9 @@ async function seed(): Promise<void> {
 
   payload.logger.info("[seed] Upserting about-page global");
   await payload.updateGlobal({ slug: "about-page", data: ABOUT_PAGE_SEED });
+
+  payload.logger.info("[seed] Upserting sectors-page global");
+  await payload.updateGlobal({ slug: "sectors-page", data: SECTORS_PAGE_SEED });
 
   payload.logger.info("[seed] Upserting partners");
   for (const p of PARTNERS_SEED) {

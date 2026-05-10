@@ -493,3 +493,54 @@ export async function getAboutPage(): Promise<AboutPage> {
   const live = await fetchGlobal<AboutPage>("about-page");
   return live ?? DEFAULT_ABOUT_PAGE;
 }
+
+export interface SectorsPage {
+  index: { eyebrow: string; headline: string; leadParagraph: string };
+  detail: {
+    backLinkLabel: string;
+    eyebrow: string;
+    placeholderHeader: { eyebrow: string; headline: string; description: string };
+    placeholderBlocks: { title: string; description: string }[];
+  };
+}
+
+const DEFAULT_SECTORS_PAGE: SectorsPage = {
+  index: {
+    eyebrow: "Secteurs d'intervention",
+    headline: "Dix secteurs, une économie en transition.",
+    leadParagraph:
+      "REACT structure ses programmes autour de dix secteurs prioritaires pour l'entrepreneuriat sénégalais et africain — du numérique à l'agroécologie en passant par la transformation et la saponification.",
+  },
+  detail: {
+    backLinkLabel: "← Tous les secteurs",
+    eyebrow: "Secteur d'intervention",
+    placeholderHeader: {
+      eyebrow: "À venir",
+      headline: "Le détail du secteur arrive avec les voicenotes d'Amadou.",
+      description:
+        "Les blocs ci-dessous prendront forme au fur et à mesure que REACT consolide sa cartographie sectorielle.",
+    },
+    placeholderBlocks: [
+      {
+        title: "Acteurs clés",
+        description:
+          "Les institutions, ONG et entreprises pivots du secteur seront listées ici à mesure que la cartographie REACT est consolidée.",
+      },
+      {
+        title: "Opportunités",
+        description:
+          "Les programmes, financements et appels à projets en cours dans le secteur. Cette section se peuplera automatiquement via la chaîne d'agrégation à partir de la phase 5.",
+      },
+      {
+        title: "Ressources",
+        description:
+          "Tutoriels REACT, fiches techniques, vidéos et publications spécifiques au secteur. Contenu produit à partir de la phase 9 (renforcement de capacités).",
+      },
+    ],
+  },
+};
+
+export async function getSectorsPage(): Promise<SectorsPage> {
+  const live = await fetchGlobal<SectorsPage>("sectors-page");
+  return live ?? DEFAULT_SECTORS_PAGE;
+}
