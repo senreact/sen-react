@@ -3,14 +3,11 @@ import { expect, test } from "@playwright/test";
 /**
  * Phase 3 content surfaces — News / Publications / Videos.
  *
- * These tests run against a Vercel preview where `NEXT_PUBLIC_CMS_URL` is
- * either unset or the CMS has no published items yet. That reality is
- * what we lock against: the surfaces must render the empty-state
- * placeholder rather than crashing or showing a half-broken layout.
- *
- * Once the CMS goes live + has published rows, these assertions hold
- * because the page heading + nav structure are stable; only the
- * empty-state assertion would need swapping for a card-count check.
+ * These tests run against a Vercel preview where the CMS is populated
+ * with the fixture seeds (PR-SEED-A). They assert the page heading +
+ * that at least one content card renders. Empty-state assertions used
+ * to live here; they were swapped when the seed populated all four
+ * collections.
  *
  * Per-item readers (`/actualites/[slug]` etc.) ship 404 against an
  * unknown slug — same contract as `/secteurs/[slug]`. We assert that
@@ -18,33 +15,33 @@ import { expect, test } from "@playwright/test";
  * would fail loudly.
  */
 
-test("/actualites renders news index with empty-state when CMS is empty", async ({ page }) => {
+test("/actualites renders news index with cards", async ({ page }) => {
   const response = await page.goto("/actualites");
   expect(response?.status()).toBe(200);
 
   await expect(
     page.getByRole("heading", { name: /Le quotidien de l'entrepreneuriat/i }),
   ).toBeVisible();
-  // EmptyState placeholder is a <p>, not a heading.
-  await expect(page.getByText(/Les premières actualités arrivent bientôt/i)).toBeVisible();
+  // At least one news card has rendered.
+  await expect(page.locator("main li").first()).toBeVisible();
 });
 
-test("/publications renders publications index with empty-state", async ({ page }) => {
+test("/publications renders publications index with cards", async ({ page }) => {
   const response = await page.goto("/publications");
   expect(response?.status()).toBe(200);
 
   await expect(page.getByRole("heading", { name: /Études, notes et rapports/i })).toBeVisible();
-  await expect(page.getByText(/Les premières publications arrivent bientôt/i)).toBeVisible();
+  await expect(page.locator("main li").first()).toBeVisible();
 });
 
-test("/videos renders videos index with empty-state", async ({ page }) => {
+test("/videos renders videos index with cards", async ({ page }) => {
   const response = await page.goto("/videos");
   expect(response?.status()).toBe(200);
 
   await expect(
     page.getByRole("heading", { name: /Capsules, entretiens et témoignages/i }),
   ).toBeVisible();
-  await expect(page.getByText(/Les premières vidéos arrivent bientôt/i)).toBeVisible();
+  await expect(page.locator("main li").first()).toBeVisible();
 });
 
 test("/actualites/<unknown-slug> returns 404", async ({ page }) => {
