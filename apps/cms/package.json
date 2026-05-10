@@ -7,6 +7,7 @@
     "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev -p 3001",
     "build": "cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=8000\" next build",
     "migrate": "cross-env NODE_OPTIONS=--no-deprecation payload migrate",
+    "seed": "cross-env NODE_OPTIONS=--no-deprecation tsx src/seed.ts",
     "vercel-build": "pnpm migrate && pnpm build",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start -p 3001",
     "lint": "next lint",
@@ -34,6 +35,7 @@
     "@types/node": "^22.9.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "tsx": "^4.21.0",
     "typescript": "^5.6.3",
     "vitest": "^4.1.5"
   }
