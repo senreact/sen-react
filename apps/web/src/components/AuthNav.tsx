@@ -45,6 +45,12 @@ export async function AuthNav() {
 
   return (
     <div className="flex items-center gap-3 text-sm">
+      <Link
+        href="/mes-opportunites"
+        className="whitespace-nowrap font-medium hover:text-[color:var(--color-accent)]"
+      >
+        Mes opportunités
+      </Link>
       <span className="hidden text-[color:var(--color-muted)] md:inline">{userEmail}</span>
       <form action="/auth/sign-out" method="POST">
         <button
