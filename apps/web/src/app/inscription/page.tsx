@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { signUpAction } from "./actions";
-import { AuthForm } from "@/components/AuthForm";
+import { SignUpForm } from "@/components/SignUpForm";
 import { getAuthStrings } from "@/lib/cms";
 
 export const metadata: Metadata = {
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default async function SignUpPage() {
   const strings = await getAuthStrings();
   return (
-    <main className="mx-auto max-w-sm px-6 py-16">
+    <main className="mx-auto max-w-xl px-6 py-16">
       <header className="mb-8">
         <h1 className="text-2xl font-bold">{strings.signup.pageTitle}</h1>
         <p className="mt-2 text-sm text-[color:var(--color-muted)]">
@@ -22,7 +22,7 @@ export default async function SignUpPage() {
         </p>
       </header>
 
-      <AuthForm
+      <SignUpForm
         action={signUpAction}
         submitLabel={strings.signup.submitLabel}
         passwordHint={strings.signup.passwordHint}
