@@ -304,6 +304,41 @@ export async function getOpportunityBySlug(slug: string): Promise<Opportunity | 
   return fetchBySlug<Opportunity>("opportunities", slug);
 }
 
+/**
+ * Bulk fetch opportunities by slug — used by /mes-opportunites to
+ * resolve the user's saved-slug set into renderable cards in one
+ * round-trip. Past-deadline entries ARE included here (intentionally —
+ * a member's saved list shows everything they saved, even if some
+ * have closed since).
+ *
+ * Returns in the same order as the input `slugs` array; missing slugs
+ * (deleted, unpublished) are filtered out.
+ */
+export async function listOpportunitiesBySlugs(slugs: string[]): Promise<Opportunity[]> {
+  if (!CMS_URL || slugs.length === 0) return [];
+  const url = new URL(`${CMS_URL}/api/opportunities`);
+  url.searchParams.set("limit", String(Math.max(slugs.length, 50)));
+  url.searchParams.set("depth", "0");
+  url.searchParams.set("where[_status][equals]", "published");
+  // Payload supports `where[slug][in][N]=...` for IN-list filters.
+  slugs.forEach((s, i) => {
+    url.searchParams.set(`where[slug][in][${i}]`, s);
+  });
+  try {
+    const response = await fetch(url.toString(), {
+      next: { revalidate: REVALIDATE_SECONDS, tags: ["cms:opportunities"] },
+    });
+    if (!response.ok) return [];
+    const json = (await response.json()) as { docs?: Opportunity[] };
+    const docs = json.docs ?? [];
+    const bySlug = new Map(docs.map((d) => [d.slug, d]));
+    return slugs.map((s) => bySlug.get(s)).filter((d): d is Opportunity => Boolean(d));
+  } catch (error) {
+    console.warn("[cms] opportunities-by-slugs fetch threw", error);
+    return [];
+  }
+}
+
 export interface Partner {
   id: string;
   slug: string;
