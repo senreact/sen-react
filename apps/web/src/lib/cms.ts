@@ -279,3 +279,41 @@ export async function getHomepageHero(): Promise<HomepageHero> {
   const live = await fetchGlobal<HomepageHero>("homepage-hero");
   return live ?? DEFAULT_HOMEPAGE_HERO;
 }
+
+export interface HomepageDomaines {
+  eyebrow: string;
+  headline: string;
+  pillars: { title: string; description: string }[];
+}
+
+const DEFAULT_HOMEPAGE_DOMAINES: HomepageDomaines = {
+  eyebrow: "Domaines d'intervention",
+  headline: "Quatre piliers, une mission cohérente",
+  pillars: [
+    {
+      title: "Entrepreneuriat",
+      description:
+        "Accompagner la création, la formalisation et la croissance des entreprises portées par des femmes et des jeunes au Sénégal et en Afrique de l'Ouest.",
+    },
+    {
+      title: "Environnement",
+      description:
+        "Promouvoir une économie verte, l'agroécologie et les énergies renouvelables comme leviers de résilience face au changement climatique.",
+    },
+    {
+      title: "Digitalisation et technologie",
+      description:
+        "Faire de la transition numérique un moteur d'inclusion économique — applications mobiles, civic tech, fintech, IA, services numériques.",
+    },
+    {
+      title: "Leadership de transformation",
+      description:
+        "Former une génération de leaders engagés capables de porter le changement social, économique et environnemental sur le continent.",
+    },
+  ],
+};
+
+export async function getHomepageDomaines(): Promise<HomepageDomaines> {
+  const live = await fetchGlobal<HomepageDomaines>("homepage-domaines");
+  return live ?? DEFAULT_HOMEPAGE_DOMAINES;
+}
