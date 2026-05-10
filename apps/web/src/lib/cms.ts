@@ -197,6 +197,113 @@ export async function getVideoBySlug(slug: string): Promise<Video | null> {
   return fetchBySlug<Video>("videos", slug);
 }
 
+export type OpportunityType =
+  | "financement"
+  | "formation"
+  | "appel-a-projets"
+  | "partenariat"
+  | "concours"
+  | "autre";
+
+export type OpportunityArea =
+  | "senegal"
+  | "senegal-dakar"
+  | "senegal-regions"
+  | "afrique-ouest"
+  | "afrique"
+  | "international";
+
+export interface Opportunity {
+  id: string;
+  title: string;
+  slug: string;
+  summary: string;
+  body?: LexicalRoot | null;
+  sector: SectorSlug;
+  opportunityType: OpportunityType;
+  area: OpportunityArea;
+  deadline: string;
+  amountValue?: number | null;
+  amountCurrency?: "XOF" | "EUR" | "USD" | null;
+  amountDisplay?: string | null;
+  source: string;
+  sourceUrl?: string | null;
+  contactEmail?: string | null;
+  publishedAt: string;
+  reactCurated: boolean;
+}
+
+/**
+ * Filter contract for listOpportunities. All fields optional. The fetcher
+ * adds Payload `where[…]` query params per filter, which Payload's REST
+ * API translates to SQL.
+ *
+ * `deadlineWithinDays` filters to opportunities whose deadline is in the
+ * next N days from now (inclusive of today). `amountMin` is XOF.
+ * `q` is free-text — Payload's `like` operator across title + summary.
+ */
+export interface OpportunityFilters {
+  sector?: SectorSlug;
+  opportunityType?: OpportunityType;
+  area?: OpportunityArea;
+  deadlineWithinDays?: number;
+  amountMin?: number;
+  q?: string;
+  limit?: number;
+}
+
+export async function listOpportunities(filters: OpportunityFilters = {}): Promise<Opportunity[]> {
+  if (!CMS_URL) return [];
+  const url = new URL(`${CMS_URL}/api/opportunities`);
+  url.searchParams.set("sort", "deadline");
+  url.searchParams.set("limit", String(filters.limit ?? 50));
+  url.searchParams.set("depth", "0");
+  url.searchParams.set("where[_status][equals]", "published");
+  // Past-deadline opportunities are stale by definition — exclude.
+  url.searchParams.set("where[deadline][greater_than_equal]", new Date().toISOString());
+
+  if (filters.sector) {
+    url.searchParams.set("where[sector][equals]", filters.sector);
+  }
+  if (filters.opportunityType) {
+    url.searchParams.set("where[opportunityType][equals]", filters.opportunityType);
+  }
+  if (filters.area) {
+    url.searchParams.set("where[area][equals]", filters.area);
+  }
+  if (filters.deadlineWithinDays !== undefined) {
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() + filters.deadlineWithinDays);
+    url.searchParams.set("where[deadline][less_than_equal]", cutoff.toISOString());
+  }
+  if (filters.amountMin !== undefined) {
+    url.searchParams.set("where[amountValue][greater_than_equal]", String(filters.amountMin));
+  }
+  if (filters.q) {
+    // Payload's `like` is case-insensitive ILIKE on Postgres.
+    url.searchParams.set("where[title][like]", filters.q);
+  }
+
+  try {
+    const response = await fetch(url.toString(), {
+      next: { revalidate: REVALIDATE_SECONDS, tags: ["cms:opportunities"] },
+    });
+    if (!response.ok) {
+      console.warn(`[cms] opportunities returned HTTP ${response.status}; rendering empty list`);
+      return [];
+    }
+    const json = (await response.json()) as { docs?: Opportunity[] };
+    return json.docs ?? [];
+  } catch (error) {
+    console.warn("[cms] opportunities fetch threw; rendering empty list", error);
+    return [];
+  }
+}
+
+export async function getOpportunityBySlug(slug: string): Promise<Opportunity | null> {
+  return fetchBySlug<Opportunity>("opportunities", slug);
+}
+
 export interface Partner {
   id: string;
   slug: string;
@@ -333,6 +440,8 @@ export interface EmptyStates {
   news: EmptyStateContent;
   publications: EmptyStateContent;
   videos: EmptyStateContent;
+  opportunities: EmptyStateContent;
+  opportunitiesNoMatch: EmptyStateContent;
   homepageLatestNewsFallback: LatestNewsPlaceholderCard[];
 }
 
@@ -351,6 +460,15 @@ const DEFAULT_EMPTY_STATES: EmptyStates = {
     title: "Les premières vidéos arrivent bientôt.",
     description:
       "Cette section accueillera les capsules, entretiens et témoignages REACT dès le démarrage de la production audiovisuelle.",
+  },
+  opportunities: {
+    title: "Les premières opportunités arrivent bientôt.",
+    description:
+      "Cette section accueillera les financements, formations et appels à projets curés par REACT pour les entrepreneurs sénégalais et africains.",
+  },
+  opportunitiesNoMatch: {
+    title: "Aucune opportunité ne correspond à vos critères.",
+    description: "Essayez d'élargir vos filtres ou de réinitialiser la recherche.",
   },
   homepageLatestNewsFallback: [
     {

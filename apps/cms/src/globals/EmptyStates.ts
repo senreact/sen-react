@@ -45,6 +45,24 @@ export const EmptyStates: GlobalConfig = {
       ],
     },
     {
+      name: "opportunities",
+      type: "group",
+      label: "/opportunites",
+      fields: [
+        { name: "title", type: "text", required: true },
+        { name: "description", type: "textarea", required: true },
+      ],
+    },
+    {
+      name: "opportunitiesNoMatch",
+      type: "group",
+      label: "/opportunites — aucun résultat aux filtres",
+      fields: [
+        { name: "title", type: "text", required: true },
+        { name: "description", type: "textarea", required: true },
+      ],
+    },
+    {
       name: "homepageLatestNewsFallback",
       type: "array",
       label: "Page d'accueil — Cartes 'Dernières publications' (lorsque vide)",
