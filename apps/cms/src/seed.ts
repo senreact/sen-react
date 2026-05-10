@@ -207,6 +207,126 @@ const EMPTY_STATES_SEED = {
   ],
 };
 
+/**
+ * Helpers to build the Lexical JSON for the About-page Founding + Legal
+ * bodies. Inline emphasis is preserved by setting `format: 1` (bold) on
+ * the text nodes that the original JSX wrapped in <strong>.
+ */
+const FORMAT_BOLD = 1;
+const FORMAT_CODE = 16;
+
+interface LexicalSpan {
+  text: string;
+  format?: number;
+}
+
+function lexicalParagraph(spans: LexicalSpan[]): Record<string, unknown> {
+  return {
+    type: "paragraph",
+    version: 1,
+    children: spans.map((s) => ({
+      type: "text",
+      version: 1,
+      text: s.text,
+      format: s.format ?? 0,
+    })),
+  };
+}
+
+function lexicalRoot(paragraphs: Record<string, unknown>[]): Record<string, unknown> {
+  return {
+    root: {
+      type: "root",
+      version: 1,
+      children: paragraphs,
+    },
+  };
+}
+
+const FOUNDING_BODY = lexicalRoot([
+  lexicalParagraph([
+    { text: "REACT a été créé le " },
+    { text: "20 mai 2021", format: FORMAT_BOLD },
+    { text: " par " },
+    { text: "Elhadj Amadou Samb", format: FORMAT_BOLD },
+    { text: ", Directeur Exécutif, et " },
+    { text: "Cheikh Oumar Kane", format: FORMAT_BOLD },
+    {
+      text: ", Secrétaire Général, comme une initiative de résilience entrepreneuriale dans le contexte post-COVID-19. L'objectif initial : redonner du souffle aux entreprises sénégalaises fragilisées par la crise sanitaire et économique.",
+    },
+  ]),
+  lexicalParagraph([
+    { text: "En " },
+    { text: "2024", format: FORMAT_BOLD },
+    { text: ", REACT s'est repositionné autour d'un axe plus ambitieux : faire de la " },
+    { text: "transition numérique", format: FORMAT_BOLD },
+    { text: " et de la " },
+    { text: "transition écologique", format: FORMAT_BOLD },
+    {
+      text: " les deux piliers de l'émancipation économique des femmes, des jeunes et des communautés vulnérables. C'est cette vision qui structure aujourd'hui Sen React.",
+    },
+  ]),
+]);
+
+const LEGAL_BODY = lexicalRoot([
+  lexicalParagraph([
+    {
+      text: "REACT est une association à but non lucratif, enregistrée au Sénégal sous le numéro ",
+    },
+    { text: "N° 00020614/MINT/DGAT/DLPL/DAPA", format: FORMAT_CODE },
+    { text: ". Siège : Sacrée Cœur 3, Lot N° 128/B, Dakar, Sénégal." },
+  ]),
+]);
+
+const ABOUT_PAGE_SEED = {
+  hero: {
+    eyebrow: "À propos de REACT",
+    headline: "Un réseau pour réinventer l'entrepreneuriat sénégalais et africain.",
+    leadParagraph:
+      "REACT (Réseau des Entrepreneurs Actifs) accompagne les femmes, les jeunes et les communautés vulnérables dans la transition numérique et écologique. Sen React est la plateforme qui matérialise ce projet.",
+  },
+  mission: {
+    eyebrow: "Mission",
+    sectionTitle: "Renforcer l'autonomisation et l'innovation des entrepreneurs africains.",
+    body: "Notre mission est de favoriser la transition digitale et écologique au profit du développement économique durable. Notre objectif est de renforcer les capacités d'autonomisation et d'innovation des entrepreneurs africains afin de promouvoir un entrepreneuriat durable et compétitif, tout en luttant contre les effets du changement climatique.",
+  },
+  vision: {
+    eyebrow: "Vision",
+    sectionTitle: "Devenir un leader de la révolution digitale en Afrique de l'Ouest.",
+    body: "Être un leader incontournable de la révolution digitale en Afrique de l'Ouest et accroître considérablement notre impact sur le développement économique durable des entrepreneurs.",
+  },
+  values: {
+    eyebrow: "Nos valeurs",
+    headline: "Trois principes qui nous guident",
+    items: [
+      {
+        title: "Leadership",
+        description:
+          "Former une génération d'entrepreneurs et d'entrepreneures capables de porter une transformation économique et sociale durable au Sénégal et en Afrique de l'Ouest.",
+      },
+      {
+        title: "Inclusion numérique",
+        description:
+          "Faire du numérique un levier d'autonomisation pour celles et ceux qui en sont aujourd'hui les plus éloignés — femmes, jeunes, communautés vulnérables.",
+      },
+      {
+        title: "Développement économique durable",
+        description:
+          "Soutenir une croissance qui crée des emplois verts et résilients, en cohérence avec les enjeux climatiques et écologiques du continent.",
+      },
+    ],
+  },
+  founding: {
+    eyebrow: "Notre histoire",
+    headline: "Né d'une initiative post-COVID, relancé pour la transition.",
+    body: FOUNDING_BODY,
+  },
+  legal: {
+    label: "Statut juridique",
+    body: LEGAL_BODY,
+  },
+};
+
 const CONTACT_PAGE_SEED = {
   eyebrow: "Contact",
   headline: "Échangeons directement.",
@@ -344,6 +464,9 @@ async function seed(): Promise<void> {
 
   payload.logger.info("[seed] Upserting contact-page global");
   await payload.updateGlobal({ slug: "contact-page", data: CONTACT_PAGE_SEED });
+
+  payload.logger.info("[seed] Upserting about-page global");
+  await payload.updateGlobal({ slug: "about-page", data: ABOUT_PAGE_SEED });
 
   payload.logger.info("[seed] Upserting partners");
   for (const p of PARTNERS_SEED) {

@@ -6,6 +6,7 @@ import { LegalNote } from "@/components/about/LegalNote";
 import { MissionVision } from "@/components/about/MissionVision";
 import { Team } from "@/components/about/Team";
 import { Values } from "@/components/about/Values";
+import { getAboutPage } from "@/lib/cms";
 
 export const metadata: Metadata = {
   title: "À propos — Sen React",
@@ -16,23 +17,25 @@ export const metadata: Metadata = {
 /**
  * /a-propos — Phase 2 step 3 per the roadmap §4.
  *
- * Sections, top to bottom:
+ * Sections, top to bottom (all sourced from the about-page CMS global,
+ * except Team which has its own collection):
  *   1. AboutHero — eyebrow + headline + lead-in
  *   2. MissionVision — verbatim FR mission + vision per decisions log §A1
- *   3. Values — Leadership / Inclusion numérique / Développement économique durable
- *   4. Founding — 2021 origin story + 2024 relaunch
- *   5. Team — 5 members per D011 (initials placeholder until photos arrive)
- *   6. LegalNote — registration number + Dakar address
+ *   3. Values — 3 principles
+ *   4. Founding — 2021 origin story + 2024 relaunch (Lexical body)
+ *   5. Team — 5 members from the team-members collection
+ *   6. LegalNote — registration number + Dakar address (Lexical body)
  */
-export default function AboutPage() {
+export default async function AboutPage() {
+  const about = await getAboutPage();
   return (
     <main>
-      <AboutHero />
-      <MissionVision />
-      <Values />
-      <Founding />
+      <AboutHero data={about.hero} />
+      <MissionVision mission={about.mission} vision={about.vision} />
+      <Values data={about.values} />
+      <Founding data={about.founding} />
       <Team />
-      <LegalNote />
+      <LegalNote data={about.legal} />
     </main>
   );
 }
