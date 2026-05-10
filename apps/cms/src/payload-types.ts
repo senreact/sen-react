@@ -104,12 +104,14 @@ export interface Config {
     'site-footer': SiteFooter;
     'contact-info': ContactInfo;
     'homepage-hero': HomepageHero;
+    'homepage-domaines': HomepageDomaine;
   };
   globalsSelect: {
     'site-header': SiteHeaderSelect<false> | SiteHeaderSelect<true>;
     'site-footer': SiteFooterSelect<false> | SiteFooterSelect<true>;
     'contact-info': ContactInfoSelect<false> | ContactInfoSelect<true>;
     'homepage-hero': HomepageHeroSelect<false> | HomepageHeroSelect<true>;
+    'homepage-domaines': HomepageDomainesSelect<false> | HomepageDomainesSelect<true>;
   };
   locale: null;
   widgets: {
@@ -836,6 +838,28 @@ export interface HomepageHero {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "homepage-domaines".
+ */
+export interface HomepageDomaine {
+  id: number;
+  /**
+   * Petit titre vert au-dessus du H2.
+   */
+  eyebrow: string;
+  headline: string;
+  /**
+   * Cartes affichées sous le titre. L'ordre dans le tableau = l'ordre d'affichage.
+   */
+  pillars: {
+    title: string;
+    description: string;
+    id?: string | null;
+  }[];
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-header_select".
  */
 export interface SiteHeaderSelect<T extends boolean = true> {
@@ -919,6 +943,24 @@ export interface HomepageHeroSelect<T extends boolean = true> {
     | {
         label?: T;
         href?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "homepage-domaines_select".
+ */
+export interface HomepageDomainesSelect<T extends boolean = true> {
+  eyebrow?: T;
+  headline?: T;
+  pillars?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        id?: T;
       };
   updatedAt?: T;
   createdAt?: T;

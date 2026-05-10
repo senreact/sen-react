@@ -158,6 +158,33 @@ const HOMEPAGE_HERO_SEED = {
   secondaryCta: { label: "En savoir plus", href: "/a-propos" },
 };
 
+const HOMEPAGE_DOMAINES_SEED = {
+  eyebrow: "Domaines d'intervention",
+  headline: "Quatre piliers, une mission cohérente",
+  pillars: [
+    {
+      title: "Entrepreneuriat",
+      description:
+        "Accompagner la création, la formalisation et la croissance des entreprises portées par des femmes et des jeunes au Sénégal et en Afrique de l'Ouest.",
+    },
+    {
+      title: "Environnement",
+      description:
+        "Promouvoir une économie verte, l'agroécologie et les énergies renouvelables comme leviers de résilience face au changement climatique.",
+    },
+    {
+      title: "Digitalisation et technologie",
+      description:
+        "Faire de la transition numérique un moteur d'inclusion économique — applications mobiles, civic tech, fintech, IA, services numériques.",
+    },
+    {
+      title: "Leadership de transformation",
+      description:
+        "Former une génération de leaders engagés capables de porter le changement social, économique et environnemental sur le continent.",
+    },
+  ],
+};
+
 async function upsertBySlug(
   payload: Awaited<ReturnType<typeof getPayload>>,
   collection: "partners" | "programmes" | "team-members",
@@ -225,6 +252,9 @@ async function seed(): Promise<void> {
 
   payload.logger.info("[seed] Upserting homepage-hero global");
   await payload.updateGlobal({ slug: "homepage-hero", data: HOMEPAGE_HERO_SEED });
+
+  payload.logger.info("[seed] Upserting homepage-domaines global");
+  await payload.updateGlobal({ slug: "homepage-domaines", data: HOMEPAGE_DOMAINES_SEED });
 
   payload.logger.info("[seed] Upserting partners");
   for (const p of PARTNERS_SEED) {
