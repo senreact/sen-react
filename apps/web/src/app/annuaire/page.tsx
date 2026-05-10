@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import {
   getProfileType,
@@ -182,7 +183,14 @@ function DirectoryCard({
           <span className="text-[color:var(--color-muted)]">· {profile.region}</span>
         ) : null}
       </div>
-      <h3 className="text-lg font-semibold leading-tight">{profile.display_name}</h3>
+      <h3 className="text-lg font-semibold leading-tight">
+        <Link
+          href={`/annuaire/${profile.directory_slug}`}
+          className="text-[color:var(--color-foreground)] hover:text-[color:var(--color-accent)]"
+        >
+          {profile.display_name}
+        </Link>
+      </h3>
       {profile.organisation_label ? (
         <p className="mt-1 text-sm text-[color:var(--color-muted)]">{profile.organisation_label}</p>
       ) : null}
