@@ -24,7 +24,10 @@
  * Migrations are the source of truth — the seed only writes data.
  */
 
-process.env.NODE_ENV = "production";
+// `process.env.NODE_ENV` is typed read-only by @types/node, but the
+// runtime value is freely settable. Cast through Record so TS doesn't
+// complain.
+(process.env as Record<string, string>).NODE_ENV = "production";
 
 import { getPayload } from "payload";
 import { fileURLToPath } from "url";
