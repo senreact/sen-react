@@ -11,17 +11,24 @@
 --
 -- The view is granted SELECT to `anon` + `authenticated`, so the public
 -- /annuaire page can read it without the user being signed in.
--- security_invoker = true so the underlying table's RLS is consulted —
--- but since the view itself does the filter + column-projection, RLS is
--- not the only protection. Defence in depth.
+--
+-- The view runs as its owner (postgres) by default — RLS on the
+-- underlying `user_profiles` table does NOT fire when reading through
+-- this view. That's intentional: `user_profiles` RLS allows only own-row
+-- reads, which would defeat the purpose of a public directory. The
+-- view's WHERE-clause (verification_status filter) + column projection
+-- are the security boundary instead.
+--
+-- (Earlier revision used `security_invoker = true` which broke the
+-- directory by making every reader see only their own row through the
+-- view. Fixed 2026-05-11 during Phase 6 E2E validation.)
 --
 -- We do not expose user_id (Supabase auth UUID) externally — instead, the
 -- view exposes a directory_slug derived from the user_id. The slug is
 -- deterministic (first 8 hex chars of the UUID) so per-user URLs are
 -- stable but the full UUID isn't leaked.
 
-CREATE OR REPLACE VIEW public.directory_profiles
-WITH (security_invoker = true) AS
+CREATE OR REPLACE VIEW public.directory_profiles AS
 SELECT
   -- Derived public identifier (stable per user). Short enough for a URL,
   -- long enough to be non-trivial to guess.
@@ -49,4 +56,4 @@ WHERE verification_status IN ('verified', 'auto_verified');
 GRANT SELECT ON public.directory_profiles TO anon, authenticated;
 
 COMMENT ON VIEW public.directory_profiles IS
-  'D020 public directory — display_name, sector, region, photo, summary, type-specific org name for verified profiles only. Phone/email/parental fields omitted.';
+  'D020 public directory — display_name, sector, region, photo, summary, type-specific org name for verified profiles only. View runs as owner so RLS on the underlying user_profiles table does not block public reads (the WHERE-clause + column projection are the security boundary).';
