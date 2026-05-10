@@ -207,6 +207,40 @@ const EMPTY_STATES_SEED = {
   ],
 };
 
+const CONTACT_PAGE_SEED = {
+  eyebrow: "Contact",
+  headline: "Échangeons directement.",
+  leadParagraph:
+    "L'équipe REACT répond plus vite via WhatsApp pour les échanges courants. Pour une demande détaillée, l'e-mail reste la meilleure option. Notre bureau est à Dakar et accueille les visites sur rendez-vous.",
+  channelHints: {
+    whatsapp: "Canal principal — réponse plus rapide",
+    email: "Pour les demandes détaillées",
+    phone: "Pour les clarifications par voix",
+  },
+  channelGuideHeading: "Quel canal pour quoi ?",
+  channelGuide: [
+    {
+      channel: "WhatsApp",
+      guidance:
+        "questions courantes, partage de documents légers, messages vocaux. C'est le canal qu'Amadou consulte le plus souvent.",
+    },
+    {
+      channel: "E-mail",
+      guidance:
+        "demandes partenariat, dossiers de candidature, échanges nécessitant une trace écrite.",
+    },
+    {
+      channel: "Téléphone",
+      guidance:
+        "clarification quand un message écrit risque l'ambiguïté, sur rendez-vous de préférence.",
+    },
+    {
+      channel: "Visite au bureau",
+      guidance: "sur rendez-vous uniquement, dans le quartier de Sacrée Coeur 3 à Dakar.",
+    },
+  ],
+};
+
 const HOMEPAGE_DOMAINES_SEED = {
   eyebrow: "Domaines d'intervention",
   headline: "Quatre piliers, une mission cohérente",
@@ -307,6 +341,9 @@ async function seed(): Promise<void> {
 
   payload.logger.info("[seed] Upserting empty-states global");
   await payload.updateGlobal({ slug: "empty-states", data: EMPTY_STATES_SEED });
+
+  payload.logger.info("[seed] Upserting contact-page global");
+  await payload.updateGlobal({ slug: "contact-page", data: CONTACT_PAGE_SEED });
 
   payload.logger.info("[seed] Upserting partners");
   for (const p of PARTNERS_SEED) {

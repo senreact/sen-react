@@ -106,6 +106,7 @@ export interface Config {
     'homepage-hero': HomepageHero;
     'homepage-domaines': HomepageDomaine;
     'empty-states': EmptyState;
+    'contact-page': ContactPage;
   };
   globalsSelect: {
     'site-header': SiteHeaderSelect<false> | SiteHeaderSelect<true>;
@@ -114,6 +115,7 @@ export interface Config {
     'homepage-hero': HomepageHeroSelect<false> | HomepageHeroSelect<true>;
     'homepage-domaines': HomepageDomainesSelect<false> | HomepageDomainesSelect<true>;
     'empty-states': EmptyStatesSelect<false> | EmptyStatesSelect<true>;
+    'contact-page': ContactPageSelect<false> | ContactPageSelect<true>;
   };
   locale: null;
   widgets: {
@@ -894,6 +896,31 @@ export interface EmptyState {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-page".
+ */
+export interface ContactPage {
+  id: number;
+  eyebrow: string;
+  headline: string;
+  leadParagraph: string;
+  channelHints: {
+    whatsapp: string;
+    email: string;
+    phone: string;
+  };
+  channelGuide?:
+    | {
+        channel: string;
+        guidance: string;
+        id?: string | null;
+      }[]
+    | null;
+  channelGuideHeading: string;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-header_select".
  */
 export interface SiteHeaderSelect<T extends boolean = true> {
@@ -1031,6 +1058,33 @@ export interface EmptyStatesSelect<T extends boolean = true> {
         excerpt?: T;
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-page_select".
+ */
+export interface ContactPageSelect<T extends boolean = true> {
+  eyebrow?: T;
+  headline?: T;
+  leadParagraph?: T;
+  channelHints?:
+    | T
+    | {
+        whatsapp?: T;
+        email?: T;
+        phone?: T;
+      };
+  channelGuide?:
+    | T
+    | {
+        channel?: T;
+        guidance?: T;
+        id?: T;
+      };
+  channelGuideHeading?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

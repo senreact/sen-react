@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { ContactChannel } from "@/components/contact/ContactChannel";
-import { getContactInfo } from "@/lib/cms";
+import { getContactInfo, getContactPage } from "@/lib/cms";
 
 export const metadata: Metadata = {
   title: "Contact — Sen React",
@@ -9,9 +9,9 @@ export const metadata: Metadata = {
 };
 
 /**
- * /contact — Phase 2 step 5. Pulls coordinates from the Payload
- * contact-info global (D008 — no hardcoded copy). Three actionable
- * channels (WhatsApp · Email · Telephone) plus the physical address.
+ * /contact — Phase 2 step 5. Coordinates from `contact-info` global,
+ * editorial copy from `contact-page` global. Three actionable channels
+ * (WhatsApp · Email · Telephone) plus the physical address.
  *
  * No backend form — wa.me + mailto + tel: deeplinks open the user's
  * native client, which is both the lightest path and the one Amadou
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
  * legal compliance).
  */
 export default async function ContactPage() {
-  const contact = await getContactInfo();
+  const [contact, copy] = await Promise.all([getContactInfo(), getContactPage()]);
   const phoneDigits = contact.phoneE164.replace(/^\+/, "");
   const whatsappLink = `https://wa.me/${phoneDigits}`;
   const mailtoLink = `mailto:${contact.email}`;
@@ -32,13 +32,11 @@ export default async function ContactPage() {
       <section className="border-b border-[color:var(--color-border)] bg-white">
         <div className="mx-auto max-w-4xl px-6 py-16 md:py-20">
           <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-[color:var(--color-accent)]">
-            Contact
+            {copy.eyebrow}
           </p>
-          <h1 className="text-4xl font-bold leading-tight md:text-5xl">Échangeons directement.</h1>
+          <h1 className="text-4xl font-bold leading-tight md:text-5xl">{copy.headline}</h1>
           <p className="mt-5 max-w-2xl text-lg text-[color:var(--color-muted)]">
-            L&apos;équipe REACT répond plus vite via WhatsApp pour les échanges courants. Pour une
-            demande détaillée, l&apos;e-mail reste la meilleure option. Notre bureau est à Dakar et
-            accueille les visites sur rendez-vous.
+            {copy.leadParagraph}
           </p>
         </div>
       </section>
@@ -49,7 +47,7 @@ export default async function ContactPage() {
             <ContactChannel
               label="WhatsApp"
               value={contact.phoneDisplay}
-              hint="Canal principal — réponse plus rapide"
+              hint={copy.channelHints.whatsapp}
               href={whatsappLink}
               ctaLabel="Ouvrir WhatsApp"
             />
@@ -57,7 +55,7 @@ export default async function ContactPage() {
             <ContactChannel
               label="E-mail"
               value={contact.email}
-              hint="Pour les demandes détaillées"
+              hint={copy.channelHints.email}
               href={mailtoLink}
               ctaLabel="Écrire un e-mail"
             />
@@ -65,7 +63,7 @@ export default async function ContactPage() {
             <ContactChannel
               label="Téléphone"
               value={contact.phoneDisplay}
-              hint="Pour les clarifications par voix"
+              hint={copy.channelHints.phone}
               href={telLink}
               ctaLabel="Appeler"
             />
@@ -83,25 +81,14 @@ export default async function ContactPage() {
 
       <section>
         <div className="mx-auto max-w-3xl px-6 py-12">
-          <h2 className="mb-3 text-lg font-semibold">Quel canal pour quoi ?</h2>
+          <h2 className="mb-3 text-lg font-semibold">{copy.channelGuideHeading}</h2>
           <ul className="space-y-2 text-sm text-[color:var(--color-muted)]">
-            <li>
-              <strong className="text-[color:var(--color-fg)]">WhatsApp</strong> — questions
-              courantes, partage de documents légers, messages vocaux. C&apos;est le canal
-              qu&apos;Amadou consulte le plus souvent.
-            </li>
-            <li>
-              <strong className="text-[color:var(--color-fg)]">E-mail</strong> — demandes
-              partenariat, dossiers de candidature, échanges nécessitant une trace écrite.
-            </li>
-            <li>
-              <strong className="text-[color:var(--color-fg)]">Téléphone</strong> — clarification
-              quand un message écrit risque l&apos;ambiguïté, sur rendez-vous de préférence.
-            </li>
-            <li>
-              <strong className="text-[color:var(--color-fg)]">Visite au bureau</strong> — sur
-              rendez-vous uniquement, dans le quartier de Sacrée Coeur 3 à Dakar.
-            </li>
+            {copy.channelGuide.map((item) => (
+              <li key={item.channel}>
+                <strong className="text-[color:var(--color-fg)]">{item.channel}</strong> —{" "}
+                {item.guidance}
+              </li>
+            ))}
           </ul>
         </div>
       </section>
