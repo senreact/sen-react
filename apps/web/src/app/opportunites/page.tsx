@@ -25,6 +25,7 @@ interface PageProps {
     type?: string;
     area?: string;
     deadline?: string;
+    amountMin?: string;
     q?: string;
   }>;
 }
@@ -77,6 +78,10 @@ export default async function OpportunitiesIndex({ searchParams }: PageProps) {
     const days = Number.parseInt(sp.deadline, 10);
     if (Number.isFinite(days) && days > 0 && days <= 3650) filters.deadlineWithinDays = days;
   }
+  if (sp.amountMin) {
+    const min = Number.parseInt(sp.amountMin, 10);
+    if (Number.isFinite(min) && min > 0) filters.amountMin = min;
+  }
   if (sp.q) filters.q = sp.q.trim();
 
   const [opportunities, emptyStates] = await Promise.all([
@@ -89,6 +94,7 @@ export default async function OpportunitiesIndex({ searchParams }: PageProps) {
     filters.opportunityType ||
     filters.area ||
     filters.deadlineWithinDays ||
+    filters.amountMin ||
     filters.q,
   );
   const empty = hasActiveFilters ? emptyStates.opportunitiesNoMatch : emptyStates.opportunities;
@@ -118,6 +124,7 @@ export default async function OpportunitiesIndex({ searchParams }: PageProps) {
               type: filters.opportunityType,
               area: filters.area,
               deadline: filters.deadlineWithinDays?.toString(),
+              amountMin: filters.amountMin?.toString(),
               q: filters.q,
             }}
           />
