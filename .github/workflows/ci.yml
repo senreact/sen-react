@@ -115,7 +115,7 @@ jobs:
             --arg ref "$REF" \
             --arg sha "$SHA" \
             --argjson repoId "$GIT_REPO_ID" \
-            '{name: $name, project: $projectId, gitSource: {type: "github", repoId: $repoId, ref: $ref, sha: $sha}}')
+            '{name: $name, project: $projectId, gitSource: {type: "github", repoId: $repoId, ref: $ref, sha: $sha}, meta: {triggered_by: "ci"}}')
           response=$(curl -sS -X POST "https://api.vercel.com/v13/deployments?teamId=$VERCEL_TEAM_ID" \
             -H "Authorization: Bearer $VERCEL_TOKEN" \
             -H "Content-Type: application/json" \
@@ -145,7 +145,7 @@ jobs:
             --arg ref "$REF" \
             --arg sha "$SHA" \
             --argjson repoId "$GIT_REPO_ID" \
-            '{name: $name, project: $projectId, gitSource: {type: "github", repoId: $repoId, ref: $ref, sha: $sha}}')
+            '{name: $name, project: $projectId, gitSource: {type: "github", repoId: $repoId, ref: $ref, sha: $sha}, meta: {triggered_by: "ci"}}')
           response=$(curl -sS -X POST "https://api.vercel.com/v13/deployments?teamId=$VERCEL_TEAM_ID" \
             -H "Authorization: Bearer $VERCEL_TOKEN" \
             -H "Content-Type: application/json" \
@@ -240,7 +240,7 @@ jobs:
             --arg projectId "$VERCEL_PROJECT_ID" \
             --arg sha "$SHA" \
             --argjson repoId "$GIT_REPO_ID" \
-            '{name: $name, project: $projectId, target: "production", gitSource: {type: "github", repoId: $repoId, ref: "main", sha: $sha}}')
+            '{name: $name, project: $projectId, target: "production", gitSource: {type: "github", repoId: $repoId, ref: "main", sha: $sha}, meta: {triggered_by: "ci"}}')
           response=$(curl -sS -X POST "https://api.vercel.com/v13/deployments?teamId=$VERCEL_TEAM_ID&forceNew=1" \
             -H "Authorization: Bearer $VERCEL_TOKEN" \
             -H "Content-Type: application/json" \
@@ -267,7 +267,7 @@ jobs:
             --arg projectId "$VERCEL_PROJECT_ID" \
             --arg sha "$SHA" \
             --argjson repoId "$GIT_REPO_ID" \
-            '{name: $name, project: $projectId, target: "production", gitSource: {type: "github", repoId: $repoId, ref: "main", sha: $sha}}')
+            '{name: $name, project: $projectId, target: "production", gitSource: {type: "github", repoId: $repoId, ref: "main", sha: $sha}, meta: {triggered_by: "ci"}}')
           response=$(curl -sS -X POST "https://api.vercel.com/v13/deployments?teamId=$VERCEL_TEAM_ID&forceNew=1" \
             -H "Authorization: Bearer $VERCEL_TOKEN" \
             -H "Content-Type: application/json" \
