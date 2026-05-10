@@ -5,8 +5,11 @@ import { notFound } from "next/navigation";
 import { getSector } from "@sen-react/shared";
 
 import { LexicalRichText } from "@/components/content/LexicalRichText";
+import { SaveOpportunityButton } from "@/components/content/SaveOpportunityButton";
 import { getOpportunityBySlug, type OpportunityArea, type OpportunityType } from "@/lib/cms";
 import { formatDateFr } from "@/lib/format";
+import { createServerSupabase } from "@/lib/supabase/server";
+import { listSavedOpportunitySlugs } from "../actions";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -60,6 +63,17 @@ export default async function OpportunityDetailPage({ params }: PageProps) {
   const { slug } = await params;
   const opportunity = await getOpportunityBySlug(slug);
   if (!opportunity) notFound();
+
+  // Fetch auth + saved-set in parallel — both are independent of the
+  // opportunity fetch but cheap, so don't block the render path on
+  // them past this point.
+  const supabase = await createServerSupabase();
+  const [{ data: userData }, savedSet] = await Promise.all([
+    supabase.auth.getUser().catch(() => ({ data: { user: null } })),
+    listSavedOpportunitySlugs(),
+  ]);
+  const authenticated = Boolean(userData?.user);
+  const initialSaved = savedSet.has(slug);
 
   const sector = getSector(opportunity.sector);
   const days = daysUntil(opportunity.deadline);
@@ -164,9 +178,22 @@ export default async function OpportunityDetailPage({ params }: PageProps) {
                   Écrire à l&apos;organisme
                 </a>
               ) : null}
+              <SaveOpportunityButton
+                slug={slug}
+                initialSaved={initialSaved}
+                authenticated={authenticated}
+              />
             </div>
           </aside>
-        ) : null}
+        ) : (
+          <aside className="mt-10">
+            <SaveOpportunityButton
+              slug={slug}
+              initialSaved={initialSaved}
+              authenticated={authenticated}
+            />
+          </aside>
+        )}
       </article>
     </main>
   );
