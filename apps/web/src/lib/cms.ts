@@ -23,6 +23,20 @@ import {
 const CMS_URL = process.env.NEXT_PUBLIC_CMS_URL?.replace(/\/$/, "");
 const REVALIDATE_SECONDS = 300;
 
+/**
+ * Payload returns media URLs as paths relative to the CMS host
+ * (`/api/media/file/foo.pdf`). The web app is served from a different
+ * origin, so relative URLs resolve to the web host and 404. Prepend the
+ * CMS base URL when the value starts with `/`. Pass-through for already-
+ * absolute URLs (Payload may return signed S3 URLs in the future).
+ */
+export function absoluteMediaUrl(url: string | null | undefined): string | null {
+  if (!url) return null;
+  if (/^https?:\/\//i.test(url)) return url;
+  if (!CMS_URL) return url;
+  return `${CMS_URL}${url.startsWith("/") ? "" : "/"}${url}`;
+}
+
 async function fetchGlobal<T>(slug: string): Promise<T | null> {
   if (!CMS_URL) return null;
   try {

@@ -252,6 +252,19 @@ function lexicalRoot(paragraphs: Record<string, unknown>[]): Record<string, unkn
   };
 }
 
+function lexicalHeading(level: 2 | 3, text: string): Record<string, unknown> {
+  return {
+    type: "heading",
+    tag: `h${level}`,
+    version: 1,
+    children: [{ type: "text", version: 1, text, format: 0 }],
+  };
+}
+
+function lexicalPara(text: string): Record<string, unknown> {
+  return lexicalParagraph([{ text }]);
+}
+
 const FOUNDING_BODY = lexicalRoot([
   lexicalParagraph([
     { text: "REACT a été créé le " },
@@ -463,9 +476,329 @@ const HOMEPAGE_DOMAINES_SEED = {
   ],
 };
 
+// ────────────────────────────────────────────────────────────────────────────
+// Dev-fixture content for the four "live" collections (news / publications /
+// videos / opportunities). These exist so the Phase 3 + 4 surfaces can be
+// visually QA'd before Amadou's real content lands. Each entry is recognisably
+// a placeholder (titles like "Exemple", obvious dates) but realistic enough
+// in shape (proper sector / type / area / amount values) to exercise filters
+// and layouts.
+//
+// Idempotent: each fixture has a stable slug, upsertBySlug() handles re-runs.
+// Real content from REACT will live next to these fixtures (different slugs)
+// — re-running the seed won't clobber real entries unless someone happens to
+// reuse one of these `exemple-*` slugs.
+
+// Anchor the deadline / publishedAt dates relative to seed-time so fixtures
+// don't go stale. `daysFromNow(n)` returns an ISO date string for filters
+// (deadlineWithinDays) to actually hit something on the index.
+function daysFromNow(n: number): string {
+  const d = new Date();
+  d.setDate(d.getDate() + n);
+  return d.toISOString();
+}
+
+const NEWS_SEED = [
+  {
+    slug: "exemple-sen-react-lance-sa-plateforme",
+    title: "Exemple — Sen React lance sa plateforme",
+    summary:
+      "Première annonce officielle : Sen React met en ligne sa plateforme dédiée à la transition numérique et écologique des entrepreneurs sénégalais.",
+    body: lexicalRoot([
+      lexicalPara(
+        "Après plusieurs mois de préparation, REACT lance Sen React, sa plateforme dédiée à l'accompagnement des femmes, des jeunes et des communautés vulnérables dans la transition numérique et écologique.",
+      ),
+      lexicalHeading(2, "Ce qui change"),
+      lexicalPara(
+        "La plateforme centralise actualités sectorielles, opportunités curées et publications REACT — accessibles librement, sans inscription pour la lecture.",
+      ),
+      lexicalPara(
+        "Les membres inscrits bénéficient en plus de fonctionnalités personnalisées comme la sauvegarde d'opportunités et, à venir, l'annuaire B2B.",
+      ),
+    ]),
+    sector: "entrepreneuriat-local",
+    writePath: "react-original",
+    publishedAt: daysFromNow(-2),
+  },
+  {
+    slug: "exemple-agroecologie-3-cooperatives-2026",
+    title: "Exemple — Agroécologie : trois coopératives accompagnées en 2026",
+    summary:
+      "Bilan d'étape sur les trois coopératives agroécologiques du programme REACT — superficies, productions, défis.",
+    body: lexicalRoot([
+      lexicalPara(
+        "Le programme d'accompagnement agroécologique de REACT a démarré début 2026 avec trois coopératives pilotes dans les régions de Thiès, Saint-Louis et Ziguinchor.",
+      ),
+      lexicalHeading(2, "Trois sites, trois approches"),
+      lexicalPara(
+        "Chaque coopérative explore une trajectoire différente : maraîchage biologique pour l'une, transformation de fruits et légumes pour la deuxième, élevage intégré pour la troisième.",
+      ),
+    ]),
+    sector: "agroecologie",
+    writePath: "react-original",
+    publishedAt: daysFromNow(-7),
+  },
+  {
+    slug: "exemple-ia-au-service-des-tpe-senegalaises",
+    title: "Exemple — L'IA au service des TPE sénégalaises",
+    summary:
+      "Retour sur l'atelier REACT du mois d'avril : comment les TPE locales adoptent l'IA générative pour automatiser leur communication et leur gestion.",
+    body: lexicalRoot([
+      lexicalPara(
+        "L'atelier mensuel de REACT a réuni en avril une vingtaine de TPE sénégalaises autour des outils d'IA générative — ChatGPT, Claude, et leurs équivalents locaux.",
+      ),
+      lexicalPara(
+        "L'objectif : démystifier ces technologies et identifier des cas d'usage concrets pour des entreprises avec peu de ressources techniques.",
+      ),
+    ]),
+    sector: "digitalisation-technologie",
+    writePath: "react-original",
+    publishedAt: daysFromNow(-14),
+  },
+  {
+    slug: "exemple-saponification-filiere-feminine-croissance",
+    title: "Exemple — Saponification : la filière féminine en croissance",
+    summary:
+      "La production artisanale de savons par les coopératives féminines connaît une accélération nette en 2026 — chiffres et témoignages.",
+    body: lexicalRoot([
+      lexicalPara(
+        "Les coopératives féminines actives sur la saponification artisanale au Sénégal voient leur production progresser de manière significative depuis le début de 2026.",
+      ),
+    ]),
+    sector: "saponification",
+    writePath: "react-original",
+    publishedAt: daysFromNow(-30),
+  },
+  {
+    slug: "exemple-grant-african-ngo-hub-avril-2026",
+    title: "Exemple — Subventions African NGO Hub, sélection avril 2026",
+    summary:
+      "Article agrégé depuis African NGO Fundraising Hub — sélection des subventions ouvertes en avril pour les ONG ouest-africaines.",
+    body: lexicalRoot([
+      lexicalPara(
+        "African NGO Fundraising Hub publie chaque mois une sélection de subventions ouvertes aux ONG du continent. Voici les principales pour avril 2026.",
+      ),
+    ]),
+    sector: "developpement-economique",
+    writePath: "aggregated",
+    sourceUrl: "https://ngofundraising.africa/grants-and-funding-opportunities-april-2026/",
+    publishedAt: daysFromNow(-3),
+  },
+];
+
+// Publications fixtures are intentionally NOT seeded right now. The Publications
+// collection's `file` field is required (Payload upload → relationTo "media"),
+// and Payload's default media storage writes to the local filesystem of
+// whichever process runs the upload. Running this seed from a laptop against
+// prod Supabase persists the metadata row but leaves the binary on the local
+// disk — prod CMS (Vercel serverless container) then 500s on the download
+// route because the file isn't there. Fix: configure a real storage backend
+// (Supabase Storage adapter or S3-compatible). Tracked separately; once the
+// adapter is in, re-add a PUBLICATIONS_SEED block here.
+
+// 11-char YouTube IDs. These are syntactically valid (pass the collection
+// validator) but don't point to real Sen React videos — the embeds will show
+// "Video unavailable", which is fine for visual QA of the page chrome.
+const VIDEOS_SEED = [
+  {
+    slug: "exemple-sen-react-en-60-secondes",
+    title: "Exemple — Sen React en 60 secondes",
+    summary: "Capsule de présentation de la plateforme Sen React pour les nouveaux visiteurs.",
+    youtubeId: "aaaa-AAAA01",
+    videoType: "capsule",
+    origin: "react-original",
+    sector: "digitalisation-technologie",
+    duration: 62,
+    publishedAt: daysFromNow(-1),
+  },
+  {
+    slug: "exemple-interview-amadou-samb",
+    title: "Exemple — Interview avec Amadou Samb",
+    summary:
+      "Entretien long-format avec Elhadj Amadou Samb, Directeur Exécutif de REACT — genèse, vision et ambitions pour Sen React.",
+    youtubeId: "bbbb-BBBB02",
+    videoType: "interview",
+    origin: "react-original",
+    sector: "entrepreneuriat-local",
+    duration: 1380,
+    publishedAt: daysFromNow(-10),
+  },
+  {
+    slug: "exemple-temoignage-cooperative-agroecologique",
+    title: "Exemple — Témoignage : coopérative agroécologique de Thiès",
+    summary:
+      "Témoignage des productrices d'une coopérative agroécologique partenaire — parcours, défis, soutien REACT.",
+    youtubeId: "cccc-CCCC03",
+    videoType: "testimonial",
+    origin: "react-original",
+    sector: "agroecologie",
+    duration: 480,
+    publishedAt: daysFromNow(-21),
+  },
+  {
+    slug: "exemple-pourquoi-energies-vertes",
+    title: "Exemple — Pourquoi les énergies vertes au Sénégal ?",
+    summary:
+      "Explication courte sur les opportunités économiques de la transition énergétique pour les TPE sénégalaises.",
+    youtubeId: "dddd-DDDD04",
+    videoType: "explanation",
+    origin: "curated",
+    sector: "energies-renouvelables",
+    duration: 240,
+    publishedAt: daysFromNow(-45),
+  },
+];
+
+const OPPORTUNITIES_SEED = [
+  {
+    slug: "exemple-bourse-fongip-femmes-numerique-2026",
+    title: "Exemple — Bourse FONGIP Femmes Numérique 2026",
+    summary:
+      "Programme de garantie destiné aux femmes entrepreneures du secteur numérique au Sénégal — financements jusqu'à 5 M FCFA.",
+    body: lexicalRoot([
+      lexicalPara(
+        "Le FONGIP ouvre en 2026 une bourse dédiée aux femmes entrepreneures du secteur numérique. Le programme accompagne la création et la croissance de TPE portées par des femmes au Sénégal.",
+      ),
+      lexicalHeading(2, "Critères d'éligibilité"),
+      lexicalPara(
+        "TPE dirigée par une femme, projet dans le numérique au sens large (e-commerce, services numériques, fintech, ed-tech, etc.), inscription au registre du commerce.",
+      ),
+    ]),
+    sector: "digitalisation-technologie",
+    opportunityType: "financement",
+    area: "senegal",
+    deadline: daysFromNow(15),
+    amountValue: 5000000,
+    amountCurrency: "XOF",
+    amountDisplay: "Jusqu'à 5 000 000 FCFA",
+    source: "FONGIP",
+    sourceUrl: "http://www.fongip.sn",
+    publishedAt: daysFromNow(-5),
+    reactCurated: true,
+  },
+  {
+    slug: "exemple-formation-agroecologie-enda-pronat",
+    title: "Exemple — Formation Agroécologie ENDA Pronat",
+    summary:
+      "Cycle de formation de 6 semaines en agroécologie pour les coopératives productrices de la région de Dakar.",
+    body: lexicalRoot([
+      lexicalPara(
+        "ENDA Pronat propose un cycle de formation gratuit en agroécologie destiné aux coopératives féminines et juvéniles de la région de Dakar. Six semaines à raison de deux journées par semaine.",
+      ),
+    ]),
+    sector: "agroecologie",
+    opportunityType: "formation",
+    area: "senegal-dakar",
+    deadline: daysFromNow(30),
+    amountDisplay: "Formation gratuite",
+    source: "ENDA Pronat",
+    contactEmail: "formation@endapronat.sn",
+    publishedAt: daysFromNow(-3),
+    reactCurated: true,
+  },
+  {
+    slug: "exemple-appel-energies-vertes-afrique-ouest",
+    title: "Exemple — Appel à projets Énergies Vertes Afrique de l'Ouest",
+    summary:
+      "Programme régional de financement pour les projets d'énergies renouvelables portés par des entreprises ouest-africaines — jusqu'à 50 M FCFA.",
+    body: lexicalRoot([
+      lexicalPara(
+        "Un consortium de partenaires régionaux ouvre un appel à projets dédié aux solutions d'énergies renouvelables — solaire, mini-réseaux, efficacité énergétique.",
+      ),
+      lexicalPara(
+        "Les lauréats bénéficient d'un financement non-remboursable et d'un accompagnement technique sur 18 mois.",
+      ),
+    ]),
+    sector: "energies-renouvelables",
+    opportunityType: "appel-a-projets",
+    area: "afrique-ouest",
+    deadline: daysFromNow(60),
+    amountValue: 50000000,
+    amountCurrency: "XOF",
+    amountDisplay: "Jusqu'à 50 000 000 FCFA",
+    source: "Consortium Énergies Vertes",
+    sourceUrl: "https://example.org/appel-energies-vertes-2026",
+    publishedAt: daysFromNow(-10),
+    reactCurated: true,
+  },
+  {
+    slug: "exemple-concours-sen-startup-2026",
+    title: "Exemple — Concours Sen Startup 2026",
+    summary:
+      "Compétition annuelle des startups sénégalaises — 1 M FCFA pour le gagnant et 6 mois d'accompagnement.",
+    body: lexicalRoot([
+      lexicalPara(
+        "Sen Startup organise sa compétition annuelle des startups sénégalaises. Le concours est ouvert à tous les secteurs et privilégie l'impact et l'innovation.",
+      ),
+    ]),
+    sector: "entrepreneuriat-local",
+    opportunityType: "concours",
+    area: "senegal",
+    deadline: daysFromNow(5),
+    amountValue: 1000000,
+    amountCurrency: "XOF",
+    amountDisplay: "Prix : 1 000 000 FCFA + accompagnement",
+    source: "Sen Startup",
+    sourceUrl: "https://www.senstartup.com",
+    publishedAt: daysFromNow(-1),
+    reactCurated: true,
+  },
+  {
+    slug: "exemple-partenariat-giz-artisanat",
+    title: "Exemple — Partenariat GIZ — Artisanat sénégalais",
+    summary:
+      "La GIZ recherche des coopératives artisanales partenaires pour son programme de structuration des filières — appui financier et technique de 10 M FCFA.",
+    body: lexicalRoot([
+      lexicalPara(
+        "La GIZ ouvre un appel à manifestations d'intérêt pour des coopératives artisanales sénégalaises souhaitant intégrer son programme de structuration de filières. Appui financier et technique.",
+      ),
+    ]),
+    sector: "artisanat",
+    opportunityType: "partenariat",
+    area: "senegal-regions",
+    deadline: daysFromNow(90),
+    amountValue: 10000000,
+    amountCurrency: "XOF",
+    amountDisplay: "Jusqu'à 10 000 000 FCFA + appui technique",
+    source: "GIZ Sénégal",
+    sourceUrl: "https://www.giz.de/en/regions/africa/senegal",
+    publishedAt: daysFromNow(-15),
+    reactCurated: true,
+  },
+  {
+    slug: "exemple-grant-african-ngo-hub-2026",
+    title: "Exemple — Subvention African NGO Fundraising Hub",
+    summary:
+      "Subvention destinée aux ONG ouest-africaines actives sur les enjeux de développement économique — 500 K FCFA, candidature simplifiée.",
+    body: lexicalRoot([
+      lexicalPara(
+        "African NGO Fundraising Hub publie une subvention destinée aux ONG du continent actives sur le développement économique. Candidature courte, décision rapide.",
+      ),
+    ]),
+    sector: "developpement-economique",
+    opportunityType: "financement",
+    area: "afrique",
+    deadline: daysFromNow(180),
+    amountValue: 500000,
+    amountCurrency: "XOF",
+    amountDisplay: "≈ 500 000 FCFA (montant variable selon profil)",
+    source: "African NGO Fundraising Hub",
+    sourceUrl: "https://ngofundraising.africa",
+    publishedAt: daysFromNow(-20),
+    reactCurated: false,
+  },
+];
+
 async function upsertBySlug(
   payload: Awaited<ReturnType<typeof getPayload>>,
-  collection: "partners" | "programmes" | "team-members",
+  collection:
+    | "partners"
+    | "programmes"
+    | "team-members"
+    | "news"
+    | "publications"
+    | "videos"
+    | "opportunities",
   data: Record<string, unknown>,
 ): Promise<void> {
   const slug = data.slug as string;
@@ -562,6 +895,23 @@ async function seed(): Promise<void> {
   payload.logger.info("[seed] Upserting team members");
   for (const m of TEAM_SEED) {
     await upsertBySlug(payload, "team-members", { ...m });
+  }
+
+  payload.logger.info("[seed] Upserting news fixtures");
+  for (const n of NEWS_SEED) {
+    await upsertBySlug(payload, "news", { ...n });
+  }
+
+  payload.logger.info("[seed] Skipping publications — needs storage adapter (see seed.ts note)");
+
+  payload.logger.info("[seed] Upserting video fixtures");
+  for (const v of VIDEOS_SEED) {
+    await upsertBySlug(payload, "videos", { ...v });
+  }
+
+  payload.logger.info("[seed] Upserting opportunity fixtures");
+  for (const o of OPPORTUNITIES_SEED) {
+    await upsertBySlug(payload, "opportunities", { ...o });
   }
 
   payload.logger.info("[seed] Done.");

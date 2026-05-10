@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 
 import { getSector } from "@sen-react/shared";
 
-import { getPublicationBySlug } from "@/lib/cms";
+import { absoluteMediaUrl, getPublicationBySlug } from "@/lib/cms";
 import { formatDateFr } from "@/lib/format";
 
 interface PageProps {
@@ -54,6 +54,7 @@ export default async function PublicationDetailPage({ params }: PageProps) {
   const sector = publication.sector ? getSector(publication.sector) : undefined;
   const file = typeof publication.file === "object" && publication.file ? publication.file : null;
   const fileSize = bytesToHumanReadable(file?.filesize);
+  const fileHref = absoluteMediaUrl(file?.url);
   const authors = publication.authors ?? [];
 
   return (
@@ -99,7 +100,7 @@ export default async function PublicationDetailPage({ params }: PageProps) {
           </section>
         ) : null}
 
-        {file?.url ? (
+        {fileHref ? (
           <section className="rounded-lg border border-[color:var(--color-border)] bg-white p-6">
             <p className="mb-2 font-semibold">Téléchargement libre</p>
             <p className="mb-4 text-sm text-[color:var(--color-muted)]">
@@ -107,7 +108,7 @@ export default async function PublicationDetailPage({ params }: PageProps) {
               {fileSize ? ` Fichier ${fileSize}.` : ""}
             </p>
             <a
-              href={file.url}
+              href={fileHref}
               download
               className="inline-flex items-center gap-2 rounded-md bg-[color:var(--color-accent)] px-5 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
             >
