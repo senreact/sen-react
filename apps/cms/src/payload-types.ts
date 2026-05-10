@@ -105,6 +105,7 @@ export interface Config {
     'contact-info': ContactInfo;
     'homepage-hero': HomepageHero;
     'homepage-domaines': HomepageDomaine;
+    'empty-states': EmptyState;
   };
   globalsSelect: {
     'site-header': SiteHeaderSelect<false> | SiteHeaderSelect<true>;
@@ -112,6 +113,7 @@ export interface Config {
     'contact-info': ContactInfoSelect<false> | ContactInfoSelect<true>;
     'homepage-hero': HomepageHeroSelect<false> | HomepageHeroSelect<true>;
     'homepage-domaines': HomepageDomainesSelect<false> | HomepageDomainesSelect<true>;
+    'empty-states': EmptyStatesSelect<false> | EmptyStatesSelect<true>;
   };
   locale: null;
   widgets: {
@@ -860,6 +862,38 @@ export interface HomepageDomaine {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "empty-states".
+ */
+export interface EmptyState {
+  id: number;
+  news: {
+    title: string;
+    description: string;
+  };
+  publications: {
+    title: string;
+    description: string;
+  };
+  videos: {
+    title: string;
+    description: string;
+  };
+  /**
+   * Cartes affichées quand la collection News n'a pas encore d'articles publiés. Disparaissent dès qu'un vrai article est publié.
+   */
+  homepageLatestNewsFallback?:
+    | {
+        eyebrow: string;
+        title: string;
+        excerpt: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-header_select".
  */
 export interface SiteHeaderSelect<T extends boolean = true> {
@@ -960,6 +994,41 @@ export interface HomepageDomainesSelect<T extends boolean = true> {
     | {
         title?: T;
         description?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "empty-states_select".
+ */
+export interface EmptyStatesSelect<T extends boolean = true> {
+  news?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  publications?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  videos?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  homepageLatestNewsFallback?:
+    | T
+    | {
+        eyebrow?: T;
+        title?: T;
+        excerpt?: T;
         id?: T;
       };
   updatedAt?: T;

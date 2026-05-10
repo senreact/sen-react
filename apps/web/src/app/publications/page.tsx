@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { EmptyState } from "@/components/content/EmptyState";
 import { PublicationCard } from "@/components/content/PublicationCard";
-import { listPublications } from "@/lib/cms";
+import { getEmptyStates, listPublications } from "@/lib/cms";
 
 export const metadata: Metadata = {
   title: "Publications — Sen React",
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
  * need an account to read REACT's research.
  */
 export default async function PublicationsPage() {
-  const publications = await listPublications();
+  const [publications, emptyStates] = await Promise.all([listPublications(), getEmptyStates()]);
 
   return (
     <main>
@@ -39,8 +39,8 @@ export default async function PublicationsPage() {
         <div className="mx-auto max-w-6xl px-6 py-16">
           {publications.length === 0 ? (
             <EmptyState
-              title="Les premières publications arrivent bientôt."
-              description="Cette section accueillera les études, rapports et notes de réflexion REACT en téléchargement libre dès leur parution."
+              title={emptyStates.publications.title}
+              description={emptyStates.publications.description}
             />
           ) : (
             <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

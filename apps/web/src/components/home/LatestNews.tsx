@@ -3,43 +3,23 @@ import type { Route } from "next";
 
 import { getSector } from "@sen-react/shared";
 
-import { listNews } from "@/lib/cms";
+import { getEmptyStates, listNews } from "@/lib/cms";
 import { formatDateFr } from "@/lib/format";
 
 /**
  * Latest news block — pulls the 3 most recent published articles from
- * the Payload News collection. When the CMS isn't yet deployed (Phase 1
- * reality, env var unset) or returns no rows, the same dashed
- * placeholder cards as Phase 2 keep the layout intact instead of
- * rendering an empty section.
+ * the Payload News collection. When the CMS returns no published rows,
+ * falls back to the editor-curated placeholder cards stored in the
+ * `empty-states` global so REACT can refine the placeholder copy
+ * without a code change.
  *
- * Generic dates ("Bientôt") were retained in the placeholder slots
+ * Generic dates ("Bientôt") are retained in the placeholder slots
  * because fake real-looking dates that age in production are worse
  * than honestly-empty cards.
  */
-const PLACEHOLDER_NEWS = [
-  {
-    eyebrow: "Bientôt",
-    title: "Premier article à publier dès le lancement",
-    excerpt:
-      "Cette section accueillera les actualités, opportunités et publications éditées par l'équipe REACT.",
-  },
-  {
-    eyebrow: "Bientôt",
-    title: "Témoignages d'entrepreneurs accompagnés",
-    excerpt:
-      "Nous publierons régulièrement les parcours de femmes et de jeunes formés et accompagnés à travers nos programmes.",
-  },
-  {
-    eyebrow: "Bientôt",
-    title: "Analyses et publications de fond",
-    excerpt:
-      "Études, rapports et notes de réflexion sur l'entrepreneuriat sénégalais et africain — préparés par REACT.",
-  },
-];
-
 export async function LatestNews() {
-  const articles = await listNews(3);
+  const [articles, emptyStates] = await Promise.all([listNews(3), getEmptyStates()]);
+  const placeholders = emptyStates.homepageLatestNewsFallback;
 
   return (
     <section className="border-b border-[color:var(--color-border)]">
@@ -61,7 +41,7 @@ export async function LatestNews() {
 
         {articles.length === 0 ? (
           <ul className="grid gap-6 md:grid-cols-3">
-            {PLACEHOLDER_NEWS.map((item) => (
+            {placeholders.map((item) => (
               <li
                 key={item.title}
                 className="flex flex-col rounded-lg border border-dashed border-[color:var(--color-border)] p-6"

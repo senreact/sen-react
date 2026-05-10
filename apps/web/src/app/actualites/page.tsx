@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { EmptyState } from "@/components/content/EmptyState";
 import { NewsCard } from "@/components/content/NewsCard";
-import { listNews } from "@/lib/cms";
+import { getEmptyStates, listNews } from "@/lib/cms";
 
 export const metadata: Metadata = {
   title: "Actualités — Sen React",
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
  * in Phase 3. Today's surface is a vertical scroll of 50 most recent.
  */
 export default async function ActualitesPage() {
-  const articles = await listNews();
+  const [articles, emptyStates] = await Promise.all([listNews(), getEmptyStates()]);
 
   return (
     <main>
@@ -41,10 +41,7 @@ export default async function ActualitesPage() {
       <section>
         <div className="mx-auto max-w-6xl px-6 py-16">
           {articles.length === 0 ? (
-            <EmptyState
-              title="Les premières actualités arrivent bientôt."
-              description="Cette section accueillera les articles, opportunités et publications éditées par REACT dès que la rédaction démarre."
-            />
+            <EmptyState title={emptyStates.news.title} description={emptyStates.news.description} />
           ) : (
             <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {articles.map((article) => (
