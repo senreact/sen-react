@@ -378,3 +378,51 @@ export async function getEmptyStates(): Promise<EmptyStates> {
   const live = await fetchGlobal<EmptyStates>("empty-states");
   return live ?? DEFAULT_EMPTY_STATES;
 }
+
+export interface ContactPage {
+  eyebrow: string;
+  headline: string;
+  leadParagraph: string;
+  channelHints: { whatsapp: string; email: string; phone: string };
+  channelGuideHeading: string;
+  channelGuide: { channel: string; guidance: string }[];
+}
+
+const DEFAULT_CONTACT_PAGE: ContactPage = {
+  eyebrow: "Contact",
+  headline: "Échangeons directement.",
+  leadParagraph:
+    "L'équipe REACT répond plus vite via WhatsApp pour les échanges courants. Pour une demande détaillée, l'e-mail reste la meilleure option. Notre bureau est à Dakar et accueille les visites sur rendez-vous.",
+  channelHints: {
+    whatsapp: "Canal principal — réponse plus rapide",
+    email: "Pour les demandes détaillées",
+    phone: "Pour les clarifications par voix",
+  },
+  channelGuideHeading: "Quel canal pour quoi ?",
+  channelGuide: [
+    {
+      channel: "WhatsApp",
+      guidance:
+        "questions courantes, partage de documents légers, messages vocaux. C'est le canal qu'Amadou consulte le plus souvent.",
+    },
+    {
+      channel: "E-mail",
+      guidance:
+        "demandes partenariat, dossiers de candidature, échanges nécessitant une trace écrite.",
+    },
+    {
+      channel: "Téléphone",
+      guidance:
+        "clarification quand un message écrit risque l'ambiguïté, sur rendez-vous de préférence.",
+    },
+    {
+      channel: "Visite au bureau",
+      guidance: "sur rendez-vous uniquement, dans le quartier de Sacrée Coeur 3 à Dakar.",
+    },
+  ],
+};
+
+export async function getContactPage(): Promise<ContactPage> {
+  const live = await fetchGlobal<ContactPage>("contact-page");
+  return live ?? DEFAULT_CONTACT_PAGE;
+}
