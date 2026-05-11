@@ -4,11 +4,18 @@ import { notFound } from "next/navigation";
 
 import { getProfileType, getSector } from "@sen-react/shared";
 
+import { ReviewForm } from "@/components/directory/ReviewForm";
 import {
   getDirectoryProfileBySlug,
   getProfileContactBySlug,
   type ProfileContact,
 } from "@/lib/directory";
+import {
+  getReviewsForSubject,
+  resolveSlugToUserId,
+  summariseReviews,
+  type ProfileReview,
+} from "@/lib/reviews";
 import { createServerSupabase } from "@/lib/supabase/server";
 
 interface PageProps {
@@ -47,18 +54,26 @@ export default async function ProfileDetailPage({ params }: PageProps) {
   const profile = await getDirectoryProfileBySlug(slug);
   if (!profile) notFound();
 
-  // Auth check + contact fetch in parallel.
+  // Auth check + contact + reviews + subject-user-id in parallel.
   const supabase = await createServerSupabase();
-  const [{ data: userData }, contact] = await Promise.all([
+  const [{ data: userData }, contact, reviews, subjectUserId] = await Promise.all([
     supabase.auth.getUser().catch(() => ({ data: { user: null } })),
-    // Only fetch contact when there will be a viewer for it. Service-
-    // role is heavy (admin.getUserById for email); skip when anonymous.
     supabase.auth
       .getUser()
       .then(({ data }) => (data.user ? getProfileContactBySlug(slug) : null))
       .catch(() => null),
+    getReviewsForSubject(slug),
+    resolveSlugToUserId(slug),
   ]);
   const authenticated = Boolean(userData?.user);
+  const summary = summariseReviews(reviews);
+  const visitorUserId = userData?.user?.id ?? null;
+  const visitorIsSubject = Boolean(
+    visitorUserId && subjectUserId && visitorUserId === subjectUserId,
+  );
+  const visitorReview = visitorUserId
+    ? (reviews.find((r) => r.reviewer_user_id === visitorUserId) ?? null)
+    : null;
 
   const meta = getProfileType(profile.profile_type);
   const sector = profile.sector_slug ? getSector(profile.sector_slug) : null;
@@ -102,8 +117,83 @@ export default async function ProfileDetailPage({ params }: PageProps) {
         ) : null}
 
         <ContactSection authenticated={authenticated} contact={contact} slug={slug} />
+
+        <section className="mt-10">
+          <header className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
+            <h2 className="text-xl font-semibold">Avis</h2>
+            {summary.count > 0 && summary.averageStars !== null ? (
+              <p className="text-sm text-[color:var(--color-muted)]">
+                {summary.averageStars.toFixed(1)} / 5 — {summary.count} avis
+              </p>
+            ) : null}
+          </header>
+
+          {reviews.length === 0 ? (
+            <p className="rounded-md border border-slate-200 bg-slate-50/50 p-4 text-sm text-[color:var(--color-muted)]">
+              Aucun avis publié pour l&apos;instant.
+            </p>
+          ) : (
+            <ul className="space-y-3">
+              {reviews.map((r) => (
+                <ReviewItem key={r.id} review={r} />
+              ))}
+            </ul>
+          )}
+
+          {authenticated && !visitorIsSubject ? (
+            <div className="mt-6">
+              <ReviewForm
+                slug={slug}
+                existing={
+                  visitorReview
+                    ? { stars: visitorReview.stars, comment: visitorReview.comment }
+                    : null
+                }
+              />
+            </div>
+          ) : null}
+          {authenticated && visitorIsSubject ? (
+            <p className="mt-6 rounded-md border border-slate-200 bg-slate-50/50 p-3 text-xs text-[color:var(--color-muted)]">
+              Vous ne pouvez pas publier d&apos;avis sur votre propre profil.
+            </p>
+          ) : null}
+          {!authenticated ? (
+            <p className="mt-6 rounded-md border border-slate-200 bg-slate-50/50 p-3 text-xs text-[color:var(--color-muted)]">
+              <Link
+                href={`/connexion?returnTo=${encodeURIComponent(`/annuaire/${slug}`)}`}
+                className="text-[color:var(--color-accent)] hover:underline"
+              >
+                Connectez-vous
+              </Link>{" "}
+              pour publier un avis.
+            </p>
+          ) : null}
+        </section>
       </article>
     </main>
+  );
+}
+
+function ReviewItem({ review }: { review: ProfileReview }) {
+  const date = new Date(review.created_at).toLocaleDateString("fr-FR", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+  return (
+    <li className="rounded-lg border border-[color:var(--color-border)] bg-white p-4">
+      <div className="mb-1 flex items-center gap-2 text-sm">
+        <span className="text-amber-600">{"★".repeat(review.stars)}</span>
+        <span className="text-[color:var(--color-muted)]">{"☆".repeat(5 - review.stars)}</span>
+        <span className="font-semibold">{review.reviewer_display_name}</span>
+        <span className="text-xs text-[color:var(--color-muted)]">· {date}</span>
+      </div>
+      {review.comment ? (
+        <p className="whitespace-pre-line text-sm text-[color:var(--color-foreground)]">
+          {review.comment}
+        </p>
+      ) : null}
+    </li>
   );
 }
 
