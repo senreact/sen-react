@@ -67,6 +67,7 @@ export const DEFAULT_SITE_HEADER: SiteHeaderGlobal = {
     { label: "Secteurs", labelEn: "Sectors", href: "/secteurs" },
     { label: "Opportunités", labelEn: "Opportunities", href: "/opportunites" },
     { label: "Annuaire", labelEn: "Directory", href: "/annuaire" },
+    { label: "Recherches", labelEn: "Needs board", href: "/annuaire/recherches" },
     { label: "Actualités", labelEn: "News", href: "/actualites" },
     { label: "Publications", labelEn: "Publications", href: "/publications" },
     { label: "Vidéos", labelEn: "Videos", href: "/videos" },
