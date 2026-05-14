@@ -28,16 +28,16 @@ export function SiteHeader({ data }: SiteHeaderProps) {
           </span>
         </Link>
 
-        <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
           {navItems.length > 0 ? (
             <nav aria-label="Primary">
-              <ul className="flex flex-wrap items-center gap-x-6 gap-y-2">
+              <ul className="flex flex-wrap items-center gap-2">
                 {navItems.map((item) => (
                   <li key={`${item.href}-${item.label}`}>
                     <NavLink
                       href={item.href}
                       external={item.external}
-                      className="whitespace-nowrap text-sm font-medium hover:text-[color:var(--color-accent)]"
+                      className="whitespace-nowrap rounded-full border border-[color:var(--color-border)] bg-white px-3 py-1.5 text-sm font-medium text-[color:var(--color-fg)] hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)]"
                     >
                       {item.label}
                     </NavLink>

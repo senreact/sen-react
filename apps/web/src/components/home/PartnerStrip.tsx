@@ -20,10 +20,10 @@ export async function PartnerStrip() {
           <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-[color:var(--color-accent)]">
             Partenaires
           </p>
-          <h2 className="text-3xl font-bold leading-tight">Ils nous accompagnent</h2>
+          <h2 className="text-3xl font-bold leading-tight">Nos partenaires</h2>
           <p className="mt-3 text-sm text-[color:var(--color-muted)]">
-            Institutions publiques sénégalaises et organisations de la société civile. Les logos
-            officiels arriveront avec la confirmation visuelle.
+            Institutions publiques sénégalaises et organisations de la société civile qui
+            collaborent avec REACT. Les logos officiels arriveront avec la confirmation visuelle.
           </p>
         </header>
 

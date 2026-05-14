@@ -95,20 +95,6 @@ const PARTNERS_SEED = [
     description: "Organisation de jeunesse partenaire sur les programmes d'autonomisation.",
     order: 4,
   },
-  {
-    slug: "afikanite",
-    name: "AFIKANITE",
-    kind: "ngo",
-    description: "Partenaire panafricain accompagnant l'écosystème entrepreneurial du continent.",
-    order: 5,
-  },
-  {
-    slug: "gpf",
-    name: "GPF",
-    kind: "ngo",
-    description: "Organisation partenaire de société civile, alignée sur les valeurs de REACT.",
-    order: 6,
-  },
 ] as const;
 
 const PROGRAMMES_SEED = [

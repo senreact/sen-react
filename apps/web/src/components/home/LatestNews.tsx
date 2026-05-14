@@ -82,6 +82,14 @@ export async function LatestNews() {
                   >
                     {formatDateFr(article.publishedAt)}
                   </time>
+                  <Link
+                    href={href}
+                    className="mt-3 inline-flex w-fit items-center gap-1 rounded-md border border-[color:var(--color-accent)] px-3 py-1.5 text-xs font-semibold text-[color:var(--color-accent)] hover:bg-[color:var(--color-accent)] hover:text-white"
+                    aria-label={`Lire l'article : ${article.title}`}
+                  >
+                    Lire l&apos;article
+                    <span aria-hidden="true">→</span>
+                  </Link>
                 </li>
               );
             })}

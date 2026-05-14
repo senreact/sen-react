@@ -89,6 +89,15 @@ export function OpportunityCard({ opportunity }: OpportunityCardProps) {
           {opportunity.amountDisplay ? <span> · {opportunity.amountDisplay}</span> : null}
         </p>
       </div>
+
+      <Link
+        href={detailHref}
+        className="mt-4 inline-flex w-fit items-center gap-1 rounded-md border border-[color:var(--color-accent)] px-3 py-1.5 text-xs font-semibold text-[color:var(--color-accent)] hover:bg-[color:var(--color-accent)] hover:text-white"
+        aria-label={`Voir l'opportunité : ${opportunity.title}`}
+      >
+        Voir l&apos;opportunité
+        <span aria-hidden="true">→</span>
+      </Link>
     </li>
   );
 }
