@@ -1,8 +1,19 @@
+import { DirectoryTeaser } from "@/components/home/DirectoryTeaser";
 import { Domaines } from "@/components/home/Domaines";
 import { Hero } from "@/components/home/Hero";
 import { LatestNews } from "@/components/home/LatestNews";
 import { PartnerStrip } from "@/components/home/PartnerStrip";
 import { Programmes } from "@/components/home/Programmes";
+
+/**
+ * Force dynamic rendering — the `DirectoryTeaser` reads live verified
+ * profiles from Supabase via the cookie-aware server client, which
+ * relies on env vars that aren't available at build time. The rest of
+ * the homepage already does network fetches per request, so the cost
+ * is negligible and removing the static-prerender attempt avoids the
+ * "Supabase env not set" build error.
+ */
+export const dynamic = "force-dynamic";
 
 /**
  * Homepage shell — Phase 2 step 2 per the roadmap §4.
@@ -24,6 +35,7 @@ export default function HomePage() {
   return (
     <main>
       <Hero />
+      <DirectoryTeaser />
       <Domaines />
       <Programmes />
       <LatestNews />
