@@ -51,8 +51,16 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang={DEFAULT_LOCALE}>
       <body className="flex min-h-screen flex-col">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-[color:var(--color-accent)] focus:shadow focus:ring-2 focus:ring-[color:var(--color-accent)]"
+        >
+          Passer au contenu principal
+        </a>
         <SiteHeader data={headerData} />
-        <div className="flex-1">{children}</div>
+        <div id="main-content" className="flex-1">
+          {children}
+        </div>
         <SiteFooter data={footerData} />
         {GA_ID ? (
           <>

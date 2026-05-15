@@ -30,6 +30,7 @@ export function CommentForm({ articleSlug }: CommentFormProps) {
         rows={4}
         maxLength={2000}
         required
+        aria-label="Votre commentaire (max 2 000 caractères)"
         placeholder="Partagez votre réaction… (max 2 000 caractères)"
         className="w-full rounded-md border border-[color:var(--color-border)] px-3 py-2 text-sm focus:border-[color:var(--color-accent)] focus:outline-none"
       />
