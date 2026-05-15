@@ -4,9 +4,13 @@ import { notFound } from "next/navigation";
 
 import { getSector } from "@sen-react/shared";
 
+import { CommentForm } from "@/components/comments/CommentForm";
+import { CommentList } from "@/components/comments/CommentList";
 import { LexicalRichText } from "@/components/content/LexicalRichText";
 import { getNewsBySlug } from "@/lib/cms";
+import { listApprovedComments } from "@/lib/comments";
 import { formatDateFr } from "@/lib/format";
+import { createServerSupabase } from "@/lib/supabase/server";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -42,8 +46,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
  */
 export default async function NewsArticlePage({ params }: PageProps) {
   const { slug } = await params;
-  const article = await getNewsBySlug(slug);
+  const [article, supabase] = await Promise.all([getNewsBySlug(slug), createServerSupabase()]);
   if (!article) notFound();
+
+  const commentsEnabled = article.commentsEnabled !== false;
+  const [
+    comments,
+    {
+      data: { user },
+    },
+  ] = await Promise.all([
+    commentsEnabled ? listApprovedComments(slug) : Promise.resolve([]),
+    supabase.auth.getUser(),
+  ]);
 
   const sector = getSector(article.sector);
 
@@ -88,6 +103,28 @@ export default async function NewsArticlePage({ params }: PageProps) {
           </aside>
         ) : null}
       </article>
+
+      {commentsEnabled ? (
+        <section className="mx-auto max-w-3xl border-t border-[color:var(--color-border)] px-6 py-10">
+          <h2 className="mb-6 text-xl font-bold">Commentaires</h2>
+          <CommentList comments={comments} />
+          <div className="mt-8">
+            {user ? (
+              <CommentForm articleSlug={slug} />
+            ) : (
+              <p className="text-sm text-[color:var(--color-muted)]">
+                <Link
+                  href={`/connexion?returnTo=/actualites/${slug}`}
+                  className="font-semibold text-[color:var(--color-accent)] hover:underline"
+                >
+                  Connectez-vous
+                </Link>{" "}
+                pour laisser un commentaire.
+              </p>
+            )}
+          </div>
+        </section>
+      ) : null}
     </main>
   );
 }
