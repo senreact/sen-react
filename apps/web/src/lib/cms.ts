@@ -815,3 +815,20 @@ export async function listEvents(
 export async function getEventBySlug(slug: string): Promise<Event | null> {
   return fetchBySlug<Event>("events", slug);
 }
+
+export interface Announcement {
+  id: string;
+  title: string;
+  slug: string;
+  category: "general" | "urgent" | "platform-update" | "partnership";
+  body: LexicalRoot;
+  publishedAt: string;
+}
+
+export async function listAnnouncements(limit = 50): Promise<Announcement[]> {
+  return fetchCollection<Announcement>("announcements", { sort: "-publishedAt", limit });
+}
+
+export async function getAnnouncementBySlug(slug: string): Promise<Announcement | null> {
+  return fetchBySlug<Announcement>("announcements", slug);
+}
