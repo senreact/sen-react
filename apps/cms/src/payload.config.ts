@@ -20,6 +20,7 @@ import { Opportunities } from "./collections/Opportunities";
 import { Events } from "./collections/Events";
 import { Announcements } from "./collections/Announcements";
 import { Trainings } from "./collections/Trainings";
+import { Resources } from "./collections/Resources";
 import { SiteHeader } from "./globals/SiteHeader";
 import { SiteFooter } from "./globals/SiteFooter";
 import { ContactInfo } from "./globals/ContactInfo";
@@ -69,6 +70,7 @@ export default buildConfig({
     Events,
     Announcements,
     Trainings,
+    Resources,
   ],
   globals: [
     SiteHeader,

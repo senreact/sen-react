@@ -76,6 +76,8 @@ export const DEFAULT_SITE_HEADER: SiteHeaderGlobal = {
     { label: "Mentorat", labelEn: "Mentoring", href: "/mentorat" },
     { label: "Sondages", labelEn: "Polls", href: "/sondages" },
     { label: "Formations", labelEn: "Trainings", href: "/formations" },
+    { label: "Ressources", labelEn: "Resources", href: "/ressources" },
+    { label: "Renforcement", labelEn: "Capacity building", href: "/renforcement" },
     { label: "Publications", labelEn: "Publications", href: "/publications" },
     { label: "Vidéos", labelEn: "Videos", href: "/videos" },
     { label: "À propos", labelEn: "About", href: "/a-propos" },
