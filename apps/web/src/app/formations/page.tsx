@@ -43,9 +43,7 @@ export default async function FormationsPage() {
           <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-[color:var(--color-accent)]">
             Renforcement des capacités
           </p>
-          <h1 className="text-4xl font-bold leading-tight md:text-5xl">
-            Formations REACT.
-          </h1>
+          <h1 className="text-4xl font-bold leading-tight md:text-5xl">Formations REACT.</h1>
           <p className="mt-5 max-w-2xl text-lg text-[color:var(--color-muted)]">
             Tutoriels, webinaires, ateliers et cours en ligne pour renforcer vos compétences
             entrepreneuriales. Toujours gratuit.
