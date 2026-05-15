@@ -89,10 +89,7 @@ export default async function GroupDetailPage({ params }: Props) {
         ) : (
           <ul className="divide-y divide-[color:var(--color-border)] rounded-lg border border-[color:var(--color-border)] bg-white">
             {memberNames.map((m) => (
-              <li
-                key={m.id}
-                className="flex items-center justify-between px-5 py-3 text-sm"
-              >
+              <li key={m.id} className="flex items-center justify-between px-5 py-3 text-sm">
                 <span className="font-medium">{m.displayName}</span>
                 {m.role === "admin" ? (
                   <span className="text-xs text-[color:var(--color-accent)]">Admin</span>

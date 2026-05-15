@@ -31,7 +31,10 @@ export const GroupSchema = z.object({
     .string()
     .min(3, "Le nom doit contenir au moins 3 caractères.")
     .max(100, "Le nom ne peut pas dépasser 100 caractères."),
-  description: z.string().max(500, "La description ne peut pas dépasser 500 caractères.").optional(),
+  description: z
+    .string()
+    .max(500, "La description ne peut pas dépasser 500 caractères.")
+    .optional(),
   group_type: z.enum(["region", "sector", "theme"], {
     errorMap: () => ({ message: "Type de groupe invalide." }),
   }),
