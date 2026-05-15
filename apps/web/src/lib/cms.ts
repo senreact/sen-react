@@ -859,3 +859,24 @@ export async function listTrainings(limit = 50): Promise<Training[]> {
 export async function getTrainingBySlug(slug: string): Promise<Training | null> {
   return fetchBySlug<Training>("trainings", slug);
 }
+
+export interface Resource {
+  id: string;
+  title: string;
+  slug: string;
+  summary: string;
+  body?: LexicalRoot | null;
+  resourceType: "guide" | "fiche-technique" | "modele" | "checklist" | "rapport";
+  sector?: SectorSlug | null;
+  file?: { url?: string; filename?: string } | string | null;
+  coverImage?: { url?: string; alt?: string } | string | null;
+  publishedAt: string;
+}
+
+export async function listResources(limit = 50): Promise<Resource[]> {
+  return fetchCollection<Resource>("resources", { sort: "-publishedAt", limit });
+}
+
+export async function getResourceBySlug(slug: string): Promise<Resource | null> {
+  return fetchBySlug<Resource>("resources", slug);
+}
