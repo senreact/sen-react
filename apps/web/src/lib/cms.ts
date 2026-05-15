@@ -772,3 +772,46 @@ export async function getAuthStrings(): Promise<AuthStrings> {
   const live = await fetchGlobal<AuthStrings>("auth-strings");
   return live ?? DEFAULT_AUTH_STRINGS;
 }
+
+export interface Event {
+  id: string;
+  title: string;
+  slug: string;
+  summary?: string | null;
+  body?: LexicalRoot | null;
+  startsAt: string;
+  endsAt?: string | null;
+  location?: string | null;
+  eventType: "in-person" | "online" | "webinar";
+  sector?: SectorSlug | null;
+  registrationUrl?: string | null;
+  image?: { url?: string; alt?: string } | string | null;
+}
+
+export async function listEvents(
+  options: { upcoming?: boolean; limit?: number } = {},
+): Promise<Event[]> {
+  const { upcoming = false, limit = 50 } = options;
+  if (!CMS_URL) return [];
+  const url = new URL(`${CMS_URL}/api/events`);
+  url.searchParams.set("sort", "startsAt");
+  url.searchParams.set("limit", String(limit));
+  url.searchParams.set("depth", "1");
+  if (upcoming) {
+    url.searchParams.set("where[startsAt][greater_than_equal]", new Date().toISOString());
+  }
+  try {
+    const res = await fetch(url.toString(), {
+      next: { revalidate: REVALIDATE_SECONDS, tags: ["cms:events"] },
+    });
+    if (!res.ok) return [];
+    const json = (await res.json()) as { docs?: Event[] };
+    return json.docs ?? [];
+  } catch {
+    return [];
+  }
+}
+
+export async function getEventBySlug(slug: string): Promise<Event | null> {
+  return fetchBySlug<Event>("events", slug);
+}
