@@ -9,7 +9,6 @@ export const FormalisationSteps: CollectionConfig = {
   admin: {
     useAsTitle: "title",
     defaultColumns: ["stepNumber", "title", "agencyName", "_status"],
-    defaultSort: "stepNumber",
     description:
       "Procédures de formalisation d'entreprise au Sénégal — BCE/APIX, RCCM/NINEA, FRA, plan d'affaires, gestion financière.",
   },
