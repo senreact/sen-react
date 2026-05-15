@@ -880,3 +880,31 @@ export async function listResources(limit = 50): Promise<Resource[]> {
 export async function getResourceBySlug(slug: string): Promise<Resource | null> {
   return fetchBySlug<Resource>("resources", slug);
 }
+
+export interface FormalisationStep {
+  id: string;
+  stepNumber: number;
+  title: string;
+  slug: string;
+  summary: string;
+  body?: LexicalRoot | null;
+  agencyName?: string | null;
+  externalUrl?: string | null;
+  externalLabel?: string | null;
+  estimatedDuration?: string | null;
+  estimatedCost?: string | null;
+  requiredDocuments?: Array<{ id?: string; document: string }> | null;
+}
+
+export async function listFormalisationSteps(): Promise<FormalisationStep[]> {
+  return fetchCollection<FormalisationStep>("formalisation-steps", {
+    sort: "stepNumber",
+    limit: 20,
+  });
+}
+
+export async function getFormalisationStepBySlug(
+  slug: string,
+): Promise<FormalisationStep | null> {
+  return fetchBySlug<FormalisationStep>("formalisation-steps", slug);
+}

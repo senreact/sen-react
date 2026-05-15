@@ -21,6 +21,7 @@ import { Events } from "./collections/Events";
 import { Announcements } from "./collections/Announcements";
 import { Trainings } from "./collections/Trainings";
 import { Resources } from "./collections/Resources";
+import { FormalisationSteps } from "./collections/FormalisationSteps";
 import { SiteHeader } from "./globals/SiteHeader";
 import { SiteFooter } from "./globals/SiteFooter";
 import { ContactInfo } from "./globals/ContactInfo";
@@ -71,6 +72,7 @@ export default buildConfig({
     Announcements,
     Trainings,
     Resources,
+    FormalisationSteps,
   ],
   globals: [
     SiteHeader,
