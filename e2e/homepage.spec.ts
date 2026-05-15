@@ -61,9 +61,9 @@ test("homepage renders Phase 2 brand-site shell", async ({ page }) => {
     "Latest news heading must be visible",
   ).toBeVisible();
 
-  // Partner strip — placeholder grid
+  // Partner strip — heading updated per Amadou's Batch A feedback
   await expect(
-    page.getByRole("heading", { name: /Ils nous accompagnent/i }),
+    page.getByRole("heading", { name: /Nos partenaires/i }),
     "Partner strip heading must be visible",
   ).toBeVisible();
 });
