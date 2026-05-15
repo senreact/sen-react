@@ -5,10 +5,7 @@ import { useActionState } from "react";
 import type { ForumActionState } from "../../actions";
 
 interface Props {
-  threadAction: (
-    prev: ForumActionState,
-    formData: FormData,
-  ) => Promise<ForumActionState>;
+  threadAction: (prev: ForumActionState, formData: FormData) => Promise<ForumActionState>;
 }
 
 const initial: ForumActionState = { status: "idle" };

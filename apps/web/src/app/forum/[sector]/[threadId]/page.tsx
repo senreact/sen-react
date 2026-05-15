@@ -46,7 +46,10 @@ export default async function ForumThreadPage({ params }: Props) {
   return (
     <main className="mx-auto max-w-3xl px-6 py-12">
       <nav className="mb-6 text-sm">
-        <Link href={`/forum/${sector}`} className="text-[color:var(--color-accent)] hover:underline">
+        <Link
+          href={`/forum/${sector}`}
+          className="text-[color:var(--color-accent)] hover:underline"
+        >
           ← {sectorData.fr}
         </Link>
       </nav>
