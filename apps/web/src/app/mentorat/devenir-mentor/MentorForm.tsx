@@ -71,7 +71,12 @@ export function MentorForm() {
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
           {SECTORS.map((s) => (
             <label key={s.slug} className="flex cursor-pointer items-center gap-2 text-sm">
-              <input type="checkbox" name="sectors" value={s.slug} className="accent-[color:var(--color-accent)]" />
+              <input
+                type="checkbox"
+                name="sectors"
+                value={s.slug}
+                className="accent-[color:var(--color-accent)]"
+              />
               {s.fr}
             </label>
           ))}

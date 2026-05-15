@@ -28,11 +28,7 @@ export const MentorProfileSchema = z.object({
   contact_email: z.string().email("Email invalide.").optional().or(z.literal("")),
   contact_phone: z.string().max(30).optional(),
   contact_wa: z.string().max(30).optional(),
-  linkedin_url: z
-    .string()
-    .url("URL LinkedIn invalide.")
-    .optional()
-    .or(z.literal("")),
+  linkedin_url: z.string().url("URL LinkedIn invalide.").optional().or(z.literal("")),
 });
 
 export type MentorProfileInput = z.infer<typeof MentorProfileSchema>;
