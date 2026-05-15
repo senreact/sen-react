@@ -52,10 +52,7 @@ export default async function AnnouncementDetailPage({ params }: PageProps) {
             >
               {CATEGORY_LABEL[announcement.category] ?? announcement.category}
             </span>
-            <time
-              className="text-[color:var(--color-muted)]"
-              dateTime={announcement.publishedAt}
-            >
+            <time className="text-[color:var(--color-muted)]" dateTime={announcement.publishedAt}>
               {formatDateFr(announcement.publishedAt)}
             </time>
           </div>
