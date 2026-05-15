@@ -156,6 +156,7 @@ export interface NewsArticle {
   publishedAt: string;
   body?: LexicalRoot | null;
   coverImage?: { url?: string; alt?: string } | string | null;
+  commentsEnabled?: boolean | null;
 }
 
 export async function listNews(limit = 50): Promise<NewsArticle[]> {
