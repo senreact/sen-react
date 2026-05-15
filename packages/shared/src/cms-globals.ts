@@ -71,6 +71,8 @@ export const DEFAULT_SITE_HEADER: SiteHeaderGlobal = {
     { label: "Actualités", labelEn: "News", href: "/actualites" },
     { label: "Événements", labelEn: "Events", href: "/evenements" },
     { label: "Annonces", labelEn: "Announcements", href: "/annonces" },
+    { label: "Forum", labelEn: "Forum", href: "/forum" },
+    { label: "Mentorat", labelEn: "Mentoring", href: "/mentorat" },
     { label: "Publications", labelEn: "Publications", href: "/publications" },
     { label: "Vidéos", labelEn: "Videos", href: "/videos" },
     { label: "À propos", labelEn: "About", href: "/a-propos" },
