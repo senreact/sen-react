@@ -40,7 +40,15 @@ export function NewsCard({ article }: NewsCardProps) {
           {article.title}
         </Link>
       </h3>
-      <p className="text-sm text-[color:var(--color-muted)]">{article.summary}</p>
+      <p className="mb-4 text-sm text-[color:var(--color-muted)]">{article.summary}</p>
+      <Link
+        href={href}
+        className="mt-auto inline-flex w-fit items-center gap-1 rounded-md border border-[color:var(--color-accent)] px-3 py-1.5 text-xs font-semibold text-[color:var(--color-accent)] hover:bg-[color:var(--color-accent)] hover:text-white"
+        aria-label={`Lire l'article : ${article.title}`}
+      >
+        Lire l&apos;article
+        <span aria-hidden="true">→</span>
+      </Link>
     </li>
   );
 }
