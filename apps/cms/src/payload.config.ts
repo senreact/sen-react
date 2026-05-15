@@ -19,6 +19,7 @@ import { TeamMembers } from "./collections/TeamMembers";
 import { Opportunities } from "./collections/Opportunities";
 import { Events } from "./collections/Events";
 import { Announcements } from "./collections/Announcements";
+import { Trainings } from "./collections/Trainings";
 import { SiteHeader } from "./globals/SiteHeader";
 import { SiteFooter } from "./globals/SiteFooter";
 import { ContactInfo } from "./globals/ContactInfo";
@@ -67,6 +68,7 @@ export default buildConfig({
     Opportunities,
     Events,
     Announcements,
+    Trainings,
   ],
   globals: [
     SiteHeader,

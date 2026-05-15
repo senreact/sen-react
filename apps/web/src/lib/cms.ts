@@ -832,3 +832,30 @@ export async function listAnnouncements(limit = 50): Promise<Announcement[]> {
 export async function getAnnouncementBySlug(slug: string): Promise<Announcement | null> {
   return fetchBySlug<Announcement>("announcements", slug);
 }
+
+export interface Training {
+  id: string;
+  title: string;
+  slug: string;
+  summary?: string | null;
+  body?: LexicalRoot | null;
+  trainingType: "tutorial" | "webinar" | "workshop" | "online-course";
+  level?: "debutant" | "intermediaire" | "avance" | null;
+  format?: "online" | "in-person" | "hybrid" | null;
+  topic?: string | null;
+  sector?: SectorSlug | null;
+  startsAt?: string | null;
+  endsAt?: string | null;
+  location?: string | null;
+  registrationUrl?: string | null;
+  videoUrl?: string | null;
+  image?: { url?: string; alt?: string } | string | null;
+}
+
+export async function listTrainings(limit = 50): Promise<Training[]> {
+  return fetchCollection<Training>("trainings", { sort: "-createdAt", limit });
+}
+
+export async function getTrainingBySlug(slug: string): Promise<Training | null> {
+  return fetchBySlug<Training>("trainings", slug);
+}
