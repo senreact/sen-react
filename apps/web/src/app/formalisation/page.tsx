@@ -25,8 +25,8 @@ export default async function FormalisationPage() {
             Formaliser votre entreprise.
           </h1>
           <p className="mt-5 max-w-2xl text-lg text-[color:var(--color-muted)]">
-            Un parcours guidé, étape par étape, pour créer et formaliser votre entreprise au
-            Sénégal — de l&apos;enregistrement au plan d&apos;affaires.
+            Un parcours guidé, étape par étape, pour créer et formaliser votre entreprise au Sénégal
+            — de l&apos;enregistrement au plan d&apos;affaires.
           </p>
         </div>
       </section>
@@ -48,7 +48,9 @@ export default async function FormalisationPage() {
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="mb-1 flex flex-wrap items-center gap-3 text-xs text-[color:var(--color-muted)]">
-                    {step.agencyName ? <span className="font-semibold">{step.agencyName}</span> : null}
+                    {step.agencyName ? (
+                      <span className="font-semibold">{step.agencyName}</span>
+                    ) : null}
                     {step.estimatedDuration ? <span>· {step.estimatedDuration}</span> : null}
                     {step.estimatedCost ? <span>· {step.estimatedCost}</span> : null}
                   </div>

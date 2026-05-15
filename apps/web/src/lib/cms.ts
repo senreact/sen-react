@@ -903,8 +903,6 @@ export async function listFormalisationSteps(): Promise<FormalisationStep[]> {
   });
 }
 
-export async function getFormalisationStepBySlug(
-  slug: string,
-): Promise<FormalisationStep | null> {
+export async function getFormalisationStepBySlug(slug: string): Promise<FormalisationStep | null> {
   return fetchBySlug<FormalisationStep>("formalisation-steps", slug);
 }
