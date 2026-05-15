@@ -12,7 +12,7 @@ import { expect, test } from "@playwright/test";
  *   heading should describe 7
  */
 
-test("/partenaires renders 10 partners grouped by type", async ({ page }) => {
+test("/partenaires renders partners grouped by type", async ({ page }) => {
   const response = await page.goto("/partenaires");
   expect(response?.status(), "/partenaires must respond 200").toBe(200);
 
@@ -37,8 +37,7 @@ test("/partenaires renders 10 partners grouped by type", async ({ page }) => {
   await expect(page.getByText("Enda ECOPOP")).toBeVisible();
   await expect(page.getByText("CIVIC HIVE")).toBeVisible();
 
-  // Total count: 10 partner cards (3 institutions + 7 NGOs)
-  // Each card is an <li> within the partner sections; assert >= 10.
+  // Total count: 8 partner cards after AFIKANITE + GPF removed per Amadou Batch A feedback
   const cards = page.locator("li").filter({ has: page.locator("p.font-semibold") });
-  await expect(cards).toHaveCount(10);
+  await expect(cards).toHaveCount(8);
 });

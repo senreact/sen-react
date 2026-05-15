@@ -21,7 +21,7 @@ test("/contact renders four channels with working deeplinks", async ({ page }) =
   // WhatsApp deeplink — wa.me link with the E.164 number (no plus)
   const whatsappLink = page.getByRole("link", { name: /Ouvrir WhatsApp/i });
   await expect(whatsappLink).toBeVisible();
-  await expect(whatsappLink).toHaveAttribute("href", "https://wa.me/221773213955");
+  await expect(whatsappLink).toHaveAttribute("href", "https://wa.me/221774986954");
 
   // Email deeplink — mailto:
   const emailLink = page.getByRole("link", { name: /Écrire un e-mail/i });
@@ -31,7 +31,7 @@ test("/contact renders four channels with working deeplinks", async ({ page }) =
   // Phone deeplink — tel:
   const phoneLink = page.getByRole("link", { name: /Appeler/i });
   await expect(phoneLink).toBeVisible();
-  await expect(phoneLink).toHaveAttribute("href", "tel:+221773213955");
+  await expect(phoneLink).toHaveAttribute("href", "tel:+221774986954");
 
   // Address — confirm both lines render in the channel grid (footer
   // also surfaces the address; scope to <main> to avoid strict-mode
