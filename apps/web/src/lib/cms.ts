@@ -788,7 +788,9 @@ export interface Event {
   image?: { url?: string; alt?: string } | string | null;
 }
 
-export async function listEvents(options: { upcoming?: boolean; limit?: number } = {}): Promise<Event[]> {
+export async function listEvents(
+  options: { upcoming?: boolean; limit?: number } = {},
+): Promise<Event[]> {
   const { upcoming = false, limit = 50 } = options;
   if (!CMS_URL) return [];
   const url = new URL(`${CMS_URL}/api/events`);

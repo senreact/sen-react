@@ -24,9 +24,7 @@ export default async function EvenementsPage() {
     listEvents({ upcoming: false, limit: 20 }),
   ]);
 
-  const pastFiltered = past.filter(
-    (e) => !upcoming.find((u) => u.id === e.id),
-  );
+  const pastFiltered = past.filter((e) => !upcoming.find((u) => u.id === e.id));
 
   return (
     <main>

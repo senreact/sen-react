@@ -68,7 +68,10 @@ export default async function EventDetailPage({ params }: PageProps) {
               <dd className="mt-1 text-[color:var(--color-muted)]">
                 <time dateTime={event.startsAt}>{formatDateFr(event.startsAt)}</time>
                 {event.endsAt ? (
-                  <> — <time dateTime={event.endsAt}>{formatDateFr(event.endsAt)}</time></>
+                  <>
+                    {" "}
+                    — <time dateTime={event.endsAt}>{formatDateFr(event.endsAt)}</time>
+                  </>
                 ) : null}
               </dd>
             </div>
