@@ -58,7 +58,9 @@ export function PollCreateForm() {
           rows={5}
           required
           className="w-full rounded-md border border-[color:var(--color-border)] px-3 py-2 text-sm focus:border-[color:var(--color-accent)] focus:outline-none"
-          placeholder={"Mentoring individuel\nAteliers en groupe\nRessources en ligne\nMises en réseau"}
+          placeholder={
+            "Mentoring individuel\nAteliers en groupe\nRessources en ligne\nMises en réseau"
+          }
         />
         <p className="mt-1 text-xs text-[color:var(--color-muted)]">
           Une option par ligne (2 à 8 options).

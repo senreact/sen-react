@@ -67,21 +67,15 @@ export async function listActivePolls(): Promise<CommunityPoll[]> {
 export async function getPollResults(pollId: string, userId: string): Promise<PollResults | null> {
   const supabase = await createServerSupabase();
 
-  const [{ data: poll, error: pollError }, { data: votes, error: votesError }] = await Promise.all(
-    [
-      supabase
-        .from("community_polls")
-        .select("*")
-        .eq("id", pollId)
-        .returns<CommunityPoll[]>()
-        .single(),
-      supabase
-        .from("poll_votes")
-        .select("*")
-        .eq("poll_id", pollId)
-        .returns<PollVote[]>(),
-    ],
-  );
+  const [{ data: poll, error: pollError }, { data: votes, error: votesError }] = await Promise.all([
+    supabase
+      .from("community_polls")
+      .select("*")
+      .eq("id", pollId)
+      .returns<CommunityPoll[]>()
+      .single(),
+    supabase.from("poll_votes").select("*").eq("poll_id", pollId).returns<PollVote[]>(),
+  ]);
 
   if (pollError || !poll) return null;
 
