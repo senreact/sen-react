@@ -5,6 +5,35 @@ import { LatestNews } from "@/components/home/LatestNews";
 import { PartnerStrip } from "@/components/home/PartnerStrip";
 import { Programmes } from "@/components/home/Programmes";
 
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://senreact.vercel.app";
+
+const orgJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Sen React",
+  alternateName: "Réseau des Entrepreneurs Actifs",
+  url: BASE_URL,
+  logo: `${BASE_URL}/logo-react.jpg`,
+  description:
+    "Plateforme dédiée à la transition numérique et écologique des entrepreneurs sénégalais et africains.",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Sacrée Coeur 3 Lot N° 128/B",
+    addressLocality: "Dakar",
+    addressCountry: "SN",
+  },
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "customer service",
+    email: "senreactsen@gmail.com",
+  },
+  sameAs: [
+    "https://instagram.com/senreact",
+    "https://linkedin.com/company/senreact",
+    "https://youtube.com/@senreact",
+  ],
+};
+
 /**
  * Force dynamic rendering — the `DirectoryTeaser` reads live verified
  * profiles from Supabase via the cookie-aware server client, which
@@ -33,13 +62,19 @@ export const dynamic = "force-dynamic";
  */
 export default function HomePage() {
   return (
-    <main>
-      <Hero />
-      <DirectoryTeaser />
-      <Domaines />
-      <Programmes />
-      <LatestNews />
-      <PartnerStrip />
-    </main>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
+      />
+      <main>
+        <Hero />
+        <DirectoryTeaser />
+        <Domaines />
+        <Programmes />
+        <LatestNews />
+        <PartnerStrip />
+      </main>
+    </>
   );
 }

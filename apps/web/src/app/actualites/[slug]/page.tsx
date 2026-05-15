@@ -7,10 +7,12 @@ import { getSector } from "@sen-react/shared";
 import { CommentForm } from "@/components/comments/CommentForm";
 import { CommentList } from "@/components/comments/CommentList";
 import { LexicalRichText } from "@/components/content/LexicalRichText";
-import { getNewsBySlug } from "@/lib/cms";
+import { absoluteMediaUrl, getNewsBySlug } from "@/lib/cms";
 import { listApprovedComments } from "@/lib/comments";
 import { formatDateFr } from "@/lib/format";
 import { createServerSupabase } from "@/lib/supabase/server";
+
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://senreact.vercel.app";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -62,8 +64,34 @@ export default async function NewsArticlePage({ params }: PageProps) {
 
   const sector = getSector(article.sector);
 
+  const coverImageUrl =
+    typeof article.coverImage === "object" && article.coverImage !== null
+      ? absoluteMediaUrl(article.coverImage.url)
+      : null;
+
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    headline: article.title,
+    description: article.summary,
+    datePublished: article.publishedAt,
+    url: `${BASE_URL}/actualites/${slug}`,
+    ...(coverImageUrl ? { image: coverImageUrl } : {}),
+    author: { "@type": "Organization", name: "Sen React" },
+    publisher: {
+      "@type": "Organization",
+      name: "Sen React",
+      logo: { "@type": "ImageObject", url: `${BASE_URL}/logo-react.jpg` },
+    },
+  };
+
   return (
-    <main>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
+      <main>
       <article className="mx-auto max-w-3xl px-6 py-12 md:py-16">
         <nav className="mb-8 text-sm">
           <Link href="/actualites" className="text-[color:var(--color-accent)] hover:underline">
@@ -126,5 +154,6 @@ export default async function NewsArticlePage({ params }: PageProps) {
         </section>
       ) : null}
     </main>
+    </>
   );
 }
