@@ -18,6 +18,7 @@ import { Programmes } from "./collections/Programmes";
 import { TeamMembers } from "./collections/TeamMembers";
 import { Opportunities } from "./collections/Opportunities";
 import { Events } from "./collections/Events";
+import { Announcements } from "./collections/Announcements";
 import { SiteHeader } from "./globals/SiteHeader";
 import { SiteFooter } from "./globals/SiteFooter";
 import { ContactInfo } from "./globals/ContactInfo";
@@ -65,6 +66,7 @@ export default buildConfig({
     TeamMembers,
     Opportunities,
     Events,
+    Announcements,
   ],
   globals: [
     SiteHeader,

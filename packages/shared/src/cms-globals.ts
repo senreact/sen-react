@@ -70,6 +70,7 @@ export const DEFAULT_SITE_HEADER: SiteHeaderGlobal = {
     { label: "Recherches", labelEn: "Needs board", href: "/annuaire/recherches" },
     { label: "Actualités", labelEn: "News", href: "/actualites" },
     { label: "Événements", labelEn: "Events", href: "/evenements" },
+    { label: "Annonces", labelEn: "Announcements", href: "/annonces" },
     { label: "Publications", labelEn: "Publications", href: "/publications" },
     { label: "Vidéos", labelEn: "Videos", href: "/videos" },
     { label: "À propos", labelEn: "About", href: "/a-propos" },
