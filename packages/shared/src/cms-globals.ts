@@ -74,6 +74,7 @@ export const DEFAULT_SITE_HEADER: SiteHeaderGlobal = {
     { label: "Forum", labelEn: "Forum", href: "/forum" },
     { label: "Groupes", labelEn: "Groups", href: "/groupes" },
     { label: "Mentorat", labelEn: "Mentoring", href: "/mentorat" },
+    { label: "Sondages", labelEn: "Polls", href: "/sondages" },
     { label: "Publications", labelEn: "Publications", href: "/publications" },
     { label: "Vidéos", labelEn: "Videos", href: "/videos" },
     { label: "À propos", labelEn: "About", href: "/a-propos" },
