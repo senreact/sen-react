@@ -70,7 +70,7 @@ export default async function RessourcesPage() {
                 >
                   <div className="mb-3 flex flex-wrap items-center gap-2 text-xs">
                     <span
-                      className={`rounded-full px-2 py-0.5 font-semibold ${(TYPE_COLOUR[resource.resourceType] ?? "bg-gray-100 text-gray-700")}`}
+                      className={`rounded-full px-2 py-0.5 font-semibold ${TYPE_COLOUR[resource.resourceType] ?? "bg-gray-100 text-gray-700"}`}
                     >
                       {TYPE_LABEL[resource.resourceType] ?? resource.resourceType}
                     </span>
@@ -79,7 +79,10 @@ export default async function RessourcesPage() {
                         {sector.fr}
                       </span>
                     ) : null}
-                    <time className="text-[color:var(--color-muted)]" dateTime={resource.publishedAt}>
+                    <time
+                      className="text-[color:var(--color-muted)]"
+                      dateTime={resource.publishedAt}
+                    >
                       {formatDateFr(resource.publishedAt)}
                     </time>
                   </div>
