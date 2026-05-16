@@ -63,7 +63,9 @@ export default function CookiesPage() {
             </table>
           </div>
 
-          <h3 className="mb-2 mt-6 text-base font-semibold">2.2 Cookies analytiques (optionnels)</h3>
+          <h3 className="mb-2 mt-6 text-base font-semibold">
+            2.2 Cookies analytiques (optionnels)
+          </h3>
           <p>
             Si vous l&apos;acceptez, la plateforme utilise Google Analytics 4 pour mesurer
             l&apos;audience et améliorer nos services. Ces cookies collectent des données
@@ -131,9 +133,7 @@ export default function CookiesPage() {
             Supabase) vous empêchera de vous connecter à votre compte.
           </p>
 
-          <h3 className="mb-2 mt-6 text-base font-semibold">
-            3.2 Opt-out Google Analytics
-          </h3>
+          <h3 className="mb-2 mt-6 text-base font-semibold">3.2 Opt-out Google Analytics</h3>
           <p>
             Pour désactiver le suivi Google Analytics sur tous les sites :{" "}
             <a
@@ -151,10 +151,10 @@ export default function CookiesPage() {
           <h2 className="mb-3 text-xl font-semibold">4. Base légale et cadre réglementaire</h2>
           <p>
             La présente politique de cookies est établie conformément à la loi sénégalaise n°
-            2008-12 du 25 janvier 2008 sur la protection des données à caractère personnel (LPDP)
-            et aux lignes directrices de la Commission de Protection des Données Personnelles (CDP)
-            du Sénégal. Pour les cookies analytiques, le consentement de l&apos;utilisateur est
-            requis avant leur dépôt.
+            2008-12 du 25 janvier 2008 sur la protection des données à caractère personnel (LPDP) et
+            aux lignes directrices de la Commission de Protection des Données Personnelles (CDP) du
+            Sénégal. Pour les cookies analytiques, le consentement de l&apos;utilisateur est requis
+            avant leur dépôt.
           </p>
         </section>
 
@@ -162,8 +162,7 @@ export default function CookiesPage() {
           <h2 className="mb-3 text-xl font-semibold">5. Modifications</h2>
           <p>
             La présente politique peut être mise à jour pour refléter les évolutions de la
-            plateforme ou de la réglementation. La date de version est indiquée en tête de
-            document.
+            plateforme ou de la réglementation. La date de version est indiquée en tête de document.
           </p>
         </section>
 

@@ -25,8 +25,9 @@ export default function MentionsLegalesPage() {
         <div>
           <h2 className="mb-3 text-xl font-semibold">1. Éditeur de la plateforme</h2>
           <p className="text-[color:var(--color-fg)]">
-            La plateforme <strong>Sen React</strong> (accessible à l&apos;adresse senreact.vercel.app
-            et, à terme, sur le domaine officiel de l&apos;association) est éditée par :
+            La plateforme <strong>Sen React</strong> (accessible à l&apos;adresse
+            senreact.vercel.app et, à terme, sur le domaine officiel de l&apos;association) est
+            éditée par :
           </p>
           <ul className="mt-3 space-y-1 text-sm text-[color:var(--color-fg)]">
             <li>
@@ -82,8 +83,8 @@ export default function MentionsLegalesPage() {
             Sen React est une plateforme numérique à but non lucratif dédiée à la transition
             numérique et écologique des entrepreneurs sénégalais et africains, avec un accent
             particulier sur les femmes, les jeunes et les communautés vulnérables. Elle propose des
-            services d&apos;annuaire professionnel, de partage d&apos;actualités, de mise en relation
-            et de renforcement de capacités.
+            services d&apos;annuaire professionnel, de partage d&apos;actualités, de mise en
+            relation et de renforcement de capacités.
           </p>
         </div>
 
@@ -98,8 +99,8 @@ export default function MentionsLegalesPage() {
             strictement interdite.
           </p>
           <p className="mt-3 text-[color:var(--color-fg)]">
-            Les marques, logos et dénominations sociales figurant sur la plateforme sont la propriété
-            de leurs titulaires respectifs.
+            Les marques, logos et dénominations sociales figurant sur la plateforme sont la
+            propriété de leurs titulaires respectifs.
           </p>
         </div>
 

@@ -14,8 +14,8 @@ export default function ConfidentialitePage() {
         rédigé à l&apos;aide d&apos;outils d&apos;intelligence artificielle à titre de point de
         départ uniquement. Il ne constitue pas un avis juridique. REACT doit le soumettre à un
         conseiller juridique compétent en droit sénégalais et procéder à la déclaration préalable
-        auprès de la Commission de Protection des Données Personnelles (CDP) avant toute
-        publication définitive.
+        auprès de la Commission de Protection des Données Personnelles (CDP) avant toute publication
+        définitive.
       </div>
 
       <h1 className="mb-2 text-3xl font-bold">Politique de confidentialité</h1>
@@ -26,9 +26,9 @@ export default function ConfidentialitePage() {
           <h2 className="mb-3 text-xl font-semibold">1. Responsable du traitement</h2>
           <p>
             Le responsable du traitement des données personnelles collectées via la plateforme{" "}
-            <strong>Sen React</strong> est l&apos;association REACT (Réseau des Entrepreneurs
-            Actifs pour la Compétitivité et la Transition), dont le siège est à Sacrée Cœur 3, Lot
-            N° 128/B, Dakar, Sénégal.
+            <strong>Sen React</strong> est l&apos;association REACT (Réseau des Entrepreneurs Actifs
+            pour la Compétitivité et la Transition), dont le siège est à Sacrée Cœur 3, Lot N°
+            128/B, Dakar, Sénégal.
           </p>
           <p className="mt-3">
             Contact délégué à la protection des données :{" "}
@@ -48,10 +48,10 @@ export default function ConfidentialitePage() {
         <section>
           <h2 className="mb-3 text-xl font-semibold">2. Base légale</h2>
           <p>
-            Le traitement des données personnelles est fondé sur la loi sénégalaise n° 2008-12 du
-            25 janvier 2008 portant sur la Protection des Données à caractère Personnel (LPDP) et
-            son décret d&apos;application n° 2008-721 du 30 juin 2008. Les bases légales du
-            traitement sont :
+            Le traitement des données personnelles est fondé sur la loi sénégalaise n° 2008-12 du 25
+            janvier 2008 portant sur la Protection des Données à caractère Personnel (LPDP) et son
+            décret d&apos;application n° 2008-721 du 30 juin 2008. Les bases légales du traitement
+            sont :
           </p>
           <ul className="mt-3 list-inside list-disc space-y-2">
             <li>
@@ -76,8 +76,8 @@ export default function ConfidentialitePage() {
           <p>
             Pour les visiteurs qui ne créent pas de compte, nous collectons uniquement des données
             techniques anonymisées via Google Analytics 4 (si activé) : pages consultées, durée de
-            visite, type d&apos;appareil et navigateur, pays de connexion. Aucune donnée
-            personnelle identifiante n&apos;est collectée pour les visiteurs.
+            visite, type d&apos;appareil et navigateur, pays de connexion. Aucune donnée personnelle
+            identifiante n&apos;est collectée pour les visiteurs.
           </p>
 
           <h3 className="mb-2 mt-4 text-base font-semibold">3.2 Membres inscrits</h3>
@@ -116,8 +116,8 @@ export default function ConfidentialitePage() {
           <ul className="mt-2 list-inside list-disc space-y-2">
             <li>Permettre l&apos;inscription, l&apos;authentification et la gestion du compte ;</li>
             <li>
-              Afficher le profil du membre dans l&apos;annuaire (si le profil est publié et
-              vérifié) ;
+              Afficher le profil du membre dans l&apos;annuaire (si le profil est publié et vérifié)
+              ;
             </li>
             <li>
               Permettre la participation aux fonctionnalités communautaires (forum, groupes,
@@ -132,8 +132,7 @@ export default function ConfidentialitePage() {
               modération) ;
             </li>
             <li>
-              Améliorer les services de REACT sur la base de statistiques d&apos;usage anonymisées
-              ;
+              Améliorer les services de REACT sur la base de statistiques d&apos;usage anonymisées ;
             </li>
             <li>Respecter les obligations légales applicables.</li>
           </ul>
@@ -147,16 +146,16 @@ export default function ConfidentialitePage() {
           </p>
           <ul className="mt-3 list-inside list-disc space-y-2">
             <li>
-              <strong>Supabase Inc.</strong> (hébergeur de la base de données) — serveurs en
-              Europe de l&apos;Ouest, soumis au RGPD européen en tant que sous-traitant ;
+              <strong>Supabase Inc.</strong> (hébergeur de la base de données) — serveurs en Europe
+              de l&apos;Ouest, soumis au RGPD européen en tant que sous-traitant ;
             </li>
             <li>
               <strong>Vercel Inc.</strong> (hébergeur de l&apos;application) — serveurs aux
               États-Unis, avec mécanismes de transfert conformes (Standard Contractual Clauses) ;
             </li>
             <li>
-              <strong>Google LLC</strong> (Google Analytics 4, si activé) — données
-              d&apos;audience anonymisées, soumises à la politique de confidentialité de Google ;
+              <strong>Google LLC</strong> (Google Analytics 4, si activé) — données d&apos;audience
+              anonymisées, soumises à la politique de confidentialité de Google ;
             </li>
             <li>
               <strong>Autorités publiques</strong> — sur demande légalement fondée des autorités
@@ -178,8 +177,8 @@ export default function ConfidentialitePage() {
           <ul className="list-inside list-disc space-y-2">
             <li>
               <strong>Données de compte actif :</strong> conservées pendant toute la durée
-              d&apos;activité du compte, puis supprimées dans les 30 jours suivant la suppression
-              du compte ;
+              d&apos;activité du compte, puis supprimées dans les 30 jours suivant la suppression du
+              compte ;
             </li>
             <li>
               <strong>Journaux de sécurité (logs de connexion) :</strong> 12 mois maximum ;
@@ -189,12 +188,12 @@ export default function ConfidentialitePage() {
               recommandé GA4) ;
             </li>
             <li>
-              <strong>Données de consentement parental :</strong> jusqu&apos;à la majorité du
-              mineur (18 ans) ou suppression du compte ;
+              <strong>Données de consentement parental :</strong> jusqu&apos;à la majorité du mineur
+              (18 ans) ou suppression du compte ;
             </li>
             <li>
-              <strong>Données archivées pour obligations légales :</strong> durée imposée par la
-              loi applicable.
+              <strong>Données archivées pour obligations légales :</strong> durée imposée par la loi
+              applicable.
             </li>
           </ul>
         </section>
@@ -219,16 +218,16 @@ export default function ConfidentialitePage() {
               inexactes ou incomplètes ;
             </li>
             <li>
-              <strong>Droit d&apos;opposition</strong> (art. 26) — vous opposer au traitement de
-              vos données dans certains cas ;
+              <strong>Droit d&apos;opposition</strong> (art. 26) — vous opposer au traitement de vos
+              données dans certains cas ;
             </li>
             <li>
-              <strong>Droit de suppression</strong> — demander la suppression de votre compte et
-              des données associées (dans les conditions prévues à l&apos;art. 26 LPDP) ;
+              <strong>Droit de suppression</strong> — demander la suppression de votre compte et des
+              données associées (dans les conditions prévues à l&apos;art. 26 LPDP) ;
             </li>
             <li>
-              <strong>Droit de retrait du consentement</strong> — retirer votre consentement à
-              tout moment pour les traitements fondés sur celui-ci.
+              <strong>Droit de retrait du consentement</strong> — retirer votre consentement à tout
+              moment pour les traitements fondés sur celui-ci.
             </li>
           </ul>
           <p className="mt-4">
@@ -241,10 +240,8 @@ export default function ConfidentialitePage() {
           <p className="mt-3">
             Si vous estimez que le traitement de vos données personnelles n&apos;est pas conforme à
             la loi sénégalaise, vous pouvez introduire une réclamation auprès de la{" "}
-            <strong>
-              Commission de Protection des Données Personnelles (CDP) du Sénégal
-            </strong>{" "}
-            — autorité de contrôle compétente.
+            <strong>Commission de Protection des Données Personnelles (CDP) du Sénégal</strong> —
+            autorité de contrôle compétente.
           </p>
         </section>
 
@@ -257,14 +254,15 @@ export default function ConfidentialitePage() {
           </p>
           <ul className="mt-3 list-inside list-disc space-y-1">
             <li>Chiffrement des mots de passe (bcrypt) ;</li>
-            <li>
-              Communications chiffrées via HTTPS/TLS sur l&apos;ensemble de la plateforme ;
-            </li>
+            <li>Communications chiffrées via HTTPS/TLS sur l&apos;ensemble de la plateforme ;</li>
             <li>
               Base de données sécurisée avec contrôle d&apos;accès par rôle (Row Level Security) ;
             </li>
             <li>Hébergement en région Europe de l&apos;Ouest (Supabase) ;</li>
-            <li>Accès restreint aux données par l&apos;équipe REACT selon le principe du moindre privilège.</li>
+            <li>
+              Accès restreint aux données par l&apos;équipe REACT selon le principe du moindre
+              privilège.
+            </li>
           </ul>
         </section>
 
@@ -282,10 +280,10 @@ export default function ConfidentialitePage() {
         <section>
           <h2 className="mb-3 text-xl font-semibold">10. Mineurs</h2>
           <p>
-            La plateforme n&apos;est pas destinée aux enfants de moins de 13 ans. Pour les jeunes
-            de 13 à 17 ans, le consentement d&apos;un parent ou tuteur légal est requis lors de
-            l&apos;inscription. REACT traite les données des mineurs avec une vigilance accrue et
-            ne les utilise pas à des fins de profilage ou de publicité ciblée.
+            La plateforme n&apos;est pas destinée aux enfants de moins de 13 ans. Pour les jeunes de
+            13 à 17 ans, le consentement d&apos;un parent ou tuteur légal est requis lors de
+            l&apos;inscription. REACT traite les données des mineurs avec une vigilance accrue et ne
+            les utilise pas à des fins de profilage ou de publicité ciblée.
           </p>
         </section>
 

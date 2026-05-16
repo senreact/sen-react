@@ -17,17 +17,15 @@ export default function ConditionsUtilisationPage() {
       </div>
 
       <h1 className="mb-2 text-3xl font-bold">Conditions générales d&apos;utilisation (CGU)</h1>
-      <p className="mb-8 text-sm text-[color:var(--color-muted)]">
-        Version 1.0 — mai 2026
-      </p>
+      <p className="mb-8 text-sm text-[color:var(--color-muted)]">Version 1.0 — mai 2026</p>
 
       <div className="space-y-10 text-[color:var(--color-fg)]">
         <section>
           <h2 className="mb-3 text-xl font-semibold">1. Présentation et acceptation</h2>
           <p>
-            La plateforme <strong>Sen React</strong> est éditée par l&apos;association REACT
-            (Réseau des Entrepreneurs Actifs pour la Compétitivité et la Transition), association
-            à but non lucratif dont le siège est à Dakar, Sénégal.
+            La plateforme <strong>Sen React</strong> est éditée par l&apos;association REACT (Réseau
+            des Entrepreneurs Actifs pour la Compétitivité et la Transition), association à but non
+            lucratif dont le siège est à Dakar, Sénégal.
           </p>
           <p className="mt-3">
             L&apos;accès et l&apos;utilisation de la plateforme, qu&apos;il s&apos;agisse de la
@@ -37,9 +35,9 @@ export default function ConditionsUtilisationPage() {
             s&apos;abstenir d&apos;utiliser la plateforme.
           </p>
           <p className="mt-3">
-            REACT se réserve le droit de modifier les présentes CGU à tout moment. Les
-            modifications entrent en vigueur dès leur publication. Les utilisateurs sont invités à
-            les consulter régulièrement.
+            REACT se réserve le droit de modifier les présentes CGU à tout moment. Les modifications
+            entrent en vigueur dès leur publication. Les utilisateurs sont invités à les consulter
+            régulièrement.
           </p>
         </section>
 
@@ -59,11 +57,11 @@ export default function ConditionsUtilisationPage() {
           </p>
           <h3 className="mb-2 mt-4 text-base font-semibold">2.3 Conditions d&apos;âge</h3>
           <p>
-            La plateforme est ouverte à toute personne âgée d&apos;au moins{" "}
-            <strong>13 ans</strong>. Les personnes âgées de 13 à 17 ans révolus doivent disposer
-            du consentement préalable d&apos;un parent ou tuteur légal pour s&apos;inscrire et
-            utiliser les fonctionnalités communautaires. En créant un compte, l&apos;utilisateur
-            déclare avoir l&apos;âge requis ou avoir obtenu le consentement parental.
+            La plateforme est ouverte à toute personne âgée d&apos;au moins <strong>13 ans</strong>.
+            Les personnes âgées de 13 à 17 ans révolus doivent disposer du consentement préalable
+            d&apos;un parent ou tuteur légal pour s&apos;inscrire et utiliser les fonctionnalités
+            communautaires. En créant un compte, l&apos;utilisateur déclare avoir l&apos;âge requis
+            ou avoir obtenu le consentement parental.
           </p>
         </section>
 
@@ -71,12 +69,10 @@ export default function ConditionsUtilisationPage() {
           <h2 className="mb-3 text-xl font-semibold">3. Création et gestion du compte</h2>
           <ul className="list-inside list-disc space-y-2">
             <li>
-              L&apos;utilisateur s&apos;engage à fournir des informations exactes, complètes et
-              à jour lors de son inscription et à les maintenir à jour.
+              L&apos;utilisateur s&apos;engage à fournir des informations exactes, complètes et à
+              jour lors de son inscription et à les maintenir à jour.
             </li>
-            <li>
-              Chaque utilisateur ne peut détenir qu&apos;un seul compte actif.
-            </li>
+            <li>Chaque utilisateur ne peut détenir qu&apos;un seul compte actif.</li>
             <li>
               L&apos;utilisateur est responsable de la confidentialité de ses identifiants de
               connexion (adresse courriel et mot de passe). Il s&apos;engage à ne pas les
@@ -91,8 +87,8 @@ export default function ConditionsUtilisationPage() {
               .
             </li>
             <li>
-              REACT se réserve le droit de suspendre ou supprimer tout compte ne respectant pas
-              les présentes CGU, sans préavis ni indemnisation.
+              REACT se réserve le droit de suspendre ou supprimer tout compte ne respectant pas les
+              présentes CGU, sans préavis ni indemnisation.
             </li>
           </ul>
         </section>
@@ -102,8 +98,8 @@ export default function ConditionsUtilisationPage() {
           <h3 className="mb-2 text-base font-semibold">4.1 Comportements autorisés</h3>
           <p>
             L&apos;utilisateur s&apos;engage à utiliser la plateforme conformément à sa finalité
-            (mise en relation professionnelle, partage de connaissances, renforcement de
-            capacités, accès aux opportunités).
+            (mise en relation professionnelle, partage de connaissances, renforcement de capacités,
+            accès aux opportunités).
           </p>
           <h3 className="mb-2 mt-4 text-base font-semibold">4.2 Comportements interdits</h3>
           <p className="mb-2">Il est formellement interdit de :</p>
@@ -112,27 +108,23 @@ export default function ConditionsUtilisationPage() {
               Publier des contenus illicites, diffamatoires, injurieux, racistes, discriminatoires,
               obscènes ou portant atteinte à la dignité humaine ;
             </li>
+            <li>Harceler, menacer ou intimider d&apos;autres membres ;</li>
+            <li>Usurper l&apos;identité d&apos;une personne physique ou morale ;</li>
             <li>
-              Harceler, menacer ou intimider d&apos;autres membres ;
+              Diffuser des informations fausses ou trompeuses susceptibles de porter préjudice à des
+              personnes ou à des organisations ;
             </li>
             <li>
-              Usurper l&apos;identité d&apos;une personne physique ou morale ;
+              Publier du contenu à caractère commercial ou publicitaire sans l&apos;accord préalable
+              de REACT ;
             </li>
             <li>
-              Diffuser des informations fausses ou trompeuses susceptibles de porter préjudice à
-              des personnes ou à des organisations ;
+              Reproduire, distribuer ou exploiter des contenus protégés par le droit d&apos;auteur
+              sans autorisation ;
             </li>
             <li>
-              Publier du contenu à caractère commercial ou publicitaire sans l&apos;accord
-              préalable de REACT ;
-            </li>
-            <li>
-              Reproduire, distribuer ou exploiter des contenus protégés par le droit
-              d&apos;auteur sans autorisation ;
-            </li>
-            <li>
-              Tenter de pirater la plateforme, de compromettre sa sécurité ou
-              d&apos;accéder sans autorisation aux données d&apos;autres utilisateurs ;
+              Tenter de pirater la plateforme, de compromettre sa sécurité ou d&apos;accéder sans
+              autorisation aux données d&apos;autres utilisateurs ;
             </li>
             <li>
               Utiliser des robots, scripts ou tout autre moyen automatisé pour accéder à la
@@ -148,10 +140,10 @@ export default function ConditionsUtilisationPage() {
         <section>
           <h2 className="mb-3 text-xl font-semibold">5. Contenu généré par les utilisateurs</h2>
           <p>
-            Les utilisateurs qui publient des contenus (profils, commentaires, publications dans
-            le forum, etc.) conservent leurs droits de propriété intellectuelle sur ces contenus.
-            En les publiant, ils accordent à REACT une licence non exclusive, mondiale, gratuite,
-            pour utiliser, reproduire, afficher et distribuer ces contenus dans le cadre du
+            Les utilisateurs qui publient des contenus (profils, commentaires, publications dans le
+            forum, etc.) conservent leurs droits de propriété intellectuelle sur ces contenus. En
+            les publiant, ils accordent à REACT une licence non exclusive, mondiale, gratuite, pour
+            utiliser, reproduire, afficher et distribuer ces contenus dans le cadre du
             fonctionnement de la plateforme et de la mission de REACT.
           </p>
           <p className="mt-3">
@@ -167,22 +159,22 @@ export default function ConditionsUtilisationPage() {
         <section>
           <h2 className="mb-3 text-xl font-semibold">6. Vérification des profils</h2>
           <p>
-            Certains profils dans l&apos;annuaire bénéficient d&apos;un statut
-            &laquo; Vérifié &raquo; attribué par l&apos;équipe REACT après contrôle des
-            informations déclarées. Ce statut ne constitue pas une certification de
-            solvabilité, de compétences professionnelles ou de tout autre attribut personnel ou
-            professionnel. REACT décline toute responsabilité quant aux transactions ou relations
-            établies entre membres sur la base de ce statut.
+            Certains profils dans l&apos;annuaire bénéficient d&apos;un statut &laquo; Vérifié
+            &raquo; attribué par l&apos;équipe REACT après contrôle des informations déclarées. Ce
+            statut ne constitue pas une certification de solvabilité, de compétences
+            professionnelles ou de tout autre attribut personnel ou professionnel. REACT décline
+            toute responsabilité quant aux transactions ou relations établies entre membres sur la
+            base de ce statut.
           </p>
         </section>
 
         <section>
           <h2 className="mb-3 text-xl font-semibold">7. Disponibilité de la plateforme</h2>
           <p>
-            REACT s&apos;efforce d&apos;assurer la disponibilité de la plateforme 24h/24 et
-            7j/7, mais ne peut garantir une disponibilité continue. Des interruptions pour
-            maintenance, mise à jour ou cause de force majeure peuvent survenir. REACT
-            s&apos;efforcera d&apos;en informer les utilisateurs dans les meilleurs délais.
+            REACT s&apos;efforce d&apos;assurer la disponibilité de la plateforme 24h/24 et 7j/7,
+            mais ne peut garantir une disponibilité continue. Des interruptions pour maintenance,
+            mise à jour ou cause de force majeure peuvent survenir. REACT s&apos;efforcera d&apos;en
+            informer les utilisateurs dans les meilleurs délais.
           </p>
         </section>
 
@@ -200,12 +192,10 @@ export default function ConditionsUtilisationPage() {
             <li>
               Des contenus publiés par les membres, qui relèvent de leur seule responsabilité ;
             </li>
+            <li>Des relations, transactions ou litiges entre membres ;</li>
             <li>
-              Des relations, transactions ou litiges entre membres ;
-            </li>
-            <li>
-              De l&apos;exactitude des informations fournies par les partenaires, les
-              institutions publiques référencées ou les tiers.
+              De l&apos;exactitude des informations fournies par les partenaires, les institutions
+              publiques référencées ou les tiers.
             </li>
           </ul>
         </section>
@@ -217,9 +207,9 @@ export default function ConditionsUtilisationPage() {
             <a href="mailto:senreactsen@gmail.com" className="text-[color:var(--color-accent)]">
               senreactsen@gmail.com
             </a>
-            . La suppression entraîne l&apos;effacement des données personnelles associées dans
-            les délais prévus par la politique de confidentialité, à l&apos;exception des données
-            dont la conservation est imposée par la loi.
+            . La suppression entraîne l&apos;effacement des données personnelles associées dans les
+            délais prévus par la politique de confidentialité, à l&apos;exception des données dont
+            la conservation est imposée par la loi.
           </p>
           <p className="mt-3">
             REACT peut résilier un compte sans préavis en cas de violation des présentes CGU,
@@ -242,15 +232,15 @@ export default function ConditionsUtilisationPage() {
         <section>
           <h2 className="mb-3 text-xl font-semibold">11. Droit applicable et litiges</h2>
           <p>
-            Les présentes CGU sont régies par le droit sénégalais, notamment le Code des
-            Obligations Civiles et Commerciales (COCC) et la législation applicable aux
-            associations et aux services en ligne.
+            Les présentes CGU sont régies par le droit sénégalais, notamment le Code des Obligations
+            Civiles et Commerciales (COCC) et la législation applicable aux associations et aux
+            services en ligne.
           </p>
           <p className="mt-3">
             En cas de litige relatif à l&apos;interprétation ou à l&apos;exécution des présentes
             CGU, les parties s&apos;engagent à rechercher une solution amiable dans un délai de
-            trente (30) jours. À défaut d&apos;accord, les tribunaux compétents du ressort de
-            Dakar (Sénégal) seront seuls compétents, sauf disposition légale contraire impérative.
+            trente (30) jours. À défaut d&apos;accord, les tribunaux compétents du ressort de Dakar
+            (Sénégal) seront seuls compétents, sauf disposition légale contraire impérative.
           </p>
         </section>
 
