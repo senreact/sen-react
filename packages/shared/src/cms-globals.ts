@@ -92,6 +92,7 @@ export const DEFAULT_SITE_FOOTER: SiteFooterGlobal = {
     "Plateforme dédiée à la transition numérique et écologique des entrepreneurs sénégalais et africains.",
   legalNavItems: [
     { label: "Mentions légales", labelEn: "Legal notice", href: "/mentions-legales" },
+    { label: "CGU", labelEn: "Terms", href: "/conditions-utilisation" },
     { label: "Confidentialité", labelEn: "Privacy", href: "/confidentialite" },
     { label: "Cookies", labelEn: "Cookies", href: "/cookies" },
   ],
