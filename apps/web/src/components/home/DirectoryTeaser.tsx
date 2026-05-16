@@ -38,7 +38,7 @@ export async function DirectoryTeaser() {
           <h2 className="text-4xl font-bold leading-tight md:text-5xl">
             Rejoignez le réseau d&apos;entrepreneurs Sen React.
           </h2>
-          <p className="mt-5 max-w-xl text-lg text-[color:var(--color-muted)]">
+          <p className="mt-5 max-w-xl text-lg text-[color:var(--color-fg)]">
             Femmes, jeunes et acteurs de changement engagés dans la transition numérique et
             écologique au Sénégal et en Afrique de l&apos;Ouest. Profils vérifiés par REACT, mises
             en relation directes, accès aux opportunités curées.
