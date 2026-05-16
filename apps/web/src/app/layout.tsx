@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import { DEFAULT_LOCALE } from "@sen-react/shared";
 
+import { CookieConsentBanner } from "@/components/CookieConsentBanner";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { getSiteFooter, getSiteHeader } from "@/lib/cms";
@@ -62,17 +62,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           {children}
         </div>
         <SiteFooter data={footerData} />
-        {GA_ID ? (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-              strategy="afterInteractive"
-            />
-            <Script id="ga-init" strategy="afterInteractive">
-              {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}');`}
-            </Script>
-          </>
-        ) : null}
+        <CookieConsentBanner gaId={GA_ID} />
       </body>
     </html>
   );
