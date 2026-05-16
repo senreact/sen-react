@@ -9,21 +9,26 @@
  * The earlier site-scrape note that flagged #010ED0 was reading the
  * WordPress template default — the real brand uses green + orange:
  *
- *   --color-react-green   #5FBA7D    primary, used for the wordmark
- *   --color-react-orange  #F2A035    secondary, used for the accent bar
- *                                    under the wordmark and the pixel
- *                                    detail inside the R glyph
+ *   --color-react-green   #5FBA7D    original brand (logo/wordmark)
+ *   --color-react-orange  #F2A035    original brand (accent bar)
  *
+ * Both original hues fail WCAG AA (2.38:1 and 2.13:1 on white).
+ * D020 (Phase 12) requires AA compliance, so usage tokens below are
+ * darkened while preserving hue:
+ *   green  → #267A46 (5.31:1 on white)
+ *   orange → #A85C0D (5.00:1 on white)
+ *
+ * The logo/wordmark image itself is exempt (non-text per WCAG 1.4.3).
  * Per D018 the visual identity stays close to the existing site — no new
- * type system, no new accent colours. Confirm coherence with Amadou via
- * the PDF mockup before Phase 13 (Launch).
+ * type system, no new accent colours beyond this AA-compliance shift.
+ * Confirm coherence with Amadou via the PDF mockup before Phase 13 (Launch).
  */
 @theme {
   --color-bg: #ffffff;
   --color-fg: #242627; /* dark grey from senreact.com body copy */
   --color-muted: #64748b;
-  --color-accent: #5fba7d; /* REACT green — primary brand */
-  --color-accent-warm: #f2a035; /* REACT orange — secondary brand */
+  --color-accent: #267a46; /* REACT green — darkened for WCAG AA (5.31:1 on white; original #5fba7d = 2.38:1) */
+  --color-accent-warm: #a85c0d; /* REACT orange — darkened for WCAG AA (5.00:1 on white; original #f2a035 = 2.13:1) */
   --color-border: #e2e8f0;
   --font-sans:
     ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
