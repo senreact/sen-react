@@ -148,3 +148,17 @@ export const ProfileUpdateSchema = z.object({
 });
 
 export type ProfileUpdateInput = z.infer<typeof ProfileUpdateSchema>;
+
+export const ForgotPasswordSchema = z.object({
+  email: z.string().email({ message: "Adresse e-mail invalide" }),
+});
+
+export const ResetPasswordSchema = z
+  .object({
+    password: z.string().min(8, { message: "Le mot de passe doit contenir au moins 8 caractères" }),
+    confirm: z.string().min(1, { message: "Confirmez le mot de passe" }),
+  })
+  .refine((d) => d.password === d.confirm, {
+    message: "Les mots de passe ne correspondent pas",
+    path: ["confirm"],
+  });

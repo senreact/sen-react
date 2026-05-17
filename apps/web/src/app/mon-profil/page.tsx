@@ -3,10 +3,11 @@ import { redirect } from "next/navigation";
 
 import { isProfileTypeSlug } from "@sen-react/shared";
 
+import { ChangePasswordForm } from "@/components/ChangePasswordForm";
 import { ProfileEditForm } from "@/components/ProfileEditForm";
 import { createServerSupabase } from "@/lib/supabase/server";
 
-import { updateProfileAction } from "./actions";
+import { changePasswordAction, updateProfileAction } from "./actions";
 
 export const metadata: Metadata = {
   title: "Mon profil — Sen React",
@@ -154,6 +155,14 @@ export default async function MonProfilPage() {
         action={updateProfileAction}
         profile={{ ...profile, profile_type: profile.profile_type }}
       />
+
+      <section className="mt-12 border-t border-[color:var(--color-border)] pt-10">
+        <h2 className="mb-1 text-lg font-semibold">Sécurité</h2>
+        <p className="mb-6 text-sm text-[color:var(--color-muted)]">
+          Choisissez un nouveau mot de passe pour votre compte.
+        </p>
+        <ChangePasswordForm action={changePasswordAction} />
+      </section>
     </main>
   );
 }
