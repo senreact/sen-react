@@ -8,6 +8,7 @@
     "build": "cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=8000\" next build",
     "migrate": "cross-env NODE_OPTIONS=--no-deprecation payload migrate",
     "seed": "cross-env NODE_OPTIONS=--no-deprecation tsx src/seed.ts",
+    "patch:footer-cgu": "cross-env NODE_OPTIONS=--no-deprecation tsx src/patch-footer-cgu.ts",
     "vercel-build": "pnpm migrate && pnpm build",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start -p 3001",
     "lint": "next lint",
