@@ -50,6 +50,11 @@ jobs:
 
       - name: Build
         run: pnpm build
+        env:
+          # Public CMS URL — no secret, just needed so Next.js can reach the
+          # CMS during static prerender. Without it, requireGlobal() throws
+          # because NEXT_PUBLIC_CMS_URL is unset and fetchGlobal() returns null.
+          NEXT_PUBLIC_CMS_URL: https://sen-react-cms.vercel.app
 
       - name: Audit production dependencies
         run: pnpm audit --prod --audit-level=high
