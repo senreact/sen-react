@@ -52,12 +52,11 @@ export interface SiteFooterGlobal {
 }
 
 /**
- * Default placeholder content used when the CMS is unreachable. Lets
- * apps/web build and render in dev / pre-CMS-deploy without breaking, and
- * gives reviewers a non-empty header/footer to evaluate the layout.
- *
- * Once the CMS is deployed and seeded, real content takes over via the
- * fetcher in apps/web/src/lib/cms.
+ * SEED DATA ONLY — used by apps/cms/src/seed.ts to populate Payload on
+ * first deploy. These constants are NOT runtime fallbacks; cms.ts uses
+ * requireGlobal() and throws rather than silently serving these values.
+ * Never reference DEFAULT_SITE_HEADER / DEFAULT_SITE_FOOTER from the web
+ * app at runtime.
  */
 export const DEFAULT_SITE_HEADER: SiteHeaderGlobal = {
   siteTitle: "Sen React",
