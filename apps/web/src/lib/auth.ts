@@ -155,9 +155,7 @@ export const ForgotPasswordSchema = z.object({
 
 export const ResetPasswordSchema = z
   .object({
-    password: z
-      .string()
-      .min(8, { message: "Le mot de passe doit contenir au moins 8 caractères" }),
+    password: z.string().min(8, { message: "Le mot de passe doit contenir au moins 8 caractères" }),
     confirm: z.string().min(1, { message: "Confirmez le mot de passe" }),
   })
   .refine((d) => d.password === d.confirm, {

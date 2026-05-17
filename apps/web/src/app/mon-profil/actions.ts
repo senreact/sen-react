@@ -79,7 +79,10 @@ export async function changePasswordAction(
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return { status: "error", message: "Vous devez être connecté pour modifier votre mot de passe." };
+    return {
+      status: "error",
+      message: "Vous devez être connecté pour modifier votre mot de passe.",
+    };
   }
 
   const parsed = ResetPasswordSchema.safeParse({

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import type { Route } from "next";
 
 import { signInAction } from "./actions";
 import { AuthForm } from "@/components/AuthForm";
@@ -33,7 +32,7 @@ export default async function SignInPage() {
 
       <p className="mt-4 text-right text-sm">
         <Link
-          href={"/auth/mot-de-passe-oublie" as Route}
+          href="/auth/mot-de-passe-oublie"
           className="text-[color:var(--color-muted)] hover:text-[color:var(--color-accent)] hover:underline"
         >
           Mot de passe oublié&nbsp;?
