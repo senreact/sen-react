@@ -6,13 +6,14 @@
  * pipeline — do not delete without explicit decision. See
  * docs/roadmap.md §"Phase 5 status" for context.
  *
- * The 12 external sources REACT aggregates opportunities from (when the
+ * The 18 external sources REACT aggregates opportunities from (when the
  * pipeline is wired up).
  *
  * Authoritative list:
  * - 10 sources sent by Amadou on WhatsApp 2026-05-10 20:22 SAST.
  * - 2 sources added by Tom 2026-05-10 (EEAS Senegal + GIZ Senegal) after the
  *   first batch — both were in the original D011 draft.
+ * - 6 sources added by Amadou 2026-05-16 (procurement portals + ANFCA + AFRI Carrière).
  *
  * Changes vs the early D011 draft: FONSIS was wrong (Amadou actually wanted
  * FONGIP, a different fund), Civic Hive was added. D011 will be updated to
@@ -103,6 +104,45 @@ export const AGGREGATION_SOURCES = [
     url: "https://www.giz.de/en/regions/africa/senegal",
     notes:
       "German cooperation agency Senegal programmes. EN-language site (FR equivalent 404s as of 2026-05-10).",
+  },
+  // 6 sources added 2026-05-16 per Amadou's second batch
+  {
+    key: "senoffre",
+    label: "SenOffre",
+    url: "https://www.senoffre.com",
+    notes: "Senegalese platform for public and private tender notices.",
+  },
+  {
+    key: "marches-publics-sn",
+    label: "Portail des marchés publics du Sénégal",
+    url: "https://www.marchespublics.sn",
+    notes: "Official Senegalese public procurement portal (DCMP/ARMP).",
+  },
+  {
+    key: "senegal-pme",
+    label: "Sénégal PME",
+    url: "https://www.senegalpme.sn",
+    notes: "SME-focused platform for Senegalese entrepreneurs — distinct from ADEPME.",
+  },
+  {
+    key: "marches-du-senegal",
+    label: "Sénégal — Appels d'offres, marchés publics et privés",
+    url: "https://marchesdusenegal.com",
+    notes:
+      "Private aggregator for Senegalese public and private tenders. Verify URL before activating scraper.",
+  },
+  {
+    key: "anfca",
+    label: "Pan African Network for Climate Action (ANFCA)",
+    url: "https://anfca.org",
+    notes: "Pan-African climate action network — calls for proposals and partnerships.",
+  },
+  {
+    key: "afri-carrieres",
+    label: "AFRI Carrières",
+    url: "https://afri-carrieres.com",
+    notes:
+      "Africa-focused careers and fellowship platform. Amadou flagged a specific Africa Fellows in Education listing (May 2026).",
   },
 ] as const;
 
