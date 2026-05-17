@@ -32,7 +32,7 @@ export async function DirectoryTeaser() {
     <section className="border-b border-[color:var(--color-border)] bg-[color:var(--color-accent)]/10">
       <div className="mx-auto grid max-w-6xl gap-10 px-6 py-20 md:grid-cols-[1.1fr_1fr] md:py-24">
         <div className="flex flex-col justify-center">
-          <p className="mb-4 text-base font-bold uppercase tracking-wide text-[color:var(--color-accent)] md:text-xl">
+          <p className="mb-4 text-2xl font-bold uppercase tracking-wide text-[color:var(--color-accent)] md:text-3xl">
             Réseau des Entrepreneurs Actifs
           </p>
           <h2 className="text-4xl font-bold leading-tight md:text-5xl">

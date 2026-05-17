@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import type { Route } from "next";
 
 import { signInAction } from "./actions";
 import { AuthForm } from "@/components/AuthForm";
@@ -30,7 +31,16 @@ export default async function SignInPage() {
         pendingLabel={strings.form.pendingLabel}
       />
 
-      <p className="mt-6 text-sm text-[color:var(--color-muted)]">
+      <p className="mt-4 text-right text-sm">
+        <Link
+          href={"/auth/mot-de-passe-oublie" as Route}
+          className="text-[color:var(--color-muted)] hover:text-[color:var(--color-accent)] hover:underline"
+        >
+          Mot de passe oublié&nbsp;?
+        </Link>
+      </p>
+
+      <p className="mt-4 text-sm text-[color:var(--color-muted)]">
         {strings.signin.signupPrompt}{" "}
         <Link href="/inscription" className="text-[color:var(--color-accent)] hover:underline">
           {strings.signin.signupLink}

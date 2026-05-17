@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 
-import { type AuthFormState, ProfileUpdateSchema } from "@/lib/auth";
+import { type AuthFormState, ProfileUpdateSchema, ResetPasswordSchema } from "@/lib/auth";
 import { createServerSupabase } from "@/lib/supabase/server";
 
 /**
@@ -67,4 +67,39 @@ export async function updateProfileAction(
   // Re-render the page so the new values show.
   revalidatePath("/mon-profil");
   return { status: "success", message: "Profil mis à jour." };
+}
+
+export async function changePasswordAction(
+  _prev: AuthFormState,
+  formData: FormData,
+): Promise<AuthFormState> {
+  const supabase = await createServerSupabase();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { status: "error", message: "Vous devez être connecté pour modifier votre mot de passe." };
+  }
+
+  const parsed = ResetPasswordSchema.safeParse({
+    password: formData.get("password"),
+    confirm: formData.get("confirm"),
+  });
+
+  if (!parsed.success) {
+    return {
+      status: "error",
+      message: parsed.error.issues[0]?.message ?? "Validation échouée.",
+    };
+  }
+
+  const { error } = await supabase.auth.updateUser({ password: parsed.data.password });
+
+  if (error) {
+    console.error("[changePasswordAction]", error);
+    return { status: "error", message: "Impossible de mettre à jour le mot de passe. Réessayez." };
+  }
+
+  return { status: "success", message: "Mot de passe mis à jour." };
 }
