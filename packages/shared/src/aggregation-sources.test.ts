@@ -8,8 +8,8 @@ import {
 } from "./aggregation-sources";
 
 describe("AGGREGATION_SOURCES", () => {
-  it("contains exactly 12 sources (Amadou's 10 + EEAS + GIZ added by Tom 2026-05-10)", () => {
-    expect(AGGREGATION_SOURCES).toHaveLength(12);
+  it("contains exactly 18 sources (Amadou's 10 + EEAS + GIZ + 6 added 2026-05-16)", () => {
+    expect(AGGREGATION_SOURCES).toHaveLength(18);
   });
 
   it("every source has a unique key", () => {

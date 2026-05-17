@@ -28,7 +28,7 @@ export async function Hero() {
         <div className="flex flex-col items-start gap-6 md:max-w-3xl">
           <SiteLogo height={64} />
 
-          <p className="text-sm font-semibold uppercase tracking-wide text-[color:var(--color-accent)]">
+          <p className="inline-flex items-center rounded-full bg-[color:var(--color-accent)]/15 px-4 py-2 text-sm font-bold uppercase tracking-wide text-[color:var(--color-accent)]">
             {hero.eyebrow}
           </p>
 
