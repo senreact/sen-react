@@ -53,7 +53,8 @@ const allowedOrigins = [
   // known at runtime: VERCEL_PROJECT_PRODUCTION_URL is the stable prod domain
   // and VERCEL_URL is the per-deployment (preview) domain — without these,
   // preview-deployment admins can't publish.
-  process.env.VERCEL_PROJECT_PRODUCTION_URL && `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`,
+  process.env.VERCEL_PROJECT_PRODUCTION_URL &&
+    `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`,
   process.env.VERCEL_URL && `https://${process.env.VERCEL_URL}`,
   "https://sen-react.vercel.app",
   "https://sen-react-cms.vercel.app",
