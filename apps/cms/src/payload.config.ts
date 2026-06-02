@@ -45,8 +45,21 @@ const dirname = path.dirname(filename);
 // against Payload defaults shifting and documents the intent.)
 const allowedOrigins = [
   process.env.NEXT_PUBLIC_SITE_URL,
+  process.env.NEXT_PUBLIC_CMS_URL,
+  // The admin panel must be allowed to call its OWN API — otherwise CSRF
+  // rejects cookie-authed mutations (create/update/delete/publish) with a
+  // 403 "You are not allowed to perform this action", while reads still work
+  // (GET isn't CSRF-checked). On Vercel, the deployment's own origin is only
+  // known at runtime: VERCEL_PROJECT_PRODUCTION_URL is the stable prod domain
+  // and VERCEL_URL is the per-deployment (preview) domain — without these,
+  // preview-deployment admins can't publish.
+  process.env.VERCEL_PROJECT_PRODUCTION_URL && `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`,
+  process.env.VERCEL_URL && `https://${process.env.VERCEL_URL}`,
   "https://sen-react.vercel.app",
   "https://sen-react-cms.vercel.app",
+  // Local dev: the CMS admin runs on :3001, apps/web on :3000.
+  "http://localhost:3000",
+  "http://localhost:3001",
 ].filter((origin): origin is string => Boolean(origin));
 
 export default buildConfig({
