@@ -20,9 +20,7 @@ describe("normalizeLinkUrl", () => {
   });
 
   it("collapses a duplicated protocol from the https:// prefill", () => {
-    expect(normalizeLinkUrl("https://https://example.com/page")).toBe(
-      "https://example.com/page",
-    );
+    expect(normalizeLinkUrl("https://https://example.com/page")).toBe("https://example.com/page");
   });
 
   it("collapses three stacked protocols down to one", () => {
