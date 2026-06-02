@@ -63,7 +63,7 @@ export default tseslint.config(
       "**/*.config.{js,mjs,cjs,ts}",
       "**/*.cjs",
       "**/postcss.config.mjs",
-      "scripts/**/*.{js,mjs,cjs}",
+      "**/scripts/**/*.{js,mjs,cjs}",
     ],
     extends: [tseslint.configs.disableTypeChecked],
     languageOptions: {

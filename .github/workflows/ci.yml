@@ -45,6 +45,9 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
 
+      - name: Migration guard (no hand-written migrations)
+        run: pnpm check:migrations
+
       - name: Test (Vitest unit + integration)
         run: pnpm test
 
