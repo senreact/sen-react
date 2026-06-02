@@ -1,4 +1,4 @@
-import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
+import { MigrateUpArgs, MigrateDownArgs, sql } from "@payloadcms/db-postgres";
 
 export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
@@ -1170,7 +1170,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "about_page_values_items_order_idx" ON "payload"."about_page_values_items" USING btree ("_order");
   CREATE INDEX "about_page_values_items_parent_id_idx" ON "payload"."about_page_values_items" USING btree ("_parent_id");
   CREATE INDEX "sectors_page_detail_placeholder_blocks_order_idx" ON "payload"."sectors_page_detail_placeholder_blocks" USING btree ("_order");
-  CREATE INDEX "sectors_page_detail_placeholder_blocks_parent_id_idx" ON "payload"."sectors_page_detail_placeholder_blocks" USING btree ("_parent_id");`)
+  CREATE INDEX "sectors_page_detail_placeholder_blocks_parent_id_idx" ON "payload"."sectors_page_detail_placeholder_blocks" USING btree ("_parent_id");`);
 }
 
 export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {
@@ -1299,5 +1299,5 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TYPE "payload"."enum__resources_v_version_status";
   DROP TYPE "payload"."enum_formalisation_steps_status";
   DROP TYPE "payload"."enum__formalisation_steps_v_version_status";
-  DROP TYPE "payload"."enum_site_footer_social_links_platform";`)
+  DROP TYPE "payload"."enum_site_footer_social_links_platform";`);
 }
