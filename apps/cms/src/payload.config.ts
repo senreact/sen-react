@@ -1,8 +1,16 @@
 import { postgresAdapter } from "@payloadcms/db-postgres";
 import { cloudStoragePlugin } from "@payloadcms/plugin-cloud-storage";
-import { lexicalEditor } from "@payloadcms/richtext-lexical";
+import { lexicalEditor, LinkFeature } from "@payloadcms/richtext-lexical";
 import path from "path";
 import { buildConfig } from "payload";
+import type { CollectionConfig, Field, FieldHook, GlobalConfig } from "payload";
+
+import {
+  linkUrlError,
+  normalizeLinkUrl,
+  normalizeRichTextLinks,
+  normalizeRichTextLinksGlobal,
+} from "./lib/lexical-links";
 import { fileURLToPath } from "url";
 import sharp from "sharp";
 
@@ -63,6 +71,24 @@ const allowedOrigins = [
   "http://localhost:3001",
 ].filter((origin): origin is string => Boolean(origin));
 
+// Inject the rich-text link normaliser/validator into every collection + global
+// so link URLs are trimmed/de-duplicated on save and bad URLs are rejected with
+// a clear French message on publish — without repeating the hook per file.
+const withCollectionLinkHook = (collection: CollectionConfig): CollectionConfig => ({
+  ...collection,
+  hooks: {
+    ...collection.hooks,
+    beforeValidate: [...(collection.hooks?.beforeValidate ?? []), normalizeRichTextLinks],
+  },
+});
+const withGlobalLinkHook = (global: GlobalConfig): GlobalConfig => ({
+  ...global,
+  hooks: {
+    ...global.hooks,
+    beforeValidate: [...(global.hooks?.beforeValidate ?? []), normalizeRichTextLinksGlobal],
+  },
+});
+
 export default buildConfig({
   admin: {
     user: Users.slug,
@@ -87,7 +113,7 @@ export default buildConfig({
     Trainings,
     Resources,
     FormalisationSteps,
-  ],
+  ].map(withCollectionLinkHook),
   globals: [
     SiteHeader,
     SiteFooter,
@@ -99,8 +125,41 @@ export default buildConfig({
     AboutPage,
     SectorsPage,
     AuthStrings,
-  ],
-  editor: lexicalEditor(),
+  ].map(withGlobalLinkHook),
+  editor: lexicalEditor({
+    features: ({ defaultFeatures }) => [
+      ...defaultFeatures,
+      // Override the default Lexical link feature. The default validates link
+      // URLs with `validateUrlMinimal`, which rejects any URL containing a
+      // space — including an invisible leading/trailing space picked up when
+      // pasting a link. That failure blocks the ENTIRE publish with a cryptic
+      // English "The following fields are invalid: url" pinned to the body
+      // field (REACT editors hit this as "it refuses to publish"). Here we trim
+      // whitespace before saving + validating, and give clear French errors for
+      // genuinely malformed URLs.
+      LinkFeature({
+        fields: ({ defaultFields }) =>
+          defaultFields.map((field): Field => {
+            if (!("name" in field) || field.name !== "url") return field as Field;
+            const existing = field as { hooks?: { beforeChange?: FieldHook[] } };
+            const normalizeHook: FieldHook = ({ value }) =>
+              typeof value === "string" ? normalizeLinkUrl(value) : value;
+            return {
+              ...field,
+              hooks: {
+                ...existing.hooks,
+                beforeChange: [normalizeHook, ...(existing.hooks?.beforeChange ?? [])],
+              },
+              validate: (value: unknown, options?: { siblingData?: { linkType?: string } }) => {
+                if (options?.siblingData?.linkType === "internal") return true;
+                if (typeof value !== "string") return true;
+                return linkUrlError(normalizeLinkUrl(value)) ?? true;
+              },
+            } as Field;
+          }),
+      }),
+    ],
+  }),
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),
