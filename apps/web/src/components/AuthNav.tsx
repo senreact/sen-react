@@ -1,3 +1,4 @@
+import type { Route } from "next";
 import Link from "next/link";
 
 import { createServerSupabase } from "@/lib/supabase/server";
@@ -15,10 +16,24 @@ import { createServerSupabase } from "@/lib/supabase/server";
  */
 export async function AuthNav() {
   let userEmail: string | null = null;
+  let isAdmin = false;
   try {
     const supabase = await createServerSupabase();
-    const { data } = await supabase.auth.getUser();
-    userEmail = data.user?.email ?? null;
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    userEmail = user?.email ?? null;
+    if (user) {
+      // Server-side admin check, read under RLS (own-row). The nav item below
+      // renders from this — it cannot be spoofed client-side, and the /admin
+      // pages are independently gated by requireAdminProfile().
+      const { data: profile } = await supabase
+        .from("user_profiles")
+        .select("profile_type")
+        .eq("user_id", user.id)
+        .maybeSingle<{ profile_type: string }>();
+      isAdmin = profile?.profile_type === "admin";
+    }
   } catch {
     // Env not configured — render the logged-out slot. The /connexion
     // page itself will surface the proper error if Supabase is down.
@@ -45,6 +60,14 @@ export async function AuthNav() {
 
   return (
     <div className="flex items-center gap-3 text-sm">
+      {isAdmin ? (
+        <Link
+          href={"/admin" as unknown as Route}
+          className="whitespace-nowrap rounded-md border border-[color:var(--color-accent)] px-3 py-1.5 font-semibold text-[color:var(--color-accent)] hover:bg-[color:var(--color-accent)] hover:text-white"
+        >
+          Espace admin
+        </Link>
+      ) : null}
       <Link
         href="/mon-profil"
         className="whitespace-nowrap font-medium hover:text-[color:var(--color-accent)]"
