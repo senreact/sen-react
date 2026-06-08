@@ -41,7 +41,7 @@ export async function AuthNav() {
 
   if (!userEmail) {
     return (
-      <div className="flex items-center gap-3 text-sm">
+      <div className="flex flex-col items-start gap-3 text-sm lg:flex-row lg:items-center">
         <Link
           href="/connexion"
           className="whitespace-nowrap font-medium hover:text-[color:var(--color-accent)]"
@@ -59,7 +59,7 @@ export async function AuthNav() {
   }
 
   return (
-    <div className="flex items-center gap-3 text-sm">
+    <div className="flex flex-col items-start gap-3 text-sm lg:flex-row lg:items-center">
       {isAdmin ? (
         <Link
           href={"/admin" as unknown as Route}
