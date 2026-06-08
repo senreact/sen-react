@@ -11,6 +11,7 @@ import {
 } from "@sen-react/shared";
 
 import { listDirectoryProfiles } from "@/lib/directory";
+import { PageHeroImage } from "@/components/content/PageHeroImage";
 
 export const metadata: Metadata = {
   title: "Annuaire — Sen React",
@@ -54,6 +55,7 @@ export default async function AnnuairePage({ searchParams }: PageProps) {
 
   return (
     <main>
+      <PageHeroImage pageKey="annuaire" />
       <section className="border-b border-[color:var(--color-border)] bg-white">
         <div className="mx-auto max-w-4xl px-6 py-16 md:py-20">
           <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-[color:var(--color-accent)]">

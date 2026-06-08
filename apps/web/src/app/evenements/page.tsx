@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getSector } from "@sen-react/shared";
 
 import { listEvents } from "@/lib/cms";
+import { PageHeroImage } from "@/components/content/PageHeroImage";
 import { formatDateFr } from "@/lib/format";
 
 export const metadata: Metadata = {
@@ -28,6 +29,7 @@ export default async function EvenementsPage() {
 
   return (
     <main>
+      <PageHeroImage pageKey="evenements" />
       <section className="border-b border-[color:var(--color-border)] bg-white">
         <div className="mx-auto max-w-4xl px-6 py-16 md:py-20">
           <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-[color:var(--color-accent)]">

@@ -40,6 +40,7 @@ import { ContactPage } from "./globals/ContactPage";
 import { AboutPage } from "./globals/AboutPage";
 import { SectorsPage } from "./globals/SectorsPage";
 import { AuthStrings } from "./globals/AuthStrings";
+import { PageHeroes } from "./globals/PageHeroes";
 import { migrations } from "./migrations";
 
 const filename = fileURLToPath(import.meta.url);
@@ -125,6 +126,7 @@ export default buildConfig({
     AboutPage,
     SectorsPage,
     AuthStrings,
+    PageHeroes,
   ].map(withGlobalLinkHook),
   editor: lexicalEditor({
     features: ({ defaultFeatures }) => [

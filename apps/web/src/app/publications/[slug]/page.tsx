@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { getSector } from "@sen-react/shared";
 
+import { LexicalRichText } from "@/components/content/LexicalRichText";
 import { absoluteMediaUrl, getPublicationBySlug } from "@/lib/cms";
 import { formatDateFr } from "@/lib/format";
 
@@ -39,9 +40,12 @@ function bytesToHumanReadable(bytes: number | undefined): string | null {
 /**
  * /publications/[slug] — Publication detail page.
  *
- * Per D020 publications are fully open-access — no auth gate. Detail
- * surface gives the reader more breathing room than the index card:
- * full summary, author block, language, file size, large download CTA.
+ * Per D020 publications are fully open-access — no auth gate.
+ *
+ * Publications are web-native: a hero image (coverImage), the full article
+ * body (Lexical rich text, with inline images), the author block, and — when
+ * a PDF is attached — an OPTIONAL download CTA. Older PDF-only publications
+ * (no body) still render: the page degrades to the metadata + download.
  *
  * The PDF download is a direct link to the Media URL from Payload — the
  * browser's native download handles content-disposition; we don't proxy.
@@ -56,6 +60,15 @@ export default async function PublicationDetailPage({ params }: PageProps) {
   const fileSize = bytesToHumanReadable(file?.filesize);
   const fileHref = absoluteMediaUrl(file?.url);
   const authors = publication.authors ?? [];
+  const heroImageUrl =
+    typeof publication.coverImage === "object" && publication.coverImage !== null
+      ? absoluteMediaUrl(publication.coverImage.url)
+      : null;
+  const heroImageAlt =
+    typeof publication.coverImage === "object" && publication.coverImage !== null
+      ? (publication.coverImage.alt ?? publication.title)
+      : publication.title;
+  const hasBody = Boolean(publication.body?.root?.children?.length);
 
   return (
     <main>
@@ -82,6 +95,15 @@ export default async function PublicationDetailPage({ params }: PageProps) {
           <p className="mt-4 text-lg text-[color:var(--color-muted)]">{publication.summary}</p>
         </header>
 
+        {heroImageUrl ? (
+          <img
+            src={heroImageUrl}
+            alt={heroImageAlt}
+            loading="lazy"
+            className="mb-8 h-auto w-full rounded-lg"
+          />
+        ) : null}
+
         {authors.length > 0 ? (
           <section className="mb-8">
             <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-[color:var(--color-accent)]">
@@ -100,11 +122,21 @@ export default async function PublicationDetailPage({ params }: PageProps) {
           </section>
         ) : null}
 
+        {hasBody ? (
+          <div className="mb-10">
+            <LexicalRichText content={publication.body} />
+          </div>
+        ) : null}
+
         {fileHref ? (
           <section className="rounded-lg border border-[color:var(--color-border)] bg-white p-6">
-            <p className="mb-2 font-semibold">Téléchargement libre</p>
+            <p className="mb-2 font-semibold">
+              {hasBody ? "Télécharger en PDF" : "Téléchargement libre"}
+            </p>
             <p className="mb-4 text-sm text-[color:var(--color-muted)]">
-              Cette publication est en accès libre — aucune inscription requise.
+              {hasBody
+                ? "Vous pouvez aussi télécharger cette publication au format PDF."
+                : "Cette publication est en accès libre — aucune inscription requise."}
               {fileSize ? ` Fichier ${fileSize}.` : ""}
             </p>
             <a
@@ -115,11 +147,11 @@ export default async function PublicationDetailPage({ params }: PageProps) {
               Télécharger le PDF
             </a>
           </section>
-        ) : (
+        ) : !hasBody ? (
           <p className="text-sm italic text-[color:var(--color-muted)]">
-            Le fichier de cette publication n&apos;est pas encore disponible.
+            Le contenu de cette publication n&apos;est pas encore disponible.
           </p>
-        )}
+        ) : null}
       </article>
     </main>
   );

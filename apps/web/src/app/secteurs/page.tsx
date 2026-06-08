@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { SECTORS } from "@sen-react/shared";
 
 import { SectorCard } from "@/components/sectors/SectorCard";
+import { PageHeroImage } from "@/components/content/PageHeroImage";
 import { getSectorsPage } from "@/lib/cms";
 
 export const metadata: Metadata = {
@@ -22,6 +23,7 @@ export default async function SectorsIndexPage() {
   const { index } = await getSectorsPage();
   return (
     <main>
+      <PageHeroImage pageKey="secteurs" />
       <section className="border-b border-[color:var(--color-border)] bg-white">
         <div className="mx-auto max-w-4xl px-6 py-16 md:py-20">
           <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-[color:var(--color-accent)]">

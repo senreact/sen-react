@@ -1,4 +1,5 @@
 import { DirectoryTeaser } from "@/components/home/DirectoryTeaser";
+import { PageHeroImage } from "@/components/content/PageHeroImage";
 import { Domaines } from "@/components/home/Domaines";
 import { Hero } from "@/components/home/Hero";
 import { LatestNews } from "@/components/home/LatestNews";
@@ -68,6 +69,7 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
       />
       <main>
+        <PageHeroImage pageKey="accueil" />
         <Hero />
         <DirectoryTeaser />
         <Domaines />

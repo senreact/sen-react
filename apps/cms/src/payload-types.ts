@@ -76,6 +76,11 @@ export interface Config {
     programmes: Programme;
     'team-members': TeamMember;
     opportunities: Opportunity;
+    events: Event;
+    announcements: Announcement;
+    trainings: Training;
+    resources: Resource;
+    'formalisation-steps': FormalisationStep;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -92,6 +97,11 @@ export interface Config {
     programmes: ProgrammesSelect<false> | ProgrammesSelect<true>;
     'team-members': TeamMembersSelect<false> | TeamMembersSelect<true>;
     opportunities: OpportunitiesSelect<false> | OpportunitiesSelect<true>;
+    events: EventsSelect<false> | EventsSelect<true>;
+    announcements: AnnouncementsSelect<false> | AnnouncementsSelect<true>;
+    trainings: TrainingsSelect<false> | TrainingsSelect<true>;
+    resources: ResourcesSelect<false> | ResourcesSelect<true>;
+    'formalisation-steps': FormalisationStepsSelect<false> | FormalisationStepsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -112,6 +122,7 @@ export interface Config {
     'about-page': AboutPage;
     'sectors-page': SectorsPage;
     'auth-strings': AuthString;
+    'page-heroes': PageHero;
   };
   globalsSelect: {
     'site-header': SiteHeaderSelect<false> | SiteHeaderSelect<true>;
@@ -124,6 +135,7 @@ export interface Config {
     'about-page': AboutPageSelect<false> | AboutPageSelect<true>;
     'sectors-page': SectorsPageSelect<false> | SectorsPageSelect<true>;
     'auth-strings': AuthStringsSelect<false> | AuthStringsSelect<true>;
+    'page-heroes': PageHeroesSelect<false> | PageHeroesSelect<true>;
   };
   locale: null;
   widgets: {
@@ -276,9 +288,30 @@ export interface Publication {
    */
   summary: string;
   /**
-   * PDF téléchargeable. Préférer < 5 MB pour les connexions mobiles ouest-africaines.
+   * Texte complet affiché sur la page. Insérez des images en ligne directement dans le contenu. Laisser vide pour une publication uniquement téléchargeable (PDF).
    */
-  file: number | Media;
+  body?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * PDF téléchargeable, en complément du contenu web. Préférer < 5 MB pour les connexions mobiles ouest-africaines. Optionnel.
+   */
+  file?: (number | null) | Media;
+  /**
+   * Grande image affichée en haut de la publication.
+   */
   coverImage?: (number | null) | Media;
   /**
    * Optionnel — laisser vide pour les publications transversales.
@@ -525,6 +558,306 @@ export interface Opportunity {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Ateliers, webinaires et événements organisés ou relayés par REACT.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events".
+ */
+export interface Event {
+  id: number;
+  title: string;
+  /**
+   * Identifiant URL — lettres minuscules, chiffres et tirets uniquement.
+   */
+  slug: string;
+  /**
+   * Affiché sur la carte dans la liste des événements (max 200 car.).
+   */
+  summary?: string | null;
+  body?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  startsAt: string;
+  endsAt?: string | null;
+  /**
+   * Ex. : « Dakar, Sénégal » ou « En ligne ».
+   */
+  location?: string | null;
+  eventType: 'in-person' | 'online' | 'webinar';
+  sector?:
+    | (
+        | 'digitalisation-technologie'
+        | 'developpement-economique'
+        | 'entrepreneuriat-local'
+        | 'agroecologie'
+        | 'energies-renouvelables'
+        | 'multimedia'
+        | 'transformation'
+        | 'artisanat'
+        | 'elevage'
+        | 'saponification'
+      )
+    | null;
+  /**
+   * URL d'un formulaire d'inscription externe (Google Forms, etc.).
+   */
+  registrationUrl?: string | null;
+  image?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Annonces officielles publiées par l'équipe REACT à destination de la communauté.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "announcements".
+ */
+export interface Announcement {
+  id: number;
+  title: string;
+  /**
+   * Identifiant URL — lettres minuscules, chiffres et tirets uniquement.
+   */
+  slug: string;
+  category: 'general' | 'urgent' | 'platform-update' | 'partnership';
+  body: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  publishedAt: string;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Catalogue de formations REACT — tutoriels, webinaires, ateliers et cours en ligne. Toujours gratuits.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "trainings".
+ */
+export interface Training {
+  id: number;
+  title: string;
+  /**
+   * Identifiant URL — lettres minuscules, chiffres et tirets uniquement.
+   */
+  slug: string;
+  /**
+   * Affiché sur la carte dans la liste des formations (max 200 car.).
+   */
+  summary?: string | null;
+  body?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  trainingType: 'tutorial' | 'webinar' | 'workshop' | 'online-course';
+  level?: ('debutant' | 'intermediaire' | 'avance') | null;
+  format?: ('online' | 'in-person' | 'hybrid') | null;
+  /**
+   * Ex. : « Gestion financière », « Marketing digital », « Leadership ».
+   */
+  topic?: string | null;
+  sector?:
+    | (
+        | 'digitalisation-technologie'
+        | 'developpement-economique'
+        | 'entrepreneuriat-local'
+        | 'agroecologie'
+        | 'energies-renouvelables'
+        | 'multimedia'
+        | 'transformation'
+        | 'artisanat'
+        | 'elevage'
+        | 'saponification'
+      )
+    | null;
+  /**
+   * Laisser vide pour les formations disponibles à tout moment.
+   */
+  startsAt?: string | null;
+  endsAt?: string | null;
+  /**
+   * Pour les formats en présentiel — ex. : « Dakar, Sénégal ».
+   */
+  location?: string | null;
+  registrationUrl?: string | null;
+  /**
+   * URL YouTube ou Vimeo pour les tutoriels et cours en ligne.
+   */
+  videoUrl?: string | null;
+  image?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Fiches techniques, guides, modèles et checklists pour les entrepreneurs — accès libre.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "resources".
+ */
+export interface Resource {
+  id: number;
+  title: string;
+  /**
+   * Identifiant URL — lettres minuscules, chiffres et tirets uniquement.
+   */
+  slug: string;
+  /**
+   * Description courte affichée dans la liste et en méta-description.
+   */
+  summary: string;
+  body?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  resourceType: 'guide' | 'fiche-technique' | 'modele' | 'checklist' | 'rapport';
+  /**
+   * Optionnel — laisser vide pour les ressources transversales.
+   */
+  sector?:
+    | (
+        | 'digitalisation-technologie'
+        | 'developpement-economique'
+        | 'entrepreneuriat-local'
+        | 'agroecologie'
+        | 'energies-renouvelables'
+        | 'multimedia'
+        | 'transformation'
+        | 'artisanat'
+        | 'elevage'
+        | 'saponification'
+      )
+    | null;
+  /**
+   * Optionnel. Préférer < 5 MB pour les connexions mobiles ouest-africaines.
+   */
+  file?: (number | null) | Media;
+  coverImage?: (number | null) | Media;
+  publishedAt: string;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Procédures de formalisation d'entreprise au Sénégal — BCE/APIX, RCCM/NINEA, FRA, plan d'affaires, gestion financière.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "formalisation-steps".
+ */
+export interface FormalisationStep {
+  id: number;
+  /**
+   * Ordre d'affichage dans le parcours (1 = première étape).
+   */
+  stepNumber: number;
+  title: string;
+  /**
+   * Identifiant URL — lettres minuscules, chiffres et tirets uniquement.
+   */
+  slug: string;
+  /**
+   * Description courte affichée dans le parcours et en méta-description.
+   */
+  summary: string;
+  /**
+   * Étapes, documents requis, formulaires, adresses — texte verbatim de la procédure officielle.
+   */
+  body?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Ex. : APIX, OHADA/RCCM, DGI/NINEA, Ministère du Commerce.
+   */
+  agencyName?: string | null;
+  /**
+   * URL du site officiel de l'organisme ou du formulaire à remplir.
+   */
+  externalUrl?: string | null;
+  /**
+   * Texte du bouton, ex. : « Démarrer sur APIX.sn ».
+   */
+  externalLabel?: string | null;
+  /**
+   * Ex. : « 3 à 5 jours ouvrables ».
+   */
+  estimatedDuration?: string | null;
+  /**
+   * Ex. : « Gratuit via APIX » ou « 25 000 FCFA ».
+   */
+  estimatedCost?: string | null;
+  /**
+   * Liste des pièces à fournir pour cette étape.
+   */
+  requiredDocuments?:
+    | {
+        document: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -583,6 +916,26 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'opportunities';
         value: number | Opportunity;
+      } | null)
+    | ({
+        relationTo: 'events';
+        value: number | Event;
+      } | null)
+    | ({
+        relationTo: 'announcements';
+        value: number | Announcement;
+      } | null)
+    | ({
+        relationTo: 'trainings';
+        value: number | Training;
+      } | null)
+    | ({
+        relationTo: 'resources';
+        value: number | Resource;
+      } | null)
+    | ({
+        relationTo: 'formalisation-steps';
+        value: number | FormalisationStep;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -693,6 +1046,7 @@ export interface PublicationsSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
   summary?: T;
+  body?: T;
   file?: T;
   coverImage?: T;
   sector?: T;
@@ -795,6 +1149,107 @@ export interface OpportunitiesSelect<T extends boolean = true> {
   contactEmail?: T;
   publishedAt?: T;
   reactCurated?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events_select".
+ */
+export interface EventsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  summary?: T;
+  body?: T;
+  startsAt?: T;
+  endsAt?: T;
+  location?: T;
+  eventType?: T;
+  sector?: T;
+  registrationUrl?: T;
+  image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "announcements_select".
+ */
+export interface AnnouncementsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  category?: T;
+  body?: T;
+  publishedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "trainings_select".
+ */
+export interface TrainingsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  summary?: T;
+  body?: T;
+  trainingType?: T;
+  level?: T;
+  format?: T;
+  topic?: T;
+  sector?: T;
+  startsAt?: T;
+  endsAt?: T;
+  location?: T;
+  registrationUrl?: T;
+  videoUrl?: T;
+  image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "resources_select".
+ */
+export interface ResourcesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  summary?: T;
+  body?: T;
+  resourceType?: T;
+  sector?: T;
+  file?: T;
+  coverImage?: T;
+  publishedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "formalisation-steps_select".
+ */
+export interface FormalisationStepsSelect<T extends boolean = true> {
+  stepNumber?: T;
+  title?: T;
+  slug?: T;
+  summary?: T;
+  body?: T;
+  agencyName?: T;
+  externalUrl?: T;
+  externalLabel?: T;
+  estimatedDuration?: T;
+  estimatedCost?: T;
+  requiredDocuments?:
+    | T
+    | {
+        document?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -1207,6 +1662,61 @@ export interface AuthString {
   createdAt?: string | null;
 }
 /**
+ * Image d'en-tête (bannière) affichée en haut de chaque page principale. Laisser vide pour ne pas afficher de bannière.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-heroes".
+ */
+export interface PageHero {
+  id: number;
+  /**
+   * Bannière affichée en haut de la page « Accueil ».
+   */
+  accueil?: (number | null) | Media;
+  /**
+   * Bannière affichée en haut de la page « Secteurs ».
+   */
+  secteurs?: (number | null) | Media;
+  /**
+   * Bannière affichée en haut de la page « Opportunités ».
+   */
+  opportunites?: (number | null) | Media;
+  /**
+   * Bannière affichée en haut de la page « Annuaire ».
+   */
+  annuaire?: (number | null) | Media;
+  /**
+   * Bannière affichée en haut de la page « Actualités ».
+   */
+  actualites?: (number | null) | Media;
+  /**
+   * Bannière affichée en haut de la page « Publications ».
+   */
+  publications?: (number | null) | Media;
+  /**
+   * Bannière affichée en haut de la page « Événements ».
+   */
+  evenements?: (number | null) | Media;
+  /**
+   * Bannière affichée en haut de la page « Ressources ».
+   */
+  ressources?: (number | null) | Media;
+  /**
+   * Bannière affichée en haut de la page « Formations ».
+   */
+  formations?: (number | null) | Media;
+  /**
+   * Bannière affichée en haut de la page « Partenaires ».
+   */
+  partenaires?: (number | null) | Media;
+  /**
+   * Bannière affichée en haut de la page « Vidéos ».
+   */
+  videos?: (number | null) | Media;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-header_select".
  */
@@ -1519,6 +2029,26 @@ export interface AuthStringsSelect<T extends boolean = true> {
         signupSuccess?: T;
         validationFailed?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-heroes_select".
+ */
+export interface PageHeroesSelect<T extends boolean = true> {
+  accueil?: T;
+  secteurs?: T;
+  opportunites?: T;
+  annuaire?: T;
+  actualites?: T;
+  publications?: T;
+  evenements?: T;
+  ressources?: T;
+  formations?: T;
+  partenaires?: T;
+  videos?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

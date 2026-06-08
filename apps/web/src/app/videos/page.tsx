@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { EmptyState } from "@/components/content/EmptyState";
+import { PageHeroImage } from "@/components/content/PageHeroImage";
 import { VideoCard } from "@/components/content/VideoCard";
 import { getEmptyStates, listVideos } from "@/lib/cms";
 
@@ -20,6 +21,7 @@ export default async function VideosPage() {
 
   return (
     <main>
+      <PageHeroImage pageKey="videos" />
       <section className="border-b border-[color:var(--color-border)] bg-white">
         <div className="mx-auto max-w-4xl px-6 py-16 md:py-20">
           <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-[color:var(--color-accent)]">

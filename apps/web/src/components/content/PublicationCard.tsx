@@ -11,9 +11,10 @@ interface PublicationCardProps {
 }
 
 /**
- * Publication card with download CTA. Per D020 publications are fully
- * open-access — no auth gating. The CMS stores the file as a Media
- * upload; we render a direct download link when the URL is populated.
+ * Publication card. Per D020 publications are fully open-access — no auth
+ * gating. Publications are now web-native: the primary CTA opens the full
+ * article ("Lire en ligne"); when a PDF is also attached we surface a
+ * secondary download link.
  */
 export function PublicationCard({ publication }: PublicationCardProps) {
   const sector = publication.sector ? getSector(publication.sector) : undefined;
@@ -49,19 +50,23 @@ export function PublicationCard({ publication }: PublicationCardProps) {
           {authors.map((a) => a.name).join(", ")}
         </p>
       ) : null}
-      {fileUrl ? (
-        <a
-          href={fileUrl}
-          className="mt-auto inline-flex items-center gap-2 self-start rounded-md bg-[color:var(--color-accent)] px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90"
-          download
+      <div className="mt-auto flex flex-wrap items-center gap-3">
+        <Link
+          href={detailHref}
+          className="inline-flex items-center gap-2 self-start rounded-md bg-[color:var(--color-accent)] px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90"
         >
-          Télécharger le PDF
-        </a>
-      ) : (
-        <span className="mt-auto text-xs italic text-[color:var(--color-muted)]">
-          Fichier non disponible.
-        </span>
-      )}
+          Lire en ligne
+        </Link>
+        {fileUrl ? (
+          <a
+            href={fileUrl}
+            className="inline-flex items-center gap-2 self-start text-sm font-semibold text-[color:var(--color-accent)] hover:underline"
+            download
+          >
+            Télécharger le PDF
+          </a>
+        ) : null}
+      </div>
     </li>
   );
 }

@@ -64,6 +64,42 @@ export async function getSiteFooter(): Promise<SiteFooterGlobal> {
   return requireGlobal("site-footer", await fetchGlobal<SiteFooterGlobal>("site-footer"));
 }
 
+/** Page keys with an editable hero banner — mirror PAGE_HERO_SLOTS in the CMS. */
+export type PageHeroKey =
+  | "accueil"
+  | "secteurs"
+  | "opportunites"
+  | "annuaire"
+  | "actualites"
+  | "publications"
+  | "evenements"
+  | "ressources"
+  | "formations"
+  | "partenaires"
+  | "videos";
+
+type PageHeroesGlobal = Record<
+  string,
+  { url?: string; alt?: string } | string | number | null | undefined
+>;
+
+/**
+ * Fetch the optional hero banner for a given page from the `page-heroes`
+ * global. Returns null when unset/unreachable so the banner simply doesn't
+ * render (no layout shift, no hard failure — heroes are decorative).
+ */
+export async function getPageHero(
+  key: PageHeroKey,
+): Promise<{ url: string; alt: string } | null> {
+  const data = await fetchGlobal<PageHeroesGlobal>("page-heroes");
+  if (!data) return null;
+  const value = data[key];
+  if (!value || typeof value !== "object") return null;
+  const url = absoluteMediaUrl(value.url);
+  if (!url) return null;
+  return { url, alt: value.alt ?? "" };
+}
+
 /**
  * Collection list fetcher. Returns empty array on miss/fail so callers
  * can render the empty state without try/catch noise. Sort/limit are
@@ -129,6 +165,14 @@ async function fetchBySlug<T>(slug: string, itemSlug: string, depth = 2): Promis
  * at runtime (it's heavy); the per-item reader walks this shape with a
  * minimal renderer in `LexicalRichText`.
  */
+/** Populated media value as returned by Payload at depth >= 1. */
+export interface LexicalUploadValue {
+  url?: string;
+  alt?: string;
+  width?: number;
+  height?: number;
+}
+
 export interface LexicalNode {
   type: string;
   tag?: string;
@@ -139,6 +183,10 @@ export interface LexicalNode {
   fields?: { url?: string; newTab?: boolean; linkType?: string };
   listType?: "number" | "bullet" | "check";
   children?: LexicalNode[];
+  // Upload (inline image) nodes: `relationTo` is the collection, `value` is
+  // the populated media doc (depth >= 1) or its id (depth 0).
+  relationTo?: string;
+  value?: LexicalUploadValue | string | number | null;
 }
 
 export interface LexicalRoot {
@@ -176,6 +224,7 @@ export interface Publication {
   authors?: { name: string; role?: string }[];
   publishedAt: string;
   language: "fr" | "en" | "wo";
+  body?: LexicalRoot | null;
   file?: { url?: string; filename?: string; filesize?: number } | string | null;
   coverImage?: { url?: string; alt?: string } | string | null;
 }

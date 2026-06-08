@@ -3,11 +3,17 @@ import type { CollectionConfig } from "payload";
 import { SECTORS } from "@sen-react/shared";
 
 /**
- * Publications — REACT-produced and curated PDFs (research notes,
- * white-paper-style content per Amadou's editorial voice).
+ * Publications — REACT-produced research notes and white-paper-style
+ * content per Amadou's editorial voice.
  *
  * Per D020: fully open access. No login required to read or download.
- * The PDF file itself is uploaded as a Media item and referenced.
+ *
+ * Publications are now web-native: the `body` rich-text field renders the
+ * full article on the page (with inline images via the Lexical upload
+ * node), `coverImage` is the hero shown at the top, and the PDF `file` is
+ * an OPTIONAL downloadable copy — a reader can read in-browser or grab the
+ * PDF. Older publications may still be PDF-only (no body); the detail page
+ * handles both shapes.
  *
  * Sector is optional (some publications are cross-cutting). Year/month
  * surfaces in the listing for filtering.
@@ -56,22 +62,34 @@ export const Publications: CollectionConfig = {
       },
     },
     {
+      name: "body",
+      type: "richText",
+      label: "Contenu de la publication",
+      admin: {
+        description:
+          "Texte complet affiché sur la page. Insérez des images en ligne directement dans le contenu. Laisser vide pour une publication uniquement téléchargeable (PDF).",
+      },
+    },
+    {
       name: "file",
       type: "upload",
       relationTo: "media",
-      required: true,
-      label: "Fichier PDF",
+      required: false,
+      label: "Fichier PDF (optionnel)",
       admin: {
         description:
-          "PDF téléchargeable. Préférer < 5 MB pour les connexions mobiles ouest-africaines.",
+          "PDF téléchargeable, en complément du contenu web. Préférer < 5 MB pour les connexions mobiles ouest-africaines. Optionnel.",
       },
     },
     {
       name: "coverImage",
       type: "upload",
       relationTo: "media",
-      label: "Image de couverture",
-      admin: { position: "sidebar" },
+      label: "Image d'en-tête (hero)",
+      admin: {
+        position: "sidebar",
+        description: "Grande image affichée en haut de la publication.",
+      },
     },
     {
       name: "sector",

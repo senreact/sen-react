@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getSector } from "@sen-react/shared";
 
 import { listTrainings } from "@/lib/cms";
+import { PageHeroImage } from "@/components/content/PageHeroImage";
 import { formatDateFr } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
@@ -38,6 +39,7 @@ export default async function FormationsPage() {
 
   return (
     <main>
+      <PageHeroImage pageKey="formations" />
       <section className="border-b border-[color:var(--color-border)] bg-white">
         <div className="mx-auto max-w-4xl px-6 py-16 md:py-20">
           <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-[color:var(--color-accent)]">

@@ -1,6 +1,6 @@
 import type { JSX } from "react";
 
-import type { LexicalNode, LexicalRoot } from "@/lib/cms";
+import { absoluteMediaUrl, type LexicalNode, type LexicalRoot } from "@/lib/cms";
 
 /**
  * Minimal Lexical-to-JSX renderer.
@@ -16,6 +16,7 @@ import type { LexicalNode, LexicalRoot } from "@/lib/cms";
  * - `listitem` → <li>
  * - `quote` → <blockquote>
  * - `link` (autolink + manual) → <a> with rel/target as configured
+ * - `upload` (inline image) → <img> from the populated media value
  * - `text` with format bitmask → bold/italic/underline/strike/code spans
  * - `linebreak` → <br>
  *
@@ -138,6 +139,32 @@ function renderNode(node: LexicalNode, key: string): React.ReactNode {
 
     case "linebreak":
       return <br key={key} />;
+
+    case "upload": {
+      // Inline image inserted in the editor via the Lexical upload node.
+      // At depth >= 1 `value` is the populated media doc; at depth 0 it's an
+      // id (unrenderable) — skip rather than crash. Plain <img> (not
+      // next/image) because the CMS host isn't in images.remotePatterns and
+      // we want zero-config robustness over optimisation here.
+      if (node.relationTo && node.relationTo !== "media") {
+        return renderChildren(node.children, key);
+      }
+      const media = node.value;
+      if (!media || typeof media !== "object") return null;
+      const src = absoluteMediaUrl(media.url);
+      if (!src) return null;
+      return (
+        <img
+          key={key}
+          src={src}
+          alt={media.alt ?? ""}
+          width={media.width}
+          height={media.height}
+          loading="lazy"
+          className="my-6 h-auto w-full rounded-lg"
+        />
+      );
+    }
 
     case "text":
       return renderText(node, key);

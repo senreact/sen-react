@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 
 import { EmptyState } from "@/components/content/EmptyState";
+import { PageHeroImage } from "@/components/content/PageHeroImage";
 import { PublicationCard } from "@/components/content/PublicationCard";
 import { getEmptyStates, listPublications } from "@/lib/cms";
 
 export const metadata: Metadata = {
   title: "Publications — Sen React",
   description:
-    "Études, notes de réflexion et rapports publiés par REACT en accès libre. Téléchargement direct, sans inscription.",
+    "Études, notes de réflexion et rapports publiés par REACT en accès libre. À lire en ligne ou à télécharger, sans inscription.",
 };
 
 /**
@@ -20,6 +21,7 @@ export default async function PublicationsPage() {
 
   return (
     <main>
+      <PageHeroImage pageKey="publications" />
       <section className="border-b border-[color:var(--color-border)] bg-white">
         <div className="mx-auto max-w-4xl px-6 py-16 md:py-20">
           <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-[color:var(--color-accent)]">
@@ -30,7 +32,7 @@ export default async function PublicationsPage() {
           </h1>
           <p className="mt-5 max-w-2xl text-lg text-[color:var(--color-muted)]">
             Les publications REACT — études thématiques, analyses sectorielles et notes de réflexion
-            — sont disponibles en téléchargement direct, sans inscription.
+            — sont à lire en ligne ou à télécharger, sans inscription.
           </p>
         </div>
       </section>
