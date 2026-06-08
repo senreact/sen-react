@@ -1,6 +1,8 @@
-import type { CollectionConfig } from "payload";
+import type { CollectionConfig, FieldHook } from "payload";
 
 import { SECTORS } from "@sen-react/shared";
+
+import { extractYouTubeId } from "../lib/youtube";
 
 /**
  * Videos. Per decisions log §A4:
@@ -12,9 +14,16 @@ import { SECTORS } from "@sen-react/shared";
  * - Downloadable for offline (D016 row 10)
  *
  * The YouTube ID is stored, not a full URL — we build the embed URL
- * client-side. That insulates from URL-format changes in YouTube and
- * makes validation simpler.
+ * client-side. Editors can paste a full YouTube link OR the bare ID; a
+ * beforeChange hook extracts the 11-char ID on save (non-technical editors
+ * paste the share URL, which previously failed the 11-char validation).
  */
+
+// Extract the YouTube ID on save so a pasted full URL is stored as the ID.
+const normalizeYouTubeId: FieldHook = ({ value }) => {
+  const raw = value as string | null | undefined;
+  return typeof raw === "string" ? (extractYouTubeId(raw) ?? raw) : raw;
+};
 export const Videos: CollectionConfig = {
   slug: "videos",
   labels: {
@@ -47,7 +56,12 @@ export const Videos: CollectionConfig = {
       required: true,
       unique: true,
       index: true,
-      label: "Slug (URL)",
+      label: "Adresse de la page (slug)",
+      admin: {
+        description:
+          "Adresse courte de la page, en minuscules avec des tirets — ex. « capsule-presentation ». " +
+          "Ce n'est PAS le lien YouTube : celui-ci se met dans le champ « Lien ou ID YouTube » ci-dessous.",
+      },
     },
     {
       name: "summary",
@@ -59,16 +73,19 @@ export const Videos: CollectionConfig = {
       name: "youtubeId",
       type: "text",
       required: true,
-      label: "ID YouTube",
+      label: "Lien ou ID YouTube",
       admin: {
         description:
-          "Identifiant à 11 caractères extrait de l'URL YouTube. Exemple : pour " +
-          "https://youtube.com/watch?v=dQw4w9WgXcQ, l'ID est dQw4w9WgXcQ.",
+          "Collez le lien YouTube complet (ex. https://www.youtube.com/watch?v=M5unlc9fGe0) " +
+          "ou seulement l'identifiant à 11 caractères. Le lien est automatiquement converti en identifiant.",
+      },
+      hooks: {
+        beforeChange: [normalizeYouTubeId],
       },
       validate: (value: string | null | undefined) => {
-        if (!value) return "ID YouTube requis.";
-        if (!/^[A-Za-z0-9_-]{11}$/.test(value)) {
-          return "ID YouTube invalide — doit être exactement 11 caractères alphanumériques (lettres, chiffres, _, -).";
+        if (!value) return "Lien ou ID YouTube requis.";
+        if (!extractYouTubeId(value)) {
+          return "Lien ou ID YouTube invalide — collez le lien complet (https://www.youtube.com/watch?v=…) ou l'identifiant à 11 caractères.";
         }
         return true;
       },
