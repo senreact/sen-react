@@ -14,7 +14,7 @@ export function SiteHeader({ data }: SiteHeaderProps) {
   const navItems = data.navItems ?? [];
   return (
     <header className="relative z-50 border-b border-[color:var(--color-border)] bg-white">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-x-6 px-6 py-4">
+      <div className="mx-auto flex max-w-[1700px] items-center justify-between gap-x-6 px-6 py-4">
         <Link href="/" className="flex items-center gap-3">
           <SiteLogo height={40} decorative />
           <span className="flex flex-col">
@@ -33,13 +33,13 @@ export function SiteHeader({ data }: SiteHeaderProps) {
         <div className="hidden items-center gap-x-6 gap-y-3 lg:flex lg:flex-wrap lg:justify-end">
           {navItems.length > 0 ? (
             <nav aria-label="Primary">
-              <ul className="flex flex-wrap items-center gap-2">
+              <ul className="flex flex-wrap items-center gap-1.5">
                 {navItems.map((item) => (
                   <li key={`${item.href}-${item.label}`}>
                     <NavLink
                       href={item.href}
                       external={item.external}
-                      className="whitespace-nowrap rounded-full border border-[color:var(--color-border)] bg-white px-3 py-1.5 text-sm font-medium text-[color:var(--color-fg)] hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)]"
+                      className="whitespace-nowrap rounded-full border border-[color:var(--color-border)] bg-white px-2.5 py-1.5 text-sm font-medium text-[color:var(--color-fg)] hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)]"
                     >
                       {item.label}
                     </NavLink>
