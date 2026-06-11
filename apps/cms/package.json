@@ -9,7 +9,7 @@
     "migrate": "cross-env NODE_OPTIONS=--no-deprecation payload migrate",
     "seed:publications": "cross-env NODE_OPTIONS=--no-deprecation tsx src/seed-publications.ts",
     "patch:footer-cgu": "cross-env NODE_OPTIONS=--no-deprecation tsx src/patch-footer-cgu.ts",
-    "vercel-build": "pnpm migrate && pnpm build",
+    "vercel-build": "pnpm generate:importmap && pnpm migrate && pnpm build",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start -p 3001",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",

@@ -1,4 +1,3 @@
-import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import type { CollectionConfig } from "payload";
 
 import { SECTORS } from "@sen-react/shared";
@@ -66,7 +65,6 @@ export const Opportunities: CollectionConfig = {
       name: "body",
       type: "richText",
       required: true,
-      editor: lexicalEditor(),
       label: "Description complète",
     },
     {
