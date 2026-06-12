@@ -17,6 +17,7 @@ build
 .env.*.local
 .env.preview
 .env.production
+.env.secrets
 
 # logs
 *.log
@@ -57,3 +58,6 @@ supabase/.branches
 
 # claude code session-local state
 .claude/
+
+# local DB backups / migration dumps (never commit)
+backups/

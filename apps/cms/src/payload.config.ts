@@ -65,6 +65,11 @@ const allowedOrigins = [
   process.env.VERCEL_PROJECT_PRODUCTION_URL &&
     `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`,
   process.env.VERCEL_URL && `https://${process.env.VERCEL_URL}`,
+  // Production custom domains (senreact account).
+  "https://senreact.com",
+  "https://www.senreact.com",
+  "https://cms.senreact.com",
+  // Legacy Vercel deploy URLs (kept so the *.vercel.app aliases still publish).
   "https://sen-react.vercel.app",
   "https://sen-react-cms.vercel.app",
   // Local dev: the CMS admin runs on :3001, apps/web on :3000.
