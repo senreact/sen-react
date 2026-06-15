@@ -286,7 +286,9 @@ export interface Opportunity {
   sector: SectorSlug;
   opportunityType: OpportunityType;
   area: OpportunityArea;
-  deadline: string;
+  // Null when the opportunity accepts rolling (continuous) applications.
+  deadline: string | null;
+  rolling: boolean;
   amountValue?: number | null;
   amountCurrency?: "XOF" | "EUR" | "USD" | null;
   amountDisplay?: string | null;
@@ -319,33 +321,51 @@ export interface OpportunityFilters {
 export async function listOpportunities(filters: OpportunityFilters = {}): Promise<Opportunity[]> {
   if (!CMS_URL) return [];
   const url = new URL(`${CMS_URL}/api/opportunities`);
+  // Nulls (rolling opportunities) sort last under ASC, so dated/urgent
+  // entries surface first and ongoing ones follow.
   url.searchParams.set("sort", "deadline");
   url.searchParams.set("limit", String(filters.limit ?? 50));
   url.searchParams.set("depth", "0");
-  url.searchParams.set("where[_status][equals]", "published");
-  // Past-deadline opportunities are stale by definition — exclude.
-  url.searchParams.set("where[deadline][greater_than_equal]", new Date().toISOString());
+
+  // Build an explicit AND list so the deadline constraints can be OR-ed with
+  // `rolling`: a rolling opportunity is always open, so it must never be
+  // excluded as "past" and must pass any date-range filter.
+  const now = new Date().toISOString();
+  let n = 0;
+  const clause = () => `where[and][${n++}]`;
+
+  url.searchParams.set(`${clause()}[_status][equals]`, "published");
+
+  // Visibility: rolling OR a non-past deadline.
+  {
+    const p = clause();
+    url.searchParams.set(`${p}[or][0][rolling][equals]`, "true");
+    url.searchParams.set(`${p}[or][1][deadline][greater_than_equal]`, now);
+  }
 
   if (filters.sector) {
-    url.searchParams.set("where[sector][equals]", filters.sector);
+    url.searchParams.set(`${clause()}[sector][equals]`, filters.sector);
   }
   if (filters.opportunityType) {
-    url.searchParams.set("where[opportunityType][equals]", filters.opportunityType);
+    url.searchParams.set(`${clause()}[opportunityType][equals]`, filters.opportunityType);
   }
   if (filters.area) {
-    url.searchParams.set("where[area][equals]", filters.area);
+    url.searchParams.set(`${clause()}[area][equals]`, filters.area);
   }
   if (filters.deadlineWithinDays !== undefined) {
     const cutoff = new Date();
     cutoff.setDate(cutoff.getDate() + filters.deadlineWithinDays);
-    url.searchParams.set("where[deadline][less_than_equal]", cutoff.toISOString());
+    // Rolling opportunities always pass a date-range filter.
+    const p = clause();
+    url.searchParams.set(`${p}[or][0][rolling][equals]`, "true");
+    url.searchParams.set(`${p}[or][1][deadline][less_than_equal]`, cutoff.toISOString());
   }
   if (filters.amountMin !== undefined) {
-    url.searchParams.set("where[amountValue][greater_than_equal]", String(filters.amountMin));
+    url.searchParams.set(`${clause()}[amountValue][greater_than_equal]`, String(filters.amountMin));
   }
   if (filters.q) {
     // Payload's `like` is case-insensitive ILIKE on Postgres.
-    url.searchParams.set("where[title][like]", filters.q);
+    url.searchParams.set(`${clause()}[title][like]`, filters.q);
   }
 
   try {

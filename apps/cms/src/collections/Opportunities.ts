@@ -106,13 +106,33 @@ export const Opportunities: CollectionConfig = {
       ],
     },
     {
+      name: "rolling",
+      type: "checkbox",
+      defaultValue: false,
+      label: "Candidature en continu",
+      admin: {
+        description:
+          "Cochez si les candidatures sont acceptées en continu, sans date limite fixe. Le champ « Date limite » devient alors facultatif.",
+      },
+    },
+    {
       name: "deadline",
       type: "date",
-      required: true,
+      // Optional at the schema level so rolling opportunities need no date.
+      // Backwards compatible: existing rows keep their deadline, and the
+      // validate below still requires a date for non-rolling opportunities.
+      required: false,
       label: "Date limite",
       admin: {
         date: { pickerAppearance: "dayOnly" },
         description: "Date limite de candidature. Filtrable par tranche (30j / 90j / 1 an).",
+        // Hide the date field when the opportunity is marked rolling.
+        condition: (_data, siblingData) => !siblingData?.rolling,
+      },
+      validate: (value: unknown, options?: { siblingData?: { rolling?: boolean } }) => {
+        if (options?.siblingData?.rolling) return true;
+        if (!value) return "Renseignez une date limite, ou cochez « Candidature en continu ».";
+        return true;
       },
     },
     {

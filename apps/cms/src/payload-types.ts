@@ -355,10 +355,13 @@ export interface Publication {
 export interface Video {
   id: number;
   title: string;
+  /**
+   * Adresse courte de la page, en minuscules avec des tirets — ex. « capsule-presentation ». Ce n'est PAS le lien YouTube : celui-ci se met dans le champ « Lien ou ID YouTube » ci-dessous.
+   */
   slug: string;
   summary: string;
   /**
-   * Identifiant à 11 caractères extrait de l'URL YouTube. Exemple : pour https://youtube.com/watch?v=dQw4w9WgXcQ, l'ID est dQw4w9WgXcQ.
+   * Collez le lien YouTube complet (ex. https://www.youtube.com/watch?v=M5unlc9fGe0) ou seulement l'identifiant à 11 caractères. Le lien est automatiquement converti en identifiant.
    */
   youtubeId: string;
   videoType: 'capsule' | 'explanation' | 'interview' | 'vlog' | 'testimonial';
@@ -524,9 +527,13 @@ export interface Opportunity {
   opportunityType: 'financement' | 'formation' | 'appel-a-projets' | 'partenariat' | 'concours' | 'autre';
   area: 'senegal' | 'senegal-dakar' | 'senegal-regions' | 'afrique-ouest' | 'afrique' | 'international';
   /**
+   * Cochez si les candidatures sont acceptées en continu, sans date limite fixe. Le champ « Date limite » devient alors facultatif.
+   */
+  rolling?: boolean | null;
+  /**
    * Date limite de candidature. Filtrable par tranche (30j / 90j / 1 an).
    */
-  deadline: string;
+  deadline?: string | null;
   /**
    * Optionnel. Valeur en XOF pour permettre le filtrage par tranche. Laisser vide si le montant est variable, conditionnel ou non communiqué.
    */
@@ -1140,6 +1147,7 @@ export interface OpportunitiesSelect<T extends boolean = true> {
   sector?: T;
   opportunityType?: T;
   area?: T;
+  rolling?: T;
   deadline?: T;
   amountValue?: T;
   amountCurrency?: T;

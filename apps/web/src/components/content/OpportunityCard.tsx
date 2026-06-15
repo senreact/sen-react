@@ -41,17 +41,20 @@ function daysUntil(iso: string): number {
  */
 export function OpportunityCard({ opportunity }: OpportunityCardProps) {
   const sector = getSector(opportunity.sector);
-  const days = daysUntil(opportunity.deadline);
+  // Rolling (or, defensively, any dateless) opportunities are always open.
+  const isRolling = opportunity.rolling || !opportunity.deadline;
+  const days = opportunity.deadline ? daysUntil(opportunity.deadline) : Number.POSITIVE_INFINITY;
   const detailHref = `/opportunites/${opportunity.slug}` as unknown as Route;
-  const deadlineLabel =
-    days <= 0
+  const deadlineLabel = isRolling
+    ? "Candidature en continu"
+    : days <= 0
       ? "Échéance aujourd'hui"
       : days === 1
         ? "Clôture demain"
         : days <= 14
           ? `Clôture dans ${days} jours`
-          : `Clôture le ${formatDateFr(opportunity.deadline)}`;
-  const deadlineUrgent = days <= 7;
+          : `Clôture le ${formatDateFr(opportunity.deadline!)}`;
+  const deadlineUrgent = !isRolling && days <= 7;
 
   return (
     <li className="flex flex-col rounded-lg border border-[color:var(--color-border)] bg-white p-6">

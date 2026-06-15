@@ -76,9 +76,12 @@ export default async function OpportunityDetailPage({ params }: PageProps) {
   const initialSaved = savedSet.has(slug);
 
   const sector = getSector(opportunity.sector);
-  const days = daysUntil(opportunity.deadline);
-  const deadlineLabel =
-    days < 0
+  // Rolling (or dateless) opportunities have no closing date.
+  const isRolling = opportunity.rolling || !opportunity.deadline;
+  const days = opportunity.deadline ? daysUntil(opportunity.deadline) : Number.POSITIVE_INFINITY;
+  const deadlineLabel = isRolling
+    ? "Candidature en continu"
+    : days < 0
       ? "Échéance dépassée"
       : days === 0
         ? "Échéance aujourd'hui"
@@ -86,8 +89,8 @@ export default async function OpportunityDetailPage({ params }: PageProps) {
           ? "Clôture demain"
           : days <= 14
             ? `Clôture dans ${days} jours`
-            : `Clôture le ${formatDateFr(opportunity.deadline)}`;
-  const deadlineUrgent = days >= 0 && days <= 7;
+            : `Clôture le ${formatDateFr(opportunity.deadline!)}`;
+  const deadlineUrgent = !isRolling && days >= 0 && days <= 7;
 
   return (
     <main>
@@ -129,9 +132,11 @@ export default async function OpportunityDetailPage({ params }: PageProps) {
               }
             >
               {deadlineLabel}
-              <span className="ml-2 font-normal text-[color:var(--color-muted)]">
-                ({formatDateFr(opportunity.deadline)})
-              </span>
+              {!isRolling && opportunity.deadline ? (
+                <span className="ml-2 font-normal text-[color:var(--color-muted)]">
+                  ({formatDateFr(opportunity.deadline)})
+                </span>
+              ) : null}
             </p>
           </div>
           {opportunity.amountDisplay ? (
