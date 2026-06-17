@@ -1,4 +1,3 @@
-import type { Route } from "next";
 import Link from "next/link";
 
 import { createServerSupabase } from "@/lib/supabase/server";
@@ -62,7 +61,7 @@ export async function AuthNav() {
     <div className="flex flex-col items-start gap-3 text-sm lg:flex-row lg:items-center">
       {isAdmin ? (
         <Link
-          href={"/admin" as unknown as Route}
+          href="/admin"
           className="whitespace-nowrap rounded-md border border-[color:var(--color-accent)] px-3 py-1.5 font-semibold text-[color:var(--color-accent)] hover:bg-[color:var(--color-accent)] hover:text-white"
         >
           Espace admin

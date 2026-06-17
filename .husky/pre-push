@@ -1,0 +1,3 @@
+# Enforce CI's fast `validate` gates before any push (branch protection on
+# main is a paid feature; this is the local equivalent). Build runs in CI.
+pnpm lint && pnpm format:check && pnpm typecheck && pnpm check:migrations && pnpm test

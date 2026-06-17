@@ -42,7 +42,7 @@ describe("Opportunities collection", () => {
     expect(Opportunities.defaultSort).toBe("deadline");
   });
 
-  it("requires the fields the index page filters on (sector, type, area, deadline)", () => {
+  it("requires the core fields (sector, type, area, source)", () => {
     const required = [
       "title",
       "slug",
@@ -51,7 +51,6 @@ describe("Opportunities collection", () => {
       "sector",
       "opportunityType",
       "area",
-      "deadline",
       "source",
     ];
     for (const name of required) {
@@ -60,6 +59,30 @@ describe("Opportunities collection", () => {
         `Opportunities.${name} must be required`,
       ).toBe(true);
     }
+  });
+
+  it("supports rolling applications: optional deadline + rolling flag, date required unless rolling", () => {
+    const rolling = fieldByName(Opportunities.fields ?? [], "rolling");
+    expect(rolling?.type).toBe("checkbox");
+
+    const deadlineField = fieldByName(Opportunities.fields ?? [], "deadline");
+    // Optional at the schema level so rolling (continuous) entries need no date.
+    expect(isRequired(deadlineField)).toBe(false);
+
+    const validate = (
+      deadlineField as {
+        validate?: (
+          value: unknown,
+          options?: { siblingData?: { rolling?: boolean } },
+        ) => true | string;
+      }
+    ).validate;
+    // Non-rolling opportunity without a date is rejected…
+    expect(typeof validate?.(undefined, { siblingData: { rolling: false } })).toBe("string");
+    // …rolling opportunity needs no date…
+    expect(validate?.(undefined, { siblingData: { rolling: true } })).toBe(true);
+    // …and a dated opportunity is fine.
+    expect(validate?.("2026-12-31", { siblingData: { rolling: false } })).toBe(true);
   });
 
   it("sector options match D012 SECTORS (count + slugs)", () => {

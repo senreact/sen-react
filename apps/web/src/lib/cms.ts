@@ -88,9 +88,7 @@ type PageHeroesGlobal = Record<
  * global. Returns null when unset/unreachable so the banner simply doesn't
  * render (no layout shift, no hard failure — heroes are decorative).
  */
-export async function getPageHero(
-  key: PageHeroKey,
-): Promise<{ url: string; alt: string } | null> {
+export async function getPageHero(key: PageHeroKey): Promise<{ url: string; alt: string } | null> {
   const data = await fetchGlobal<PageHeroesGlobal>("page-heroes");
   if (!data) return null;
   const value = data[key];

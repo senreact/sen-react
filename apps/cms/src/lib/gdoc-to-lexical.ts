@@ -203,8 +203,12 @@ export function convertGoogleDocHtml(html: string): ConvertedDoc {
         const src = img.getAttribute("src") ?? "";
         const decoded = mimeFromDataUri(src);
         if (!decoded) continue;
-        const wrapStyle = img.parentNode && isElement(img.parentNode) ? img.parentNode.getAttribute("style") : undefined;
-        const width = pxFromStyle(img.getAttribute("style"), "width") || pxFromStyle(wrapStyle, "width");
+        const wrapStyle =
+          img.parentNode && isElement(img.parentNode)
+            ? img.parentNode.getAttribute("style")
+            : undefined;
+        const width =
+          pxFromStyle(img.getAttribute("style"), "width") || pxFromStyle(wrapStyle, "width");
         const height =
           pxFromStyle(img.getAttribute("style"), "height") || pxFromStyle(wrapStyle, "height");
         const index = images.length;

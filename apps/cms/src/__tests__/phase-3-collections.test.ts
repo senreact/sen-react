@@ -78,10 +78,11 @@ describe("Publications collection", () => {
     expect(typeof Publications.access?.read).toBe("function");
   });
 
-  it("has required PDF file field (otherwise an entry has nothing to download)", () => {
+  it("has an OPTIONAL PDF file field (web-native: an entry can be body-only)", () => {
     const file = fieldByName(Publications.fields ?? [], "file");
     expect(file?.type).toBe("upload");
-    expect(isRequired(file)).toBe(true);
+    // Publications are web-native — body OR a downloadable PDF, so file is optional.
+    expect(isRequired(file)).toBe(false);
     expect((file as { relationTo?: string }).relationTo).toBe("media");
   });
 
@@ -127,14 +128,16 @@ describe("Videos collection", () => {
     expect(values).toEqual(["capsule", "explanation", "interview", "testimonial", "vlog"]);
   });
 
-  it("YouTube ID validator rejects URLs and accepts 11-char IDs", () => {
+  it("YouTube ID validator accepts a full URL or an 11-char ID, rejects junk", () => {
     const yt = fieldByName(Videos.fields ?? [], "youtubeId") as {
       validate?: (value: string | null | undefined) => true | string;
     };
     expect(typeof yt.validate).toBe("function");
     if (!yt.validate) return;
     expect(yt.validate("dQw4w9WgXcQ")).toBe(true);
-    expect(typeof yt.validate("https://youtube.com/watch?v=dQw4w9WgXcQ")).toBe("string");
+    // Editors paste the full share URL — accepted (normalised to the ID on save).
+    expect(yt.validate("https://www.youtube.com/watch?v=dQw4w9WgXcQ")).toBe(true);
+    expect(yt.validate("https://youtu.be/dQw4w9WgXcQ")).toBe(true);
     expect(typeof yt.validate("short")).toBe("string");
     expect(typeof yt.validate(null)).toBe("string");
   });

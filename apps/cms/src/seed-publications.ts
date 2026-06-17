@@ -133,14 +133,14 @@ async function ensureMedia(
     depth: 0,
   });
   if (existing.docs[0]) {
-    return existing.docs[0].id as number;
+    return existing.docs[0].id;
   }
   const created = await payload.create({
     collection: "media",
     data: { alt },
     file: { data: buffer, mimetype, name, size: buffer.length },
   });
-  return created.id as number;
+  return created.id;
 }
 
 interface LexChild {
@@ -172,7 +172,10 @@ function trimLeadingChrome(root: Record<string, unknown>, title: string): void {
     const c = children[i];
     if (!c) break;
     if (c.type === "upload") break; // reached the hero/inline image; stop
-    const text = (c.children ?? []).map((t) => t.text ?? "").join("").trim();
+    const text = (c.children ?? [])
+      .map((t) => t.text ?? "")
+      .join("")
+      .trim();
     if (!text) {
       cut = i + 1;
       continue;
@@ -201,7 +204,11 @@ async function upsertPublication(payload: Payload, data: Record<string, unknown>
   });
   const payloadData = { ...data, _status: "published" } as never;
   if (existing.docs[0]) {
-    await payload.update({ collection: "publications", id: existing.docs[0].id, data: payloadData });
+    await payload.update({
+      collection: "publications",
+      id: existing.docs[0].id,
+      data: payloadData,
+    });
   } else {
     await payload.create({ collection: "publications", data: payloadData });
   }

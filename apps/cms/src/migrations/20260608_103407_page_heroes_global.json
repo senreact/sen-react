@@ -75,12 +75,8 @@
           "tableFrom": "users_sessions",
           "tableTo": "users",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "_parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["_parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -532,12 +528,8 @@
           "tableFrom": "news",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "cover_image_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["cover_image_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -833,12 +825,8 @@
           "tableFrom": "_news_v",
           "tableTo": "news",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -847,12 +835,8 @@
           "tableFrom": "_news_v",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "version_cover_image_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["version_cover_image_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -936,12 +920,8 @@
           "tableFrom": "publications_authors",
           "tableTo": "publications",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "_parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["_parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -1140,12 +1120,8 @@
           "tableFrom": "publications",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "file_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["file_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -1154,12 +1130,8 @@
           "tableFrom": "publications",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "cover_image_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["cover_image_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -1249,12 +1221,8 @@
           "tableFrom": "_publications_v_version_authors",
           "tableTo": "_publications_v",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "_parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["_parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -1558,12 +1526,8 @@
           "tableFrom": "_publications_v",
           "tableTo": "publications",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -1572,12 +1536,8 @@
           "tableFrom": "_publications_v",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "version_file_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["version_file_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -1586,12 +1546,8 @@
           "tableFrom": "_publications_v",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "version_cover_image_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["version_cover_image_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -1809,12 +1765,8 @@
           "tableFrom": "videos",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "subtitles_fr_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["subtitles_fr_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -1823,12 +1775,8 @@
           "tableFrom": "videos",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "subtitles_wo_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["subtitles_wo_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -2151,12 +2099,8 @@
           "tableFrom": "_videos_v",
           "tableTo": "videos",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -2165,12 +2109,8 @@
           "tableFrom": "_videos_v",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "version_subtitles_fr_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["version_subtitles_fr_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -2179,12 +2119,8 @@
           "tableFrom": "_videos_v",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "version_subtitles_wo_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["version_subtitles_wo_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -2349,12 +2285,8 @@
           "tableFrom": "partners",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "logo_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["logo_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -2624,12 +2556,8 @@
           "tableFrom": "_partners_v",
           "tableTo": "partners",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -2638,12 +2566,8 @@
           "tableFrom": "_partners_v",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "version_logo_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["version_logo_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -3040,12 +2964,8 @@
           "tableFrom": "_programmes_v",
           "tableTo": "programmes",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -3203,12 +3123,8 @@
           "tableFrom": "team_members",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "photo_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["photo_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -3471,12 +3387,8 @@
           "tableFrom": "_team_members_v",
           "tableTo": "team_members",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -3485,12 +3397,8 @@
           "tableFrom": "_team_members_v",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "version_photo_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["version_photo_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -4013,12 +3921,8 @@
           "tableFrom": "_opportunities_v",
           "tableTo": "opportunities",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -4214,12 +4118,8 @@
           "tableFrom": "events",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "image_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["image_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -4520,12 +4420,8 @@
           "tableFrom": "_events_v",
           "tableTo": "events",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -4534,12 +4430,8 @@
           "tableFrom": "_events_v",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "version_image_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["version_image_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -4922,12 +4814,8 @@
           "tableFrom": "_announcements_v",
           "tableTo": "announcements",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -5150,12 +5038,8 @@
           "tableFrom": "trainings",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "image_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["image_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -5483,12 +5367,8 @@
           "tableFrom": "_trainings_v",
           "tableTo": "trainings",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -5497,12 +5377,8 @@
           "tableFrom": "_trainings_v",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "version_image_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["version_image_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -5701,12 +5577,8 @@
           "tableFrom": "resources",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "file_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["file_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -5715,12 +5587,8 @@
           "tableFrom": "resources",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "cover_image_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["cover_image_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -6024,12 +5892,8 @@
           "tableFrom": "_resources_v",
           "tableTo": "resources",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -6038,12 +5902,8 @@
           "tableFrom": "_resources_v",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "version_file_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["version_file_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -6052,12 +5912,8 @@
           "tableFrom": "_resources_v",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "version_cover_image_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["version_cover_image_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -6135,12 +5991,8 @@
           "tableFrom": "formalisation_steps_required_documents",
           "tableTo": "formalisation_steps",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "_parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["_parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -6386,12 +6238,8 @@
           "tableFrom": "_formalisation_steps_v_version_required_documents",
           "tableTo": "_formalisation_steps_v",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "_parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["_parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -6668,12 +6516,8 @@
           "tableFrom": "_formalisation_steps_v",
           "tableTo": "formalisation_steps",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -7192,12 +7036,8 @@
           "tableFrom": "payload_locked_documents_rels",
           "tableTo": "payload_locked_documents",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -7206,12 +7046,8 @@
           "tableFrom": "payload_locked_documents_rels",
           "tableTo": "users",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "users_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["users_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -7220,12 +7056,8 @@
           "tableFrom": "payload_locked_documents_rels",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "media_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["media_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -7234,12 +7066,8 @@
           "tableFrom": "payload_locked_documents_rels",
           "tableTo": "news",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "news_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["news_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -7248,12 +7076,8 @@
           "tableFrom": "payload_locked_documents_rels",
           "tableTo": "publications",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "publications_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["publications_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -7262,12 +7086,8 @@
           "tableFrom": "payload_locked_documents_rels",
           "tableTo": "videos",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "videos_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["videos_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -7276,12 +7096,8 @@
           "tableFrom": "payload_locked_documents_rels",
           "tableTo": "partners",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "partners_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["partners_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -7290,12 +7106,8 @@
           "tableFrom": "payload_locked_documents_rels",
           "tableTo": "programmes",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "programmes_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["programmes_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -7304,12 +7116,8 @@
           "tableFrom": "payload_locked_documents_rels",
           "tableTo": "team_members",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "team_members_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["team_members_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -7318,12 +7126,8 @@
           "tableFrom": "payload_locked_documents_rels",
           "tableTo": "opportunities",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "opportunities_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["opportunities_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -7332,12 +7136,8 @@
           "tableFrom": "payload_locked_documents_rels",
           "tableTo": "events",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "events_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["events_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -7346,12 +7146,8 @@
           "tableFrom": "payload_locked_documents_rels",
           "tableTo": "announcements",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "announcements_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["announcements_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -7360,12 +7156,8 @@
           "tableFrom": "payload_locked_documents_rels",
           "tableTo": "trainings",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "trainings_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["trainings_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -7374,12 +7166,8 @@
           "tableFrom": "payload_locked_documents_rels",
           "tableTo": "resources",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "resources_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["resources_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -7388,12 +7176,8 @@
           "tableFrom": "payload_locked_documents_rels",
           "tableTo": "formalisation_steps",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "formalisation_steps_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["formalisation_steps_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -7598,12 +7382,8 @@
           "tableFrom": "payload_preferences_rels",
           "tableTo": "payload_preferences",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -7612,12 +7392,8 @@
           "tableFrom": "payload_preferences_rels",
           "tableTo": "users",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "users_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["users_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -7790,12 +7566,8 @@
           "tableFrom": "site_header_nav_items",
           "tableTo": "site_header",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "_parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["_parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -7929,12 +7701,8 @@
           "tableFrom": "site_footer_legal_nav_items",
           "tableTo": "site_footer",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "_parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["_parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -8019,12 +7787,8 @@
           "tableFrom": "site_footer_social_links",
           "tableTo": "site_footer",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "_parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["_parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -8158,12 +7922,8 @@
           "tableFrom": "contact_info_address_lines",
           "tableTo": "contact_info",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "_parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["_parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -8369,12 +8129,8 @@
           "tableFrom": "homepage_domaines_pillars",
           "tableTo": "homepage_domaines",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "_parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["_parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -8507,12 +8263,8 @@
           "tableFrom": "empty_states_homepage_latest_news_fallback",
           "tableTo": "empty_states",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "_parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["_parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -8687,12 +8439,8 @@
           "tableFrom": "contact_page_channel_guide",
           "tableTo": "contact_page",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "_parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["_parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -8850,12 +8598,8 @@
           "tableFrom": "about_page_values_items",
           "tableTo": "about_page",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "_parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["_parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -9069,12 +8813,8 @@
           "tableFrom": "sectors_page_detail_placeholder_blocks",
           "tableTo": "sectors_page",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "_parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["_parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -9565,12 +9305,8 @@
           "tableFrom": "page_heroes",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "accueil_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["accueil_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -9579,12 +9315,8 @@
           "tableFrom": "page_heroes",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "secteurs_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["secteurs_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -9593,12 +9325,8 @@
           "tableFrom": "page_heroes",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "opportunites_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["opportunites_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -9607,12 +9335,8 @@
           "tableFrom": "page_heroes",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "annuaire_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["annuaire_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -9621,12 +9345,8 @@
           "tableFrom": "page_heroes",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "actualites_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["actualites_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -9635,12 +9355,8 @@
           "tableFrom": "page_heroes",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "publications_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["publications_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -9649,12 +9365,8 @@
           "tableFrom": "page_heroes",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "evenements_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["evenements_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -9663,12 +9375,8 @@
           "tableFrom": "page_heroes",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "ressources_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["ressources_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -9677,12 +9385,8 @@
           "tableFrom": "page_heroes",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "formations_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["formations_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -9691,12 +9395,8 @@
           "tableFrom": "page_heroes",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "partenaires_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["partenaires_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -9705,12 +9405,8 @@
           "tableFrom": "page_heroes",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "videos_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["videos_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -9742,18 +9438,12 @@
     "payload.enum_news_write_path": {
       "name": "enum_news_write_path",
       "schema": "payload",
-      "values": [
-        "react-original",
-        "aggregated"
-      ]
+      "values": ["react-original", "aggregated"]
     },
     "payload.enum_news_status": {
       "name": "enum_news_status",
       "schema": "payload",
-      "values": [
-        "draft",
-        "published"
-      ]
+      "values": ["draft", "published"]
     },
     "payload.enum__news_v_version_sector": {
       "name": "enum__news_v_version_sector",
@@ -9774,18 +9464,12 @@
     "payload.enum__news_v_version_write_path": {
       "name": "enum__news_v_version_write_path",
       "schema": "payload",
-      "values": [
-        "react-original",
-        "aggregated"
-      ]
+      "values": ["react-original", "aggregated"]
     },
     "payload.enum__news_v_version_status": {
       "name": "enum__news_v_version_status",
       "schema": "payload",
-      "values": [
-        "draft",
-        "published"
-      ]
+      "values": ["draft", "published"]
     },
     "payload.enum_publications_sector": {
       "name": "enum_publications_sector",
@@ -9806,19 +9490,12 @@
     "payload.enum_publications_language": {
       "name": "enum_publications_language",
       "schema": "payload",
-      "values": [
-        "fr",
-        "en",
-        "wo"
-      ]
+      "values": ["fr", "en", "wo"]
     },
     "payload.enum_publications_status": {
       "name": "enum_publications_status",
       "schema": "payload",
-      "values": [
-        "draft",
-        "published"
-      ]
+      "values": ["draft", "published"]
     },
     "payload.enum__publications_v_version_sector": {
       "name": "enum__publications_v_version_sector",
@@ -9839,38 +9516,22 @@
     "payload.enum__publications_v_version_language": {
       "name": "enum__publications_v_version_language",
       "schema": "payload",
-      "values": [
-        "fr",
-        "en",
-        "wo"
-      ]
+      "values": ["fr", "en", "wo"]
     },
     "payload.enum__publications_v_version_status": {
       "name": "enum__publications_v_version_status",
       "schema": "payload",
-      "values": [
-        "draft",
-        "published"
-      ]
+      "values": ["draft", "published"]
     },
     "payload.enum_videos_video_type": {
       "name": "enum_videos_video_type",
       "schema": "payload",
-      "values": [
-        "capsule",
-        "explanation",
-        "interview",
-        "vlog",
-        "testimonial"
-      ]
+      "values": ["capsule", "explanation", "interview", "vlog", "testimonial"]
     },
     "payload.enum_videos_origin": {
       "name": "enum_videos_origin",
       "schema": "payload",
-      "values": [
-        "react-original",
-        "curated"
-      ]
+      "values": ["react-original", "curated"]
     },
     "payload.enum_videos_sector": {
       "name": "enum_videos_sector",
@@ -9891,29 +9552,17 @@
     "payload.enum_videos_status": {
       "name": "enum_videos_status",
       "schema": "payload",
-      "values": [
-        "draft",
-        "published"
-      ]
+      "values": ["draft", "published"]
     },
     "payload.enum__videos_v_version_video_type": {
       "name": "enum__videos_v_version_video_type",
       "schema": "payload",
-      "values": [
-        "capsule",
-        "explanation",
-        "interview",
-        "vlog",
-        "testimonial"
-      ]
+      "values": ["capsule", "explanation", "interview", "vlog", "testimonial"]
     },
     "payload.enum__videos_v_version_origin": {
       "name": "enum__videos_v_version_origin",
       "schema": "payload",
-      "values": [
-        "react-original",
-        "curated"
-      ]
+      "values": ["react-original", "curated"]
     },
     "payload.enum__videos_v_version_sector": {
       "name": "enum__videos_v_version_sector",
@@ -9934,90 +9583,57 @@
     "payload.enum__videos_v_version_status": {
       "name": "enum__videos_v_version_status",
       "schema": "payload",
-      "values": [
-        "draft",
-        "published"
-      ]
+      "values": ["draft", "published"]
     },
     "payload.enum_partners_kind": {
       "name": "enum_partners_kind",
       "schema": "payload",
-      "values": [
-        "institution",
-        "ngo"
-      ]
+      "values": ["institution", "ngo"]
     },
     "payload.enum_partners_status": {
       "name": "enum_partners_status",
       "schema": "payload",
-      "values": [
-        "draft",
-        "published"
-      ]
+      "values": ["draft", "published"]
     },
     "payload.enum__partners_v_version_kind": {
       "name": "enum__partners_v_version_kind",
       "schema": "payload",
-      "values": [
-        "institution",
-        "ngo"
-      ]
+      "values": ["institution", "ngo"]
     },
     "payload.enum__partners_v_version_status": {
       "name": "enum__partners_v_version_status",
       "schema": "payload",
-      "values": [
-        "draft",
-        "published"
-      ]
+      "values": ["draft", "published"]
     },
     "payload.enum_programmes_variant": {
       "name": "enum_programmes_variant",
       "schema": "payload",
-      "values": [
-        "headline",
-        "active"
-      ]
+      "values": ["headline", "active"]
     },
     "payload.enum_programmes_status": {
       "name": "enum_programmes_status",
       "schema": "payload",
-      "values": [
-        "draft",
-        "published"
-      ]
+      "values": ["draft", "published"]
     },
     "payload.enum__programmes_v_version_variant": {
       "name": "enum__programmes_v_version_variant",
       "schema": "payload",
-      "values": [
-        "headline",
-        "active"
-      ]
+      "values": ["headline", "active"]
     },
     "payload.enum__programmes_v_version_status": {
       "name": "enum__programmes_v_version_status",
       "schema": "payload",
-      "values": [
-        "draft",
-        "published"
-      ]
+      "values": ["draft", "published"]
     },
     "payload.enum_team_members_status": {
       "name": "enum_team_members_status",
       "schema": "payload",
-      "values": [
-        "draft",
-        "published"
-      ]
+      "values": ["draft", "published"]
     },
     "payload.enum__team_members_v_version_status": {
       "name": "enum__team_members_v_version_status",
       "schema": "payload",
-      "values": [
-        "draft",
-        "published"
-      ]
+      "values": ["draft", "published"]
     },
     "payload.enum_opportunities_sector": {
       "name": "enum_opportunities_sector",
@@ -10038,14 +9654,7 @@
     "payload.enum_opportunities_opportunity_type": {
       "name": "enum_opportunities_opportunity_type",
       "schema": "payload",
-      "values": [
-        "financement",
-        "formation",
-        "appel-a-projets",
-        "partenariat",
-        "concours",
-        "autre"
-      ]
+      "values": ["financement", "formation", "appel-a-projets", "partenariat", "concours", "autre"]
     },
     "payload.enum_opportunities_area": {
       "name": "enum_opportunities_area",
@@ -10062,19 +9671,12 @@
     "payload.enum_opportunities_amount_currency": {
       "name": "enum_opportunities_amount_currency",
       "schema": "payload",
-      "values": [
-        "XOF",
-        "EUR",
-        "USD"
-      ]
+      "values": ["XOF", "EUR", "USD"]
     },
     "payload.enum_opportunities_status": {
       "name": "enum_opportunities_status",
       "schema": "payload",
-      "values": [
-        "draft",
-        "published"
-      ]
+      "values": ["draft", "published"]
     },
     "payload.enum__opportunities_v_version_sector": {
       "name": "enum__opportunities_v_version_sector",
@@ -10095,14 +9697,7 @@
     "payload.enum__opportunities_v_version_opportunity_type": {
       "name": "enum__opportunities_v_version_opportunity_type",
       "schema": "payload",
-      "values": [
-        "financement",
-        "formation",
-        "appel-a-projets",
-        "partenariat",
-        "concours",
-        "autre"
-      ]
+      "values": ["financement", "formation", "appel-a-projets", "partenariat", "concours", "autre"]
     },
     "payload.enum__opportunities_v_version_area": {
       "name": "enum__opportunities_v_version_area",
@@ -10119,28 +9714,17 @@
     "payload.enum__opportunities_v_version_amount_currency": {
       "name": "enum__opportunities_v_version_amount_currency",
       "schema": "payload",
-      "values": [
-        "XOF",
-        "EUR",
-        "USD"
-      ]
+      "values": ["XOF", "EUR", "USD"]
     },
     "payload.enum__opportunities_v_version_status": {
       "name": "enum__opportunities_v_version_status",
       "schema": "payload",
-      "values": [
-        "draft",
-        "published"
-      ]
+      "values": ["draft", "published"]
     },
     "payload.enum_events_event_type": {
       "name": "enum_events_event_type",
       "schema": "payload",
-      "values": [
-        "in-person",
-        "online",
-        "webinar"
-      ]
+      "values": ["in-person", "online", "webinar"]
     },
     "payload.enum_events_sector": {
       "name": "enum_events_sector",
@@ -10161,19 +9745,12 @@
     "payload.enum_events_status": {
       "name": "enum_events_status",
       "schema": "payload",
-      "values": [
-        "draft",
-        "published"
-      ]
+      "values": ["draft", "published"]
     },
     "payload.enum__events_v_version_event_type": {
       "name": "enum__events_v_version_event_type",
       "schema": "payload",
-      "values": [
-        "in-person",
-        "online",
-        "webinar"
-      ]
+      "values": ["in-person", "online", "webinar"]
     },
     "payload.enum__events_v_version_sector": {
       "name": "enum__events_v_version_sector",
@@ -10194,74 +9771,42 @@
     "payload.enum__events_v_version_status": {
       "name": "enum__events_v_version_status",
       "schema": "payload",
-      "values": [
-        "draft",
-        "published"
-      ]
+      "values": ["draft", "published"]
     },
     "payload.enum_announcements_category": {
       "name": "enum_announcements_category",
       "schema": "payload",
-      "values": [
-        "general",
-        "urgent",
-        "platform-update",
-        "partnership"
-      ]
+      "values": ["general", "urgent", "platform-update", "partnership"]
     },
     "payload.enum_announcements_status": {
       "name": "enum_announcements_status",
       "schema": "payload",
-      "values": [
-        "draft",
-        "published"
-      ]
+      "values": ["draft", "published"]
     },
     "payload.enum__announcements_v_version_category": {
       "name": "enum__announcements_v_version_category",
       "schema": "payload",
-      "values": [
-        "general",
-        "urgent",
-        "platform-update",
-        "partnership"
-      ]
+      "values": ["general", "urgent", "platform-update", "partnership"]
     },
     "payload.enum__announcements_v_version_status": {
       "name": "enum__announcements_v_version_status",
       "schema": "payload",
-      "values": [
-        "draft",
-        "published"
-      ]
+      "values": ["draft", "published"]
     },
     "payload.enum_trainings_training_type": {
       "name": "enum_trainings_training_type",
       "schema": "payload",
-      "values": [
-        "tutorial",
-        "webinar",
-        "workshop",
-        "online-course"
-      ]
+      "values": ["tutorial", "webinar", "workshop", "online-course"]
     },
     "payload.enum_trainings_level": {
       "name": "enum_trainings_level",
       "schema": "payload",
-      "values": [
-        "debutant",
-        "intermediaire",
-        "avance"
-      ]
+      "values": ["debutant", "intermediaire", "avance"]
     },
     "payload.enum_trainings_format": {
       "name": "enum_trainings_format",
       "schema": "payload",
-      "values": [
-        "online",
-        "in-person",
-        "hybrid"
-      ]
+      "values": ["online", "in-person", "hybrid"]
     },
     "payload.enum_trainings_sector": {
       "name": "enum_trainings_sector",
@@ -10282,38 +9827,22 @@
     "payload.enum_trainings_status": {
       "name": "enum_trainings_status",
       "schema": "payload",
-      "values": [
-        "draft",
-        "published"
-      ]
+      "values": ["draft", "published"]
     },
     "payload.enum__trainings_v_version_training_type": {
       "name": "enum__trainings_v_version_training_type",
       "schema": "payload",
-      "values": [
-        "tutorial",
-        "webinar",
-        "workshop",
-        "online-course"
-      ]
+      "values": ["tutorial", "webinar", "workshop", "online-course"]
     },
     "payload.enum__trainings_v_version_level": {
       "name": "enum__trainings_v_version_level",
       "schema": "payload",
-      "values": [
-        "debutant",
-        "intermediaire",
-        "avance"
-      ]
+      "values": ["debutant", "intermediaire", "avance"]
     },
     "payload.enum__trainings_v_version_format": {
       "name": "enum__trainings_v_version_format",
       "schema": "payload",
-      "values": [
-        "online",
-        "in-person",
-        "hybrid"
-      ]
+      "values": ["online", "in-person", "hybrid"]
     },
     "payload.enum__trainings_v_version_sector": {
       "name": "enum__trainings_v_version_sector",
@@ -10334,21 +9863,12 @@
     "payload.enum__trainings_v_version_status": {
       "name": "enum__trainings_v_version_status",
       "schema": "payload",
-      "values": [
-        "draft",
-        "published"
-      ]
+      "values": ["draft", "published"]
     },
     "payload.enum_resources_resource_type": {
       "name": "enum_resources_resource_type",
       "schema": "payload",
-      "values": [
-        "guide",
-        "fiche-technique",
-        "modele",
-        "checklist",
-        "rapport"
-      ]
+      "values": ["guide", "fiche-technique", "modele", "checklist", "rapport"]
     },
     "payload.enum_resources_sector": {
       "name": "enum_resources_sector",
@@ -10369,21 +9889,12 @@
     "payload.enum_resources_status": {
       "name": "enum_resources_status",
       "schema": "payload",
-      "values": [
-        "draft",
-        "published"
-      ]
+      "values": ["draft", "published"]
     },
     "payload.enum__resources_v_version_resource_type": {
       "name": "enum__resources_v_version_resource_type",
       "schema": "payload",
-      "values": [
-        "guide",
-        "fiche-technique",
-        "modele",
-        "checklist",
-        "rapport"
-      ]
+      "values": ["guide", "fiche-technique", "modele", "checklist", "rapport"]
     },
     "payload.enum__resources_v_version_sector": {
       "name": "enum__resources_v_version_sector",
@@ -10404,39 +9915,22 @@
     "payload.enum__resources_v_version_status": {
       "name": "enum__resources_v_version_status",
       "schema": "payload",
-      "values": [
-        "draft",
-        "published"
-      ]
+      "values": ["draft", "published"]
     },
     "payload.enum_formalisation_steps_status": {
       "name": "enum_formalisation_steps_status",
       "schema": "payload",
-      "values": [
-        "draft",
-        "published"
-      ]
+      "values": ["draft", "published"]
     },
     "payload.enum__formalisation_steps_v_version_status": {
       "name": "enum__formalisation_steps_v_version_status",
       "schema": "payload",
-      "values": [
-        "draft",
-        "published"
-      ]
+      "values": ["draft", "published"]
     },
     "payload.enum_site_footer_social_links_platform": {
       "name": "enum_site_footer_social_links_platform",
       "schema": "payload",
-      "values": [
-        "instagram",
-        "linkedin",
-        "youtube",
-        "whatsapp",
-        "facebook",
-        "x",
-        "tiktok"
-      ]
+      "values": ["instagram", "linkedin", "youtube", "whatsapp", "facebook", "x", "tiktok"]
     }
   },
   "schemas": {
