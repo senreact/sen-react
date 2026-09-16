@@ -39,8 +39,27 @@ const checkboxFlag = z
   .union([z.literal("on"), z.literal("true"), z.literal(""), z.undefined()])
   .transform((v) => v === "on" || v === "true");
 
+// Optional trimmed text — blank string or missing → null.
+const optionalTrimmed = (max: number) =>
+  z
+    .string()
+    .max(max)
+    .or(z.literal(""))
+    .optional()
+    .transform((v) => (v && v.trim().length > 0 ? v.trim() : null));
+
+// Three-state boolean select ("true" / "false" / "" | undefined → true / false / null).
+const optionalBooleanSelect = z
+  .enum(["true", "false", ""])
+  .or(z.undefined())
+  .transform((v) => (v === "true" ? true : v === "false" ? false : null));
+
 const SignUpEntrepreneurSchema = SignUpBase.extend({
   profile_type: z.literal("entrepreneur"),
+  sector_slug: optionalTrimmed(64),
+  is_formal: optionalBooleanSelect,
+  address: optionalTrimmed(255),
+  phone: optionalTrimmed(40),
   is_minor: checkboxFlag,
   parental_consent: checkboxFlag,
   parent_email: z
@@ -110,14 +129,6 @@ export type AuthFormState =
  * cleanly. URL validation is strict on photo_url (must be http/https)
  * but accepts empty string. Email-public is a checkbox.
  */
-const optionalTrimmed = (max: number) =>
-  z
-    .string()
-    .max(max)
-    .or(z.literal(""))
-    .optional()
-    .transform((v) => (v && v.trim().length > 0 ? v.trim() : null));
-
 export const ProfileUpdateSchema = z.object({
   display_name: z.string().min(1, { message: "Nom requis" }).max(120),
   sector_slug: optionalTrimmed(64),
@@ -137,6 +148,8 @@ export const ProfileUpdateSchema = z.object({
   ministry_name: optionalTrimmed(200),
   government_role: optionalTrimmed(120),
   partner_org_name: optionalTrimmed(200),
+  is_formal: optionalBooleanSelect,
+  address: optionalTrimmed(255),
   is_minor: checkboxFlag,
   parental_consent: checkboxFlag,
   parent_email: z

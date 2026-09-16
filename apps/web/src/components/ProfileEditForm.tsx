@@ -23,6 +23,8 @@ interface ProfileEditFormProps {
     ministry_name: string | null;
     government_role: string | null;
     partner_org_name: string | null;
+    is_formal: boolean | null;
+    address: string | null;
     is_minor: boolean;
     parental_consent: boolean | null;
     parent_email: string | null;
@@ -260,6 +262,43 @@ export function ProfileEditForm({ action, profile }: ProfileEditFormProps) {
               type="text"
               maxLength={200}
               defaultValue={profile.partner_org_name ?? ""}
+              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-[color:var(--color-accent)] focus:outline-none"
+            />
+          </div>
+        </fieldset>
+      ) : null}
+
+      {profile.profile_type === "entrepreneur" ? (
+        <fieldset className="space-y-4 rounded-md border border-slate-200 p-4">
+          <legend className="px-1 text-sm font-semibold">Activité</legend>
+          <div>
+            <label htmlFor="is_formal" className="mb-1 block text-sm font-medium">
+              Secteur formel ou informel
+            </label>
+            <select
+              id="is_formal"
+              name="is_formal"
+              defaultValue={
+                profile.is_formal === true ? "true" : profile.is_formal === false ? "false" : ""
+              }
+              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-[color:var(--color-accent)] focus:outline-none"
+            >
+              <option value="">— Non renseigné —</option>
+              <option value="true">Formel (entité enregistrée)</option>
+              <option value="false">Informel (activité non enregistrée)</option>
+            </select>
+          </div>
+          <div>
+            <label htmlFor="address" className="mb-1 block text-sm font-medium">
+              Adresse
+            </label>
+            <input
+              id="address"
+              name="address"
+              type="text"
+              maxLength={255}
+              defaultValue={profile.address ?? ""}
+              placeholder="Quartier, ville, pays…"
               className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-[color:var(--color-accent)] focus:outline-none"
             />
           </div>

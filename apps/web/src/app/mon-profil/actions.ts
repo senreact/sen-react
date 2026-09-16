@@ -45,6 +45,8 @@ export async function updateProfileAction(
     ministry_name: formData.get("ministry_name") ?? undefined,
     government_role: formData.get("government_role") ?? undefined,
     partner_org_name: formData.get("partner_org_name") ?? undefined,
+    is_formal: formData.get("is_formal") ?? undefined,
+    address: formData.get("address") ?? undefined,
     is_minor: formData.get("is_minor") ?? undefined,
     parental_consent: formData.get("parental_consent") ?? undefined,
     parent_email: formData.get("parent_email") ?? undefined,

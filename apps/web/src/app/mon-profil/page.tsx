@@ -59,6 +59,8 @@ export default async function MonProfilPage() {
         "ministry_name",
         "government_role",
         "partner_org_name",
+        "is_formal",
+        "address",
         "is_minor",
         "parental_consent",
         "parent_email",
@@ -81,6 +83,8 @@ export default async function MonProfilPage() {
       ministry_name: string | null;
       government_role: string | null;
       partner_org_name: string | null;
+      is_formal: boolean | null;
+      address: string | null;
       is_minor: boolean;
       parental_consent: boolean | null;
       parent_email: string | null;

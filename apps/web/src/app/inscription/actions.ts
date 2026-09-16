@@ -41,6 +41,10 @@ export async function signUpAction(
     password: formData.get("password"),
     profile_type: formData.get("profile_type"),
     display_name: formData.get("display_name"),
+    sector_slug: formData.get("sector_slug") ?? undefined,
+    is_formal: formData.get("is_formal") ?? undefined,
+    address: formData.get("address") ?? undefined,
+    phone: formData.get("phone") ?? undefined,
     organisation_name: formData.get("organisation_name") ?? undefined,
     ministry_name: formData.get("ministry_name") ?? undefined,
     government_role: formData.get("government_role") ?? undefined,
@@ -116,6 +120,10 @@ function buildProfileRow(userId: string, input: SignUpInput): Record<string, unk
   if (input.profile_type === "entrepreneur") {
     return {
       ...base,
+      sector_slug: input.sector_slug ?? null,
+      is_formal: input.is_formal ?? null,
+      address: input.address ?? null,
+      phone: input.phone ?? null,
       is_minor: input.is_minor,
       parental_consent: input.is_minor ? input.parental_consent : null,
       parent_email: input.is_minor ? input.parent_email : null,

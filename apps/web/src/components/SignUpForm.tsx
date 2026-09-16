@@ -2,7 +2,7 @@
 
 import { useActionState, useState } from "react";
 
-import { PROFILE_TYPES, type ProfileTypeSlug } from "@sen-react/shared";
+import { PROFILE_TYPES, SECTORS, type ProfileTypeSlug } from "@sen-react/shared";
 
 import type { AuthFormState } from "@/lib/auth";
 
@@ -164,6 +164,73 @@ export function SignUpForm({
             className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-[color:var(--color-accent)] focus:outline-none"
           />
         </div>
+      ) : null}
+
+      {profileType === "entrepreneur" ? (
+        <fieldset className="space-y-4 rounded-md border border-slate-200 bg-slate-50/50 p-4">
+          <legend className="px-1 text-sm font-semibold">Votre activité</legend>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label htmlFor="sector_slug" className="mb-1 block text-sm font-medium">
+                Secteur
+              </label>
+              <select
+                id="sector_slug"
+                name="sector_slug"
+                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-[color:var(--color-accent)] focus:outline-none"
+              >
+                <option value="">— Aucun —</option>
+                {SECTORS.map((s) => (
+                  <option key={s.slug} value={s.slug}>
+                    {s.fr}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label htmlFor="is_formal" className="mb-1 block text-sm font-medium">
+                Secteur formel ou informel
+              </label>
+              <select
+                id="is_formal"
+                name="is_formal"
+                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-[color:var(--color-accent)] focus:outline-none"
+              >
+                <option value="">— Non renseigné —</option>
+                <option value="true">Formel (entité enregistrée)</option>
+                <option value="false">Informel (activité non enregistrée)</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label htmlFor="signup_address" className="mb-1 block text-sm font-medium">
+              Adresse
+            </label>
+            <input
+              id="signup_address"
+              name="address"
+              type="text"
+              maxLength={255}
+              placeholder="Quartier, ville, pays…"
+              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-[color:var(--color-accent)] focus:outline-none"
+            />
+          </div>
+          <div>
+            <label htmlFor="signup_phone" className="mb-1 block text-sm font-medium">
+              Téléphone{" "}
+              <span className="text-[color:var(--color-muted)]">(facultatif)</span>
+            </label>
+            <input
+              id="signup_phone"
+              name="phone"
+              type="tel"
+              maxLength={40}
+              placeholder="+221 77 …"
+              autoComplete="tel"
+              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-[color:var(--color-accent)] focus:outline-none"
+            />
+          </div>
+        </fieldset>
       ) : null}
 
       {profileType === "entrepreneur" ? (
