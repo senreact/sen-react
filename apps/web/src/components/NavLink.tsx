@@ -7,6 +7,7 @@ import type { Route } from "next";
 interface NavLinkProps {
   href: string;
   external?: boolean | null;
+  exact?: boolean;
   className?: string;
   activeClassName?: string;
   children: React.ReactNode;
@@ -19,7 +20,7 @@ interface NavLinkProps {
  * Active matching: exact for "/", prefix for all other paths so that
  * e.g. "/opportunites/123" highlights the "Opportunités" nav item.
  */
-export function NavLink({ href, external, className, activeClassName, children }: NavLinkProps) {
+export function NavLink({ href, external, exact, className, activeClassName, children }: NavLinkProps) {
   const pathname = usePathname();
 
   const isAbsolute = /^(https?:|mailto:|tel:)/.test(href);
@@ -31,7 +32,8 @@ export function NavLink({ href, external, className, activeClassName, children }
     );
   }
 
-  const isActive = href === "/" ? pathname === "/" : pathname.startsWith(href);
+  const isActive =
+    href === "/" || exact ? pathname === href : pathname.startsWith(href);
 
   const safeHref = href as unknown as Route;
 

@@ -19,5 +19,13 @@ interface PageHeroImageProps {
 export async function PageHeroImage({ pageKey }: PageHeroImageProps) {
   const hero = await getPageHero(pageKey);
   if (!hero) return null;
-  return <img src={hero.url} alt={hero.alt} className="block h-auto w-full" />;
+  return (
+    <img
+      src={hero.url}
+      alt={hero.alt}
+      className="block h-auto w-full"
+      fetchPriority="high"
+      decoding="async"
+    />
+  );
 }

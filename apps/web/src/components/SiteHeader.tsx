@@ -12,6 +12,15 @@ interface SiteHeaderProps {
 
 export function SiteHeader({ data }: SiteHeaderProps) {
   const navItems = data.navItems ?? [];
+  // An item needs exact matching when another nav item extends its path
+  // (e.g. /annuaire should not highlight on /annuaire/recherches).
+  const exactHrefs = new Set(
+    navItems
+      .filter((item) =>
+        navItems.some((other) => other.href !== item.href && other.href.startsWith(item.href + "/")),
+      )
+      .map((item) => item.href),
+  );
   return (
     <header className="relative z-50 border-b border-[color:var(--color-border)] bg-white">
       <div className="mx-auto flex max-w-[1700px] items-center justify-between gap-x-6 px-6 py-4">
@@ -39,6 +48,7 @@ export function SiteHeader({ data }: SiteHeaderProps) {
                     <NavLink
                       href={item.href}
                       external={item.external}
+                      exact={exactHrefs.has(item.href)}
                       className="whitespace-nowrap rounded-full border border-[color:var(--color-border)] bg-white px-2.5 py-1.5 text-sm font-medium text-[color:var(--color-fg)] hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)]"
                       activeClassName="whitespace-nowrap rounded-full border border-[color:var(--color-accent)] bg-[color:var(--color-accent)] px-2.5 py-1.5 text-sm font-medium text-white"
                     >
@@ -55,7 +65,7 @@ export function SiteHeader({ data }: SiteHeaderProps) {
 
         {/* Mobile: hamburger drawer (below lg). */}
         <div className="lg:hidden">
-          <MobileNav navItems={navItems}>
+          <MobileNav navItems={navItems} exactHrefs={exactHrefs}>
             <AuthNav />
           </MobileNav>
         </div>

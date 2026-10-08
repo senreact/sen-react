@@ -9,6 +9,7 @@ type NavItem = NonNullable<SiteHeaderGlobal["navItems"]>[number];
 
 interface MobileNavProps {
   navItems: NavItem[];
+  exactHrefs?: Set<string>;
   /** Server-rendered auth slot (AuthNav) — passed through and shown in the drawer. */
   children: React.ReactNode;
 }
@@ -20,7 +21,7 @@ interface MobileNavProps {
  * messy rows on small screens. Rendered only below `lg` (the parent hides it
  * on desktop, where the inline nav is used instead).
  */
-export function MobileNav({ navItems, children }: MobileNavProps) {
+export function MobileNav({ navItems, exactHrefs, children }: MobileNavProps) {
   const [open, setOpen] = useState(false);
 
   // Close on Escape and lock body scroll while the drawer is open.
@@ -96,6 +97,7 @@ export function MobileNav({ navItems, children }: MobileNavProps) {
                     <NavLink
                       href={item.href}
                       external={item.external}
+                      exact={exactHrefs?.has(item.href)}
                       className="block rounded-md px-3 py-3 text-base font-medium text-[color:var(--color-fg)] hover:bg-[color:var(--color-border)]/40 hover:text-[color:var(--color-accent)]"
                       activeClassName="block rounded-md bg-[color:var(--color-accent)]/10 px-3 py-3 text-base font-medium text-[color:var(--color-accent)]"
                     >
