@@ -54,8 +54,29 @@ const optionalBooleanSelect = z
   .or(z.undefined())
   .transform((v) => (v === "true" ? true : v === "false" ? false : null));
 
+// Optional integer — blank / missing → null; validates range when present.
+const optionalAge = z
+  .string()
+  .or(z.literal(""))
+  .optional()
+  .transform((v) => {
+    if (!v || v.trim() === "") return null;
+    const n = Math.trunc(Number(v));
+    return isNaN(n) ? null : n;
+  })
+  .refine((v) => v === null || (v >= 15 && v <= 120), {
+    message: "L'âge doit être entre 15 et 120 ans",
+  });
+
 const SignUpEntrepreneurSchema = SignUpBase.extend({
   profile_type: z.literal("entrepreneur"),
+  project_name: z.string().min(1, { message: "Nom du projet requis" }).max(200),
+  age: z.coerce
+    .number({ invalid_type_error: "Âge requis" })
+    .int()
+    .min(15, { message: "L'âge minimum est 15 ans" })
+    .max(120, { message: "L'âge maximum est 120 ans" }),
+  region: z.string().min(1, { message: "Région requise" }).max(120),
   sector_slug: optionalTrimmed(64),
   is_formal: optionalBooleanSelect,
   address: optionalTrimmed(255),
@@ -101,12 +122,15 @@ export const SignUpSchema = z
     SignUpPartnerSchema,
   ])
   .superRefine((data, ctx) => {
-    if (data.profile_type === "entrepreneur" && data.is_minor && !data.parental_consent) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ["parental_consent"],
-        message: "Le consentement parental est requis pour les mineurs (15–17 ans).",
-      });
+    if (data.profile_type === "entrepreneur") {
+      const isMinor = data.is_minor || (typeof data.age === "number" && data.age < 18);
+      if (isMinor && !data.parental_consent) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["parental_consent"],
+          message: "Le consentement parental est requis pour les mineurs (15–17 ans).",
+        });
+      }
     }
   });
 
@@ -131,6 +155,8 @@ export type AuthFormState =
  */
 export const ProfileUpdateSchema = z.object({
   display_name: z.string().min(1, { message: "Nom requis" }).max(120),
+  project_name: optionalTrimmed(200),
+  age: optionalAge,
   sector_slug: optionalTrimmed(64),
   region: optionalTrimmed(120),
   photo_url: z

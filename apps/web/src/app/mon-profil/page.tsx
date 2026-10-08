@@ -47,6 +47,8 @@ export default async function MonProfilPage() {
         "profile_type",
         "verification_status",
         "display_name",
+        "project_name",
+        "age",
         "sector_slug",
         "region",
         "photo_url",
@@ -71,6 +73,8 @@ export default async function MonProfilPage() {
       profile_type: string;
       verification_status: string;
       display_name: string;
+      project_name: string | null;
+      age: number | null;
       sector_slug: string | null;
       region: string | null;
       photo_url: string | null;

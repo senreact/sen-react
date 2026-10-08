@@ -169,6 +169,51 @@ export function SignUpForm({
       {profileType === "entrepreneur" ? (
         <fieldset className="space-y-4 rounded-md border border-slate-200 bg-slate-50/50 p-4">
           <legend className="px-1 text-sm font-semibold">Votre activité</legend>
+          <div>
+            <label htmlFor="project_name" className="mb-1 block text-sm font-medium">
+              Nom du projet <span className="text-[color:var(--color-accent)]">*</span>
+            </label>
+            <input
+              id="project_name"
+              name="project_name"
+              type="text"
+              required
+              maxLength={200}
+              placeholder="Nom de votre projet ou entreprise"
+              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-[color:var(--color-accent)] focus:outline-none"
+            />
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label htmlFor="signup_age" className="mb-1 block text-sm font-medium">
+                Âge <span className="text-[color:var(--color-accent)]">*</span>
+              </label>
+              <input
+                id="signup_age"
+                name="age"
+                type="number"
+                required
+                min={15}
+                max={120}
+                placeholder="Ex : 28"
+                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-[color:var(--color-accent)] focus:outline-none"
+              />
+            </div>
+            <div>
+              <label htmlFor="signup_region" className="mb-1 block text-sm font-medium">
+                Région <span className="text-[color:var(--color-accent)]">*</span>
+              </label>
+              <input
+                id="signup_region"
+                name="region"
+                type="text"
+                required
+                maxLength={120}
+                placeholder="Dakar, Thiès, Saint-Louis…"
+                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-[color:var(--color-accent)] focus:outline-none"
+              />
+            </div>
+          </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label htmlFor="sector_slug" className="mb-1 block text-sm font-medium">
@@ -187,6 +232,8 @@ export function SignUpForm({
                 ))}
               </select>
             </div>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label htmlFor="is_formal" className="mb-1 block text-sm font-medium">
                 Secteur formel ou informel
@@ -217,8 +264,7 @@ export function SignUpForm({
           </div>
           <div>
             <label htmlFor="signup_phone" className="mb-1 block text-sm font-medium">
-              Téléphone{" "}
-              <span className="text-[color:var(--color-muted)]">(facultatif)</span>
+              Téléphone <span className="text-[color:var(--color-muted)]">(facultatif)</span>
             </label>
             <input
               id="signup_phone"

@@ -23,6 +23,8 @@ interface ProfileEditFormProps {
     ministry_name: string | null;
     government_role: string | null;
     partner_org_name: string | null;
+    project_name: string | null;
+    age: number | null;
     is_formal: boolean | null;
     address: string | null;
     is_minor: boolean;
@@ -271,6 +273,36 @@ export function ProfileEditForm({ action, profile }: ProfileEditFormProps) {
       {profile.profile_type === "entrepreneur" ? (
         <fieldset className="space-y-4 rounded-md border border-slate-200 p-4">
           <legend className="px-1 text-sm font-semibold">Activité</legend>
+          <div>
+            <label htmlFor="project_name" className="mb-1 block text-sm font-medium">
+              Nom du projet <span className="text-[color:var(--color-accent)]">*</span>
+            </label>
+            <input
+              id="project_name"
+              name="project_name"
+              type="text"
+              maxLength={200}
+              defaultValue={profile.project_name ?? ""}
+              placeholder="Nom de votre projet ou entreprise"
+              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-[color:var(--color-accent)] focus:outline-none"
+            />
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label htmlFor="edit_age" className="mb-1 block text-sm font-medium">
+                Âge
+              </label>
+              <input
+                id="edit_age"
+                name="age"
+                type="number"
+                min={15}
+                max={120}
+                defaultValue={profile.age ?? ""}
+                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-[color:var(--color-accent)] focus:outline-none"
+              />
+            </div>
+          </div>
           <div>
             <label htmlFor="is_formal" className="mb-1 block text-sm font-medium">
               Secteur formel ou informel

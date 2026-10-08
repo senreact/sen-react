@@ -33,6 +33,8 @@ export async function updateProfileAction(
 
   const parsed = ProfileUpdateSchema.safeParse({
     display_name: formData.get("display_name"),
+    project_name: formData.get("project_name") ?? undefined,
+    age: formData.get("age") ?? undefined,
     sector_slug: formData.get("sector_slug") ?? undefined,
     region: formData.get("region") ?? undefined,
     photo_url: formData.get("photo_url") ?? undefined,
