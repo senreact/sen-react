@@ -22,33 +22,61 @@ describe("SignInSchema", () => {
   });
 });
 
+// Minimal valid entrepreneur payload — reused across tests to keep diffs small.
+const BASE_ENTREPRENEUR = {
+  email: "a@b.fr",
+  password: "passpass",
+  profile_type: "entrepreneur",
+  display_name: "Aïssatou Diop",
+  project_name: "Mon Projet",
+  age: "25",
+  region: "Dakar",
+} as const;
+
 describe("SignUpSchema — entrepreneur", () => {
   it("accepts a basic entrepreneur signup (adult)", () => {
-    const r = SignUpSchema.safeParse({
-      email: "a@b.fr",
-      password: "passpass",
-      profile_type: "entrepreneur",
-      display_name: "Aïssatou Diop",
-    });
+    const r = SignUpSchema.safeParse(BASE_ENTREPRENEUR);
     expect(r.success).toBe(true);
     if (r.success) {
       expect(r.data.profile_type).toBe("entrepreneur");
-      // is_minor and parental_consent default to false (transform of undefined)
       if (r.data.profile_type === "entrepreneur") {
         expect(r.data.is_minor).toBe(false);
         expect(r.data.parental_consent).toBe(false);
+        expect(r.data.age).toBe(25);
       }
     }
   });
 
+  it("requires project_name", () => {
+    const r = SignUpSchema.safeParse({ ...BASE_ENTREPRENEUR, project_name: "" });
+    expect(r.success).toBe(false);
+  });
+
+  it("requires age", () => {
+    const r = SignUpSchema.safeParse({ ...BASE_ENTREPRENEUR, age: "" });
+    expect(r.success).toBe(false);
+  });
+
+  it("rejects age below 15", () => {
+    const r = SignUpSchema.safeParse({ ...BASE_ENTREPRENEUR, age: "14" });
+    expect(r.success).toBe(false);
+  });
+
+  it("requires region", () => {
+    const r = SignUpSchema.safeParse({ ...BASE_ENTREPRENEUR, region: "" });
+    expect(r.success).toBe(false);
+  });
+
   it("requires parental_consent when is_minor is set", () => {
-    const r = SignUpSchema.safeParse({
-      email: "minor@b.fr",
-      password: "passpass",
-      profile_type: "entrepreneur",
-      display_name: "Mineur",
-      is_minor: "on",
-    });
+    const r = SignUpSchema.safeParse({ ...BASE_ENTREPRENEUR, age: "16", is_minor: "on" });
+    expect(r.success).toBe(false);
+    if (!r.success) {
+      expect(r.error.issues.some((i) => i.message.includes("consentement parental"))).toBe(true);
+    }
+  });
+
+  it("requires parental_consent when age < 18 (even without is_minor checkbox)", () => {
+    const r = SignUpSchema.safeParse({ ...BASE_ENTREPRENEUR, age: "17" });
     expect(r.success).toBe(false);
     if (!r.success) {
       expect(r.error.issues.some((i) => i.message.includes("consentement parental"))).toBe(true);
@@ -57,10 +85,8 @@ describe("SignUpSchema — entrepreneur", () => {
 
   it("accepts a minor with parental_consent checked", () => {
     const r = SignUpSchema.safeParse({
-      email: "minor@b.fr",
-      password: "passpass",
-      profile_type: "entrepreneur",
-      display_name: "Mineur",
+      ...BASE_ENTREPRENEUR,
+      age: "16",
       is_minor: "on",
       parental_consent: "on",
       parent_email: "parent@b.fr",
@@ -69,12 +95,7 @@ describe("SignUpSchema — entrepreneur", () => {
   });
 
   it("rejects passwords shorter than 8 characters", () => {
-    const r = SignUpSchema.safeParse({
-      email: "a@b.fr",
-      password: "1234567",
-      profile_type: "entrepreneur",
-      display_name: "Aïssatou",
-    });
+    const r = SignUpSchema.safeParse({ ...BASE_ENTREPRENEUR, password: "1234567" });
     expect(r.success).toBe(false);
   });
 });
@@ -168,10 +189,8 @@ describe("SignUpSchema — common", () => {
 
   it("does not impose a max length on the password (passphrases must work)", () => {
     const r = SignUpSchema.safeParse({
-      email: "a@b.fr",
+      ...BASE_ENTREPRENEUR,
       password: "correct-horse-battery-staple-extra-long-passphrase",
-      profile_type: "entrepreneur",
-      display_name: "Aïssatou",
     });
     expect(r.success).toBe(true);
   });
