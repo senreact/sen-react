@@ -19,6 +19,12 @@ const TOOLS = [
       "Approuver ou refuser les inscriptions d'organisations, institutions et partenaires en attente.",
   },
   {
+    href: "/admin/annuaire",
+    title: "Export de l'annuaire",
+    description:
+      "Parcourir tous les membres de l'annuaire, filtrer, choisir les colonnes et exporter en CSV.",
+  },
+  {
     href: "/admin/commentaires",
     title: "Modération des commentaires",
     description: "Approuver ou masquer les commentaires soumis sur les articles.",
