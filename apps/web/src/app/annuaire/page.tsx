@@ -188,12 +188,12 @@ export default async function AnnuairePage({ searchParams }: PageProps) {
                   className="mt-10 flex items-center justify-between text-sm"
                 >
                   {page > 1 ? (
-                    <Link
+                    <a
                       href={pageHref(page - 1)}
                       className="font-semibold text-[color:var(--color-accent)] hover:underline"
                     >
                       ← Précédent
-                    </Link>
+                    </a>
                   ) : (
                     <span />
                   )}
@@ -201,12 +201,12 @@ export default async function AnnuairePage({ searchParams }: PageProps) {
                     Page {page} sur {totalPages}
                   </span>
                   {page < totalPages ? (
-                    <Link
+                    <a
                       href={pageHref(page + 1)}
                       className="font-semibold text-[color:var(--color-accent)] hover:underline"
                     >
                       Suivant →
-                    </Link>
+                    </a>
                   ) : (
                     <span />
                   )}
