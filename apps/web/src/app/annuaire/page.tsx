@@ -10,7 +10,7 @@ import {
   type SectorSlug,
 } from "@sen-react/shared";
 
-import { listDirectoryProfiles } from "@/lib/directory";
+import { DIRECTORY_PAGE_SIZE, listDirectoryPage, type DirectoryProfile } from "@/lib/directory";
 import { PageHeroImage } from "@/components/content/PageHeroImage";
 
 export const metadata: Metadata = {
@@ -24,6 +24,7 @@ interface PageProps {
     type?: string;
     sector?: string;
     region?: string;
+    page?: string;
   }>;
 }
 
@@ -50,7 +51,24 @@ export default async function AnnuairePage({ searchParams }: PageProps) {
     sp.sector && isSectorSlug(sp.sector) ? sp.sector : undefined;
   const region = sp.region?.trim() || undefined;
 
-  const profiles = await listDirectoryProfiles({ type, sector, region });
+  const requestedPage = Math.max(1, Number.parseInt(sp.page ?? "1", 10) || 1);
+  const { profiles, total } = await listDirectoryPage({
+    type,
+    sector,
+    region,
+    page: requestedPage,
+  });
+  const totalPages = Math.max(1, Math.ceil(total / DIRECTORY_PAGE_SIZE));
+  const page = Math.min(requestedPage, totalPages);
+  const pageHref = (n: number) => {
+    const params = new URLSearchParams();
+    if (type) params.set("type", type);
+    if (sector) params.set("sector", sector);
+    if (region) params.set("region", region);
+    if (n > 1) params.set("page", String(n));
+    const qs = params.toString();
+    return qs ? `/annuaire?${qs}` : "/annuaire";
+  };
   const hasActiveFilters = Boolean(type || sector || region);
 
   return (
@@ -155,11 +173,46 @@ export default async function AnnuairePage({ searchParams }: PageProps) {
               à mesure que des membres s&apos;inscrivent et sont vérifiés par REACT.
             </p>
           ) : (
-            <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {profiles.map((p) => (
-                <DirectoryCard key={p.directory_slug} profile={p} />
-              ))}
-            </ul>
+            <>
+              <p className="mb-6 text-sm text-[color:var(--color-muted)]">
+                {total} profil{total > 1 ? "s" : ""}
+              </p>
+              <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {profiles.map((p) => (
+                  <DirectoryCard key={p.directory_slug} profile={p} />
+                ))}
+              </ul>
+              {totalPages > 1 ? (
+                <nav
+                  aria-label="Pagination"
+                  className="mt-10 flex items-center justify-between text-sm"
+                >
+                  {page > 1 ? (
+                    <Link
+                      href={pageHref(page - 1)}
+                      className="font-semibold text-[color:var(--color-accent)] hover:underline"
+                    >
+                      ← Précédent
+                    </Link>
+                  ) : (
+                    <span />
+                  )}
+                  <span className="text-[color:var(--color-muted)]">
+                    Page {page} sur {totalPages}
+                  </span>
+                  {page < totalPages ? (
+                    <Link
+                      href={pageHref(page + 1)}
+                      className="font-semibold text-[color:var(--color-accent)] hover:underline"
+                    >
+                      Suivant →
+                    </Link>
+                  ) : (
+                    <span />
+                  )}
+                </nav>
+              ) : null}
+            </>
           )}
         </div>
       </section>
@@ -167,11 +220,7 @@ export default async function AnnuairePage({ searchParams }: PageProps) {
   );
 }
 
-function DirectoryCard({
-  profile,
-}: {
-  profile: Awaited<ReturnType<typeof listDirectoryProfiles>>[number];
-}) {
+function DirectoryCard({ profile }: { profile: DirectoryProfile }) {
   const meta = getProfileType(profile.profile_type);
   const sector = profile.sector_slug ? SECTORS.find((s) => s.slug === profile.sector_slug) : null;
   return (

@@ -63,6 +63,49 @@ export async function listDirectoryProfiles(
   return data ?? [];
 }
 
+export const DIRECTORY_PAGE_SIZE = 24;
+
+export interface DirectoryPage {
+  profiles: DirectoryProfile[];
+  total: number;
+}
+
+/**
+ * Paginated directory read with an exact total count (1-indexed `page`).
+ * Filters match listDirectoryProfiles.
+ */
+export async function listDirectoryPage(
+  filters: Omit<DirectoryFilters, "limit"> & { page?: number; pageSize?: number } = {},
+): Promise<DirectoryPage> {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    return { profiles: [], total: 0 };
+  }
+  const pageSize = filters.pageSize ?? DIRECTORY_PAGE_SIZE;
+  const page = Math.max(1, filters.page ?? 1);
+  const from = (page - 1) * pageSize;
+  const sb = createServiceRoleSupabase();
+  let query = sb
+    .from("directory_profiles")
+    .select(
+      "directory_slug, profile_type, display_name, sector_slug, region, photo_url, summary, organisation_label, verification_status, tier, created_at",
+      { count: "exact" },
+    )
+    .order("created_at", { ascending: false })
+    .order("directory_slug", { ascending: true })
+    .range(from, from + pageSize - 1);
+
+  if (filters.type) query = query.eq("profile_type", filters.type);
+  if (filters.sector) query = query.eq("sector_slug", filters.sector);
+  if (filters.region) query = query.ilike("region", `%${filters.region}%`);
+
+  const { data, count, error } = await query.returns<DirectoryProfile[]>();
+  if (error) {
+    console.warn("[directory] listDirectoryPage failed:", error.message);
+    return { profiles: [], total: 0 };
+  }
+  return { profiles: data ?? [], total: count ?? 0 };
+}
+
 /**
  * Single profile fetch by directory_slug. Public fields only — no
  * phone / email. Returns null if no row matches (caller should
